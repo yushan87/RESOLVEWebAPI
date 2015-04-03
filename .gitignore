@@ -1,0 +1,83 @@
+#################
+# Derived files #
+#################
+
+# Play Generated Files
+tmp/
+modules/*/target/
+test-result/
+logs/
+project/project/
+project/target/
+target/
+.history
+dist/
+out
+RUNNING_PID
+
+# Other SBT files
+activator-sbt-echo-akka-shim.sbt
+activator-sbt-idea-shim.sbt
+activator-sbt-eclipse-shim.sbt
+activator-sbt-echo-shim.sbt
+
+# Derived Java classes
+*.class
+
+###################
+# Temporary Files #
+###################
+
+#gedit
+*~
+
+###################
+# Other VCS Files #
+###################
+
+#subversion
+.svn/
+
+###########################
+# Per-developer IDE Files #
+###########################
+
+nbactions*.xml
+!nbactions-RSRG-Global.xml
+
+####################
+# IDE project info #
+####################
+
+# Eclipse
+.project
+.classpath
+.settings
+
+# Netbeans
+nbproject/
+
+# IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+.idea_modules/
+
+##################################
+# RESOLVE Web API Configurations #
+##################################
+
+
+
+######################
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
