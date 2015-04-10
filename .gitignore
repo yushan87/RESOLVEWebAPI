@@ -68,7 +68,8 @@ nbproject/
 # RESOLVE Web API Configurations #
 ##################################
 
-
+# ignore the machine-specific config file
+conf/local-config.conf
 
 ######################
 # OS generated files #
