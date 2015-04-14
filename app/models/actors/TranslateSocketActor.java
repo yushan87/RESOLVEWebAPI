@@ -11,7 +11,8 @@ public class TranslateSocketActor extends UntypedActor {
 
     public TranslateSocketActor(ActorRef out) {
         myWebSocketOut = out;
-        myWebSocketOut.tell("Please tell me your name!", self());
+        myWebSocketOut.tell("Translate!", self());
+        self().tell(PoisonPill.getInstance(), self());
     }
 
     public static Props props(ActorRef out) {
@@ -20,10 +21,7 @@ public class TranslateSocketActor extends UntypedActor {
 
     @Override
     public void onReceive(Object message) throws Exception {
-        if (message instanceof String) {
-            myWebSocketOut.tell("Hi " + message + "!", self());
-            self().tell(PoisonPill.getInstance(), self());
-        }
+        // TODO: Need to implement
     }
 
 }
