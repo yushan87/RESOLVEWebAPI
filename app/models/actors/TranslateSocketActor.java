@@ -1,21 +1,21 @@
-package models;
+package models.actors;
 
 import akka.actor.ActorRef;
 import akka.actor.PoisonPill;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 
-public class WebSocketActor extends UntypedActor {
+public class TranslateSocketActor extends UntypedActor {
 
     private final ActorRef myWebSocketOut;
 
-    public WebSocketActor(ActorRef out) {
+    public TranslateSocketActor(ActorRef out) {
         myWebSocketOut = out;
         myWebSocketOut.tell("Please tell me your name!", self());
     }
 
     public static Props props(ActorRef out) {
-        return Props.create(WebSocketActor.class, out);
+        return Props.create(GeneralSocketActor.class, out);
     }
 
     @Override
