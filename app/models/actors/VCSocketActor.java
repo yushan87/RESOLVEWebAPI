@@ -16,7 +16,7 @@ public class VCSocketActor extends UntypedActor {
     }
 
     public static Props props(ActorRef out) {
-        return Props.create(GeneralSocketActor.class, out);
+        return Props.create(VCSocketActor.class, out);
     }
 
     @Override

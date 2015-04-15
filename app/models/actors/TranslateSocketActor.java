@@ -16,7 +16,7 @@ public class TranslateSocketActor extends UntypedActor {
     }
 
     public static Props props(ActorRef out) {
-        return Props.create(GeneralSocketActor.class, out);
+        return Props.create(TranslateSocketActor.class, out);
     }
 
     @Override

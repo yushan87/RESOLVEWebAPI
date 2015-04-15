@@ -7,10 +7,7 @@ import play.mvc.WebSocket;
 public class CompilerSocket extends Controller {
 
     public static WebSocket<String> socket(String job, String project) {
-        if (job == null || project == null) {
-            return WebSocket.withActor(GeneralSocketActor::props);
-        }
-        else if (job.equals("buildJar")) {
+        if (job.equals("buildJar")) {
             return WebSocket.withActor(JarSocketActor::props);
         }
         else if (job.equals("ccverify")) {
@@ -22,8 +19,11 @@ public class CompilerSocket extends Controller {
         else if (job.equals("rwverify")) {
             return WebSocket.withActor(RWVerifySocketActor::props);
         }
-        else {
+        else if (job.equals("translate")) {
             return WebSocket.withActor(TranslateSocketActor::props);
+        }
+        else {
+            return WebSocket.withActor(ErrorSocketActor::props);
         }
     }
 
