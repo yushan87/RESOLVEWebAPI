@@ -1,27 +1,33 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import models.actors.*;
 import play.mvc.Controller;
 import play.mvc.WebSocket;
 
 public class CompilerSocket extends Controller {
 
-    public static WebSocket<String> socket(String job, String project) {
-        if (job.equals("buildJar")) {
-            return WebSocket.withActor(JarSocketActor::props);
+    public static WebSocket<JsonNode> socket(String job) {
+        WebSocket<JsonNode> retVal;
+        String lowercaseJob = job.toLowerCase();
+
+        if (lowercaseJob.equals("buildjar")) {
+            retVal = WebSocket.withActor(JarSocketActor::props);
         }
-        else if (job.equals("ccverify")) {
-            return WebSocket.withActor(CCVerifySocketActor::props);
+        else if (lowercaseJob.equals("ccverify")) {
+            retVal = WebSocket.withActor(CCVerifySocketActor::props);
         }
-        else if (job.equals("genVCs")) {
-            return WebSocket.withActor(VCSocketActor::props);
+        else if (lowercaseJob.equals("genvcs")) {
+            retVal = WebSocket.withActor(VCSocketActor::props);
         }
-        else if (job.equals("translate")) {
-            return WebSocket.withActor(TranslateSocketActor::props);
+        else if (lowercaseJob.equals("translate")) {
+            retVal = WebSocket.withActor(TranslateSocketActor::props);
         }
         else {
-            return WebSocket.withActor(ErrorSocketActor::props);
+            retVal = WebSocket.withActor(ErrorSocketActor::props);
         }
+
+        return retVal;
     }
 
 }

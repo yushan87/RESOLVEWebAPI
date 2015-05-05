@@ -5,14 +5,10 @@ import akka.actor.PoisonPill;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 
-public class JarSocketActor extends UntypedActor {
-
-    private final ActorRef myWebSocketOut;
+public class JarSocketActor extends AbstractSocketActor {
 
     public JarSocketActor(ActorRef out) {
-        myWebSocketOut = out;
-        myWebSocketOut.tell("BuildJar!", self());
-        self().tell(PoisonPill.getInstance(), self());
+        super(out);
     }
 
     public static Props props(ActorRef out) {

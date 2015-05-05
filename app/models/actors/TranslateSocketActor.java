@@ -5,14 +5,10 @@ import akka.actor.PoisonPill;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 
-public class TranslateSocketActor extends UntypedActor {
-
-    private final ActorRef myWebSocketOut;
+public class TranslateSocketActor extends AbstractSocketActor {
 
     public TranslateSocketActor(ActorRef out) {
-        myWebSocketOut = out;
-        myWebSocketOut.tell("Translate!", self());
-        self().tell(PoisonPill.getInstance(), self());
+        super(out);
     }
 
     public static Props props(ActorRef out) {

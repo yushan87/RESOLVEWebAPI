@@ -5,14 +5,10 @@ import akka.actor.PoisonPill;
 import akka.actor.Props;
 import akka.actor.UntypedActor;
 
-public class ErrorSocketActor extends UntypedActor {
-
-    private final ActorRef myWebSocketOut;
+public class ErrorSocketActor extends AbstractSocketActor {
 
     public ErrorSocketActor(ActorRef out) {
-        myWebSocketOut = out;
-        myWebSocketOut.tell("The specified 'job' and/or 'project' is not valid!", self());
-        self().tell(PoisonPill.getInstance(), self());
+        super(out);
     }
 
     public static Props props(ActorRef out) {
