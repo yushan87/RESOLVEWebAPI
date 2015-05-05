@@ -16,9 +16,6 @@ public class CompilerSocket extends Controller {
         else if (job.equals("genVCs")) {
             return WebSocket.withActor(VCSocketActor::props);
         }
-        else if (job.equals("rwverify")) {
-            return WebSocket.withActor(RWVerifySocketActor::props);
-        }
         else if (job.equals("translate")) {
             return WebSocket.withActor(TranslateSocketActor::props);
         }
