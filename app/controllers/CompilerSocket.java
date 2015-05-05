@@ -20,8 +20,8 @@ public class CompilerSocket extends Controller {
         else if (lowercaseJob.equals("genvcs")) {
             retVal = WebSocket.withActor(VCSocketActor::props);
         }
-        else if (lowercaseJob.equals("translate")) {
-            retVal = WebSocket.withActor(TranslateSocketActor::props);
+        else if (lowercaseJob.equals("translatejava")) {
+            retVal = WebSocket.withActor(TranslateJavaSocketActor::props);
         }
         else {
             retVal = WebSocket.withActor(ErrorSocketActor::props);

@@ -8,7 +8,7 @@ import akka.actor.UntypedActor;
 public class VCSocketActor extends AbstractSocketActor {
 
     public VCSocketActor(ActorRef out) {
-        super(out);
+        super(out, "genvcs");
     }
 
     public static Props props(ActorRef out) {

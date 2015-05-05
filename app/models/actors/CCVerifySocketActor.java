@@ -8,7 +8,7 @@ import akka.actor.UntypedActor;
 public class CCVerifySocketActor extends AbstractSocketActor {
 
     public CCVerifySocketActor(ActorRef out) {
-        super(out);
+        super(out, "ccverify");
     }
 
     public static Props props(ActorRef out) {

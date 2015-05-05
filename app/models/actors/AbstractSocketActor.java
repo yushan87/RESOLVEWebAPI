@@ -7,9 +7,11 @@ import akka.actor.UntypedActor;
 
 public abstract class AbstractSocketActor extends UntypedActor {
 
+    protected final String myJob;
     protected final ActorRef myWebSocketOut;
 
-    protected AbstractSocketActor(ActorRef out) {
+    protected AbstractSocketActor(ActorRef out, String job) {
+        myJob = job;
         myWebSocketOut = out;
     }
 

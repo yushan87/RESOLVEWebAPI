@@ -8,7 +8,7 @@ import akka.actor.UntypedActor;
 public class ErrorSocketActor extends AbstractSocketActor {
 
     public ErrorSocketActor(ActorRef out) {
-        super(out);
+        super(out, "errorhandler");
     }
 
     public static Props props(ActorRef out) {

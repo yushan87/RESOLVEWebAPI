@@ -1,18 +1,16 @@
 package models.actors;
 
 import akka.actor.ActorRef;
-import akka.actor.PoisonPill;
 import akka.actor.Props;
-import akka.actor.UntypedActor;
 
-public class TranslateSocketActor extends AbstractSocketActor {
+public class TranslateJavaSocketActor extends AbstractSocketActor {
 
-    public TranslateSocketActor(ActorRef out) {
-        super(out);
+    public TranslateJavaSocketActor(ActorRef out) {
+        super(out, "translatejava");
     }
 
     public static Props props(ActorRef out) {
-        return Props.create(TranslateSocketActor.class, out);
+        return Props.create(TranslateJavaSocketActor.class, out);
     }
 
     @Override

@@ -8,7 +8,7 @@ import akka.actor.UntypedActor;
 public class JarSocketActor extends AbstractSocketActor {
 
     public JarSocketActor(ActorRef out) {
-        super(out);
+        super(out, "buildjar");
     }
 
     public static Props props(ActorRef out) {
