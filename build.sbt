@@ -10,7 +10,7 @@ scalacOptions ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "org.antlr" %% "antlr4-maven-plugin" % "4.3"
+  "org.antlr" % "antlr4" % "4.5"
 )
 
 lazy val main = (project in file("."))
