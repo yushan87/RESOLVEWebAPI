@@ -1,14 +1,13 @@
 package controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import models.actors.*;
 import play.mvc.Controller;
 import play.mvc.WebSocket;
 
 public class CompilerSocket extends Controller {
 
-    public static WebSocket<JsonNode> socket(String job) {
-        WebSocket<JsonNode> retVal;
+    public static WebSocket<String> socket(String job) {
+        WebSocket<String> retVal;
         String lowercaseJob = job.toLowerCase();
 
         if (lowercaseJob.equals("buildjar")) {

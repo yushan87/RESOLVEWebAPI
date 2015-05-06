@@ -1,9 +1,9 @@
 package models.actors;
 
 import akka.actor.ActorRef;
-import akka.actor.PoisonPill;
 import akka.actor.Props;
-import akka.actor.UntypedActor;
+import com.fasterxml.jackson.databind.JsonNode;
+import play.libs.Json;
 
 public class JarSocketActor extends AbstractSocketActor {
 
@@ -16,8 +16,23 @@ public class JarSocketActor extends AbstractSocketActor {
     }
 
     @Override
-    public void onReceive(Object message) throws Exception {
-        // TODO: Need to implement
+    public void onReceive(Object message) {
+        try {
+            // Only deal with Strings
+            if (message instanceof String) {
+                JsonNode request = Json.parse((String) message);
+            }
+            else {
+                // Send an error message back to user and close
+                // socket connection for all other types.
+                unhandled(message);
+            }
+        }
+        catch (RuntimeException rte) {
+            // Send an error message back to user and close
+            // socket connection for all invalid JSON strings.
+            unhandled(message);
+        }
     }
 
 }
