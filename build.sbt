@@ -9,7 +9,9 @@ scalacOptions ++= Seq(
   "-language:reflectiveCalls" 
 )
 
-libraryDependencies ++= Seq()
+libraryDependencies ++= Seq(
+  "org.antlr" % "antlr4" % "4.5"
+)
 
 lazy val main = (project in file("."))
   .enablePlugins(PlayJava)

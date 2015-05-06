@@ -71,6 +71,13 @@ nbproject/
 # ignore the machine-specific config file
 conf/local-config.conf
 
+########################
+# RESOLVE Compiler Jar #
+########################
+
+# the user should supply the resolve jar
+lib/resolve.jar
+
 ######################
 # OS generated files #
 ######################
