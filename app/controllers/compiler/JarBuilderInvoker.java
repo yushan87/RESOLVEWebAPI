@@ -1,5 +1,5 @@
 package controllers.compiler;
 
-public class JarBuilderInvoker {
+public class JarBuilderInvoker extends AbstractInvoker {
 
 }

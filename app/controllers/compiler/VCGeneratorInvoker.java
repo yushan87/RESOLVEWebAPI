@@ -1,5 +1,5 @@
 package controllers.compiler;
 
-public class VCGeneratorInvoker {
+public class VCGeneratorInvoker extends AbstractInvoker {
 
 }

@@ -1,5 +1,5 @@
 package controllers.compiler;
 
-public class ProverInvoker {
+public class ProverInvoker extends AbstractInvoker {
 
 }
