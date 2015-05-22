@@ -76,7 +76,7 @@ conf/local-config.conf
 ########################
 
 # the user should supply the resolve jar
-custom_lib/resolve.jar
+custom_lib/*.jar
 
 ######################
 # OS generated files #
