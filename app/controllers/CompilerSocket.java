@@ -6,7 +6,7 @@ import play.mvc.WebSocket;
 
 public class CompilerSocket extends Controller {
 
-    public static WebSocket<String> socket(String job) {
+    public WebSocket<String> socket(String job) {
         WebSocket<String> retVal;
         String lowercaseJob = job.toLowerCase();
 
