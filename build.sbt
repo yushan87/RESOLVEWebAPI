@@ -13,7 +13,9 @@ libraryDependencies ++= Seq(
   "org.antlr" % "antlr4" % "4.5"
 )
 
-unmanagedBase := baseDirectory.value /"custom_lib"
+unmanagedBase := baseDirectory.value / "custom_lib"
+
+routesGenerator := InjectedRoutesGenerator
 
 lazy val main = (project in file("."))
   .enablePlugins(PlayJava)
