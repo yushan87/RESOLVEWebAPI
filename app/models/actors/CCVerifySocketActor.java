@@ -1,18 +1,20 @@
 package models.actors;
 
 import akka.actor.ActorRef;
+import akka.actor.PoisonPill;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.Json;
 
 public class CCVerifySocketActor extends AbstractSocketActor {
 
-    public CCVerifySocketActor(ActorRef out) {
-        super(out, "ccverify");
+    public CCVerifySocketActor(ActorRef out, String job, String project) {
+        super(out, job, project);
     }
 
-    public static Props props(ActorRef out) {
-        return Props.create(CCVerifySocketActor.class, out);
+    public static Props props(ActorRef out, String job, String project) {
+        return Props.create(CCVerifySocketActor.class, out, job, project);
     }
 
     @Override
@@ -21,6 +23,18 @@ public class CCVerifySocketActor extends AbstractSocketActor {
             // Only deal with Strings
             if (message instanceof String) {
                 JsonNode request = Json.parse((String) message);
+
+                // Create a JSON Object informing we are starting the job
+                ObjectNode result = Json.newObject();
+                result.put("status", "info");
+                result.put("msg", "Received request with the following parameters: "
+                        + myJob + " and " + myProject + ". Launching the RESOLVE compiler with the specified arguments.");
+
+                // Send the message through the websocket
+                myWebSocketOut.tell(result.toString(), self());
+
+                // Close the connection
+                self().tell(PoisonPill.getInstance(), self());
             }
             else {
                 // Send an error message back to user and close
