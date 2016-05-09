@@ -2,7 +2,8 @@ RESOLVEWebAPI
 ==============
 [![Build Status](https://travis-ci.org/ClemsonRSRG/RESOLVEWebAPI.svg?branch=master)](https://travis-ci.org/ClemsonRSRG/RESOLVEWebAPI)
 
-This is the back-end API that services request to compile, translate and verification using the RESOLVE compiler. The project requires Java 8 and Play Framework 2.4.2 to run. Instructions to install these requirements can be found on their respective websites.
+This is the back-end API that services request to compile, translate and verification using the RESOLVE compiler. 
+The project requires Java 8 and Play Framework 2.5.3 to run. Instructions to install these requirements can be found on their respective websites.
 
 ##Setting up
 
