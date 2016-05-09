@@ -2,12 +2,13 @@ package controllers;
 
 import models.actors.*;
 import play.mvc.Controller;
+import play.mvc.LegacyWebSocket;
 import play.mvc.WebSocket;
 
 public class CompilerSocket extends Controller {
 
-    public WebSocket<String> socket(String job, String project) {
-        WebSocket<String> retVal;
+    public LegacyWebSocket<String> socket(String job, String project) {
+        LegacyWebSocket<String> retVal;
         String lowercaseJob = job.toLowerCase();
 
         if (lowercaseJob.equals("buildjar")) {
