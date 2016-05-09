@@ -22,12 +22,8 @@ libraryDependencies ++= Seq(
   "org.antlr" % "antlr4" % "4.5"
 )
 
-// Unmanaged Dependencies (Compile/Runtime)
-unmanagedBase in Compile := baseDirectory.value / "custom_lib"
-unmanagedBase in Runtime := (unmanagedBase in Compile).value
-
-// Unmanaged Dependencies (Test)
-unmanagedBase in Test := baseDirectory.value / "test" / "lib"
+// Unmanaged Dependencies
+unmanagedBase := baseDirectory.value / "custom_lib"
 
 // Use injection
 routesGenerator := InjectedRoutesGenerator
