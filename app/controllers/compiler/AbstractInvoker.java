@@ -1,6 +1,6 @@
 package controllers.compiler;
 
-import edu.clemson.cs.r2jt.init2.ResolveCompiler;
+import edu.clemson.cs.rsrg.init.ResolveCompiler;
 
 public abstract class AbstractInvoker {
 
@@ -9,6 +9,5 @@ public abstract class AbstractInvoker {
     protected AbstractInvoker(String[] args) {
         myCompilerInstance = new ResolveCompiler(args);
     }
-
 
 }
