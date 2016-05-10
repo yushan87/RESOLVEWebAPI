@@ -1,7 +1,7 @@
 package controllers.compiler;
 
 import akka.actor.ActorRef;
-import edu.clemson.cs.r2jt.init2.file.ResolveFile;
+import edu.clemson.cs.rsrg.init.file.ResolveFile;
 import java.util.Map;
 
 public class ProverInvoker extends AbstractInvoker {

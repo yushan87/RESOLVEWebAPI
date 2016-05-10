@@ -10,11 +10,13 @@ import play.libs.Json;
 public abstract class AbstractSocketActor extends UntypedActor {
 
     protected final String myJob;
+    protected final String myProject;
     protected final ActorRef myWebSocketOut;
     protected final String myWorkspacePath;
 
-    protected AbstractSocketActor(ActorRef out, String job) {
+    protected AbstractSocketActor(ActorRef out, String job, String project) {
         myJob = job;
+        myProject = project;
         myWebSocketOut = out;
         myWorkspacePath = Play.application().configuration().getString("workingdir");
     }

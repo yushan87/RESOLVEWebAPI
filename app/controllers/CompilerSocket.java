@@ -2,31 +2,32 @@ package controllers;
 
 import models.actors.*;
 import play.mvc.Controller;
+import play.mvc.LegacyWebSocket;
 import play.mvc.WebSocket;
 
 public class CompilerSocket extends Controller {
 
-    public static WebSocket<String> socket(String job) {
-        WebSocket<String> retVal;
+    public LegacyWebSocket<String> socket(String job, String project) {
+        LegacyWebSocket<String> retVal;
         String lowercaseJob = job.toLowerCase();
 
         if (lowercaseJob.equals("analyze")) {
-            retVal = WebSocket.withActor(AnalyzeSocketActor::props);
+            retVal = WebSocket.withActor(a -> AnalyzeSocketActor.props(a, lowercaseJob, project));
         }
         else if (lowercaseJob.equals("buildjar")) {
-            retVal = WebSocket.withActor(JarSocketActor::props);
+            retVal = WebSocket.withActor(a -> JarSocketActor.props(a, lowercaseJob, project));
         }
         else if (lowercaseJob.equals("ccverify")) {
-            retVal = WebSocket.withActor(CCVerifySocketActor::props);
+            retVal = WebSocket.withActor(a -> CCVerifySocketActor.props(a, lowercaseJob, project));
         }
         else if (lowercaseJob.equals("genvcs")) {
-            retVal = WebSocket.withActor(VCSocketActor::props);
+            retVal = WebSocket.withActor(a -> VCSocketActor.props(a, lowercaseJob, project));
         }
         else if (lowercaseJob.equals("translatejava")) {
-            retVal = WebSocket.withActor(TranslateJavaSocketActor::props);
+            retVal = WebSocket.withActor(a -> TranslateJavaSocketActor.props(a, lowercaseJob, project));
         }
         else {
-            retVal = WebSocket.withActor(ErrorSocketActor::props);
+            retVal = WebSocket.withActor(a -> ErrorSocketActor.props(a, lowercaseJob, project));
         }
 
         return retVal;

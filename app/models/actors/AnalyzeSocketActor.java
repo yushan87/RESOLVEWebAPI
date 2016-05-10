@@ -4,18 +4,17 @@ import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.compiler.TheoryAnalyzeInvoker;
-import edu.clemson.cs.r2jt.init2.file.ResolveFile;
 import java.util.HashMap;
 import play.libs.Json;
 
 public class AnalyzeSocketActor extends AbstractSocketActor {
 
-    public AnalyzeSocketActor(ActorRef out) {
-        super(out, "analyze");
+    public AnalyzeSocketActor(ActorRef out, String job, String project) {
+        super(out, job, project);
     }
 
-    public static Props props(ActorRef out) {
-        return Props.create(CCVerifySocketActor.class, out);
+    public static Props props(ActorRef out, String job, String project) {
+        return Props.create(AnalyzeSocketActor.class, out, job, project);
     }
 
     @Override
@@ -26,7 +25,7 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
                 JsonNode request = Json.parse((String) message);
                 String[] args = {"-main", myWorkspacePath, "-webinterface", "Test.mt"};
                 TheoryAnalyzeInvoker invoker = new TheoryAnalyzeInvoker(args, myWebSocketOut);
-                invoker.executeJob(new HashMap<String, ResolveFile>());
+                invoker.executeJob(new HashMap<>());
             }
             else {
                 // Send an error message back to user and close

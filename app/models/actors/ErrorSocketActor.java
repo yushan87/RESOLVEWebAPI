@@ -8,8 +8,8 @@ import play.libs.Json;
 
 public class ErrorSocketActor extends AbstractSocketActor {
 
-    public ErrorSocketActor(ActorRef out) {
-        super(out, "errorhandler");
+    public ErrorSocketActor(ActorRef out, String job, String project) {
+        super(out, job, project);
 
         // Create the error JSON Object
         ObjectNode result = Json.newObject();
@@ -23,8 +23,8 @@ public class ErrorSocketActor extends AbstractSocketActor {
         self().tell(PoisonPill.getInstance(), self());
     }
 
-    public static Props props(ActorRef out) {
-        return Props.create(ErrorSocketActor.class, out);
+    public static Props props(ActorRef out, String job, String project) {
+        return Props.create(ErrorSocketActor.class, out, job, project);
     }
 
     @Override
