@@ -1,6 +1,7 @@
 RESOLVEWebAPI
 ==============
 [![Build Status](https://travis-ci.org/ClemsonRSRG/RESOLVEWebAPI.svg?branch=master)](https://travis-ci.org/ClemsonRSRG/RESOLVEWebAPI)
+<img align="right" src="public/images/resolve_logo.png"/>
 
 This is the back-end API that services request to compile, translate and verification using the RESOLVE compiler. 
 The project requires Java 8 and Play Framework 2.5.3 to run. Instructions to install these requirements can be found on their respective websites.
@@ -36,7 +37,7 @@ ongoing joint effort between Clemson University, The Ohio State University, and
 countless educators and researchers from a variety of [other]
 (https://www.cs.clemson.edu/resolve/about.html) institutions.
 
-Developers of this particular test/working-iteration of the RESOLVE compiler
+Developers of this particular test/working-iteration of the RESOLVE WebAPI
 include:
 
 * [The Resuable Software Research Group (RSRG)]
