@@ -2,6 +2,7 @@ package models.actors;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import akka.japi.Creator;
 import com.fasterxml.jackson.databind.JsonNode;
 import controllers.compiler.TheoryAnalyzeInvoker;
 import java.util.HashMap;
@@ -14,7 +15,14 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
     }
 
     public static Props props(ActorRef out, String job, String project) {
-        return Props.create(AnalyzeSocketActor.class, out, job, project);
+        return Props.create(new Creator<AnalyzeSocketActor>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public AnalyzeSocketActor create() throws Exception {
+                return new AnalyzeSocketActor(out, job, project);
+            }
+        });
     }
 
     @Override
