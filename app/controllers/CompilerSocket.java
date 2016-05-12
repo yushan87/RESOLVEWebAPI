@@ -2,12 +2,14 @@ package controllers;
 
 import models.actors.*;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.LegacyWebSocket;
 import play.mvc.WebSocket;
 
 public class CompilerSocket extends Controller {
 
     public LegacyWebSocket<String> socket(String job, String project) {
+        WebSocket newRetVal = WebSocket.Text.accept();
         LegacyWebSocket<String> retVal;
         String lowercaseJob = job.toLowerCase();
 
