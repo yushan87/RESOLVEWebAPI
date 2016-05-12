@@ -3,6 +3,7 @@ package models.actors;
 import akka.actor.ActorRef;
 import akka.actor.PoisonPill;
 import akka.actor.Props;
+import akka.japi.Creator;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.Json;
 
@@ -24,7 +25,15 @@ public class ErrorSocketActor extends AbstractSocketActor {
     }
 
     public static Props props(ActorRef out, String job, String project) {
-        return Props.create(ErrorSocketActor.class, out, job, project);
+        // http://doc.akka.io/docs/akka/snapshot/java/untyped-actors.html
+        return Props.create(new Creator<ErrorSocketActor>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public ErrorSocketActor create() throws Exception {
+                return new ErrorSocketActor(out, job, project);
+            }
+        });
     }
 
     @Override
