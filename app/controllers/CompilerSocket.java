@@ -10,6 +10,11 @@ public class CompilerSocket extends Controller {
 
     public LegacyWebSocket<String> socket(String job, String project) {
         WebSocket newRetVal = WebSocket.Text.accept();
+		// Still need to figure out how to create a Flow object
+		//return WebSocket.Text.accept(requestHeader -> {
+		// return a Flow<String, String, ?>
+		//});
+		
         LegacyWebSocket<String> retVal;
         String lowercaseJob = job.toLowerCase();
 
