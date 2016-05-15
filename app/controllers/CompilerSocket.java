@@ -1,5 +1,6 @@
 package controllers;
 
+import akka.stream.javadsl.Flow;
 import models.actors.*;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -9,7 +10,9 @@ import play.mvc.WebSocket;
 public class CompilerSocket extends Controller {
 
     public LegacyWebSocket<String> socket(String job, String project) {
-        WebSocket newRetVal = WebSocket.Text.accept();
+        WebSocket newRetVal = WebSocket.Text.accept(requestHeader -> {
+            return Flow.of(String.class);
+        });
 		// Still need to figure out how to create a Flow object
 		//return WebSocket.Text.accept(requestHeader -> {
 		// return a Flow<String, String, ?>
