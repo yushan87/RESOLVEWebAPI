@@ -114,7 +114,7 @@ footer#page_footer{
 #cu_wordmark{
     float: left;
     display: inline;
-    background: url(../images/wordmark.png);
+    background: url(../images/wordmark2x.png);
 }
 
 #cu_wordmark a{
@@ -133,25 +133,6 @@ footer#page_footer{
     display: block;
     width: 250px;
     height: 64px;
-}
-
-#html5{
-    float: left;
-    margin-top: 20px;
-}
-
-#html5_logo{
-    width: 32px;
-    height: 32px;
-    margin: 0 auto;
-    background: url(../images/HTML5_Badge_32.png);
-}
-
-#html5_blurb{
-    width: 250px;
-    text-align: center;
-    margin: 0 auto;
-    font-size: smaller;
 }
 
 .content_frame{
