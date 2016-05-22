@@ -10,5 +10,4 @@ public abstract class AbstractInvoker {
         myCompilerInstance = new ResolveCompiler(args);
     }
 
-
 }
