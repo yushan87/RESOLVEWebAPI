@@ -10,7 +10,10 @@ public class CompilerSocket extends Controller {
         WebSocket<String> retVal;
         String lowercaseJob = job.toLowerCase();
 
-        if (lowercaseJob.equals("buildjar")) {
+        if (lowercaseJob.equals("analyze")) {
+            retVal = WebSocket.withActor(AnalyzeSocketActor::props);
+        }
+        else if (lowercaseJob.equals("buildjar")) {
             retVal = WebSocket.withActor(JarSocketActor::props);
         }
         else if (lowercaseJob.equals("ccverify")) {

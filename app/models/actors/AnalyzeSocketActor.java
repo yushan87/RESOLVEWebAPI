@@ -3,6 +3,9 @@ package models.actors;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
+import controllers.compiler.TheoryAnalyzeInvoker;
+import edu.clemson.cs.r2jt.init2.file.ResolveFile;
+import java.util.HashMap;
 import play.libs.Json;
 
 public class AnalyzeSocketActor extends AbstractSocketActor {
@@ -21,6 +24,9 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
             // Only deal with Strings
             if (message instanceof String) {
                 JsonNode request = Json.parse((String) message);
+                String[] args = {"-main", myWorkspacePath, "-webinterface", "Test.mt"};
+                TheoryAnalyzeInvoker invoker = new TheoryAnalyzeInvoker(args, myWebSocketOut);
+                invoker.executeJob(new HashMap<String, ResolveFile>());
             }
             else {
                 // Send an error message back to user and close

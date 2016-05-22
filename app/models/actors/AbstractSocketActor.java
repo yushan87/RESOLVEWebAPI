@@ -4,16 +4,19 @@ import akka.actor.ActorRef;
 import akka.actor.PoisonPill;
 import akka.actor.UntypedActor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import play.Play;
 import play.libs.Json;
 
 public abstract class AbstractSocketActor extends UntypedActor {
 
     protected final String myJob;
     protected final ActorRef myWebSocketOut;
+    protected final String myWorkspacePath;
 
     protected AbstractSocketActor(ActorRef out, String job) {
         myJob = job;
         myWebSocketOut = out;
+        myWorkspacePath = Play.application().configuration().getString("workingdir");
     }
 
     @Override
