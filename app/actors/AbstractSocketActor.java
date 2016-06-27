@@ -1,4 +1,4 @@
-package models.actors;
+package actors;
 
 import akka.actor.ActorRef;
 import akka.actor.PoisonPill;

@@ -1,4 +1,4 @@
-package models.compiler;
+package compiler;
 
 public class WsListener {
 

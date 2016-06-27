@@ -1,4 +1,4 @@
-package controllers.compiler;
+package compiler;
 
 import akka.actor.ActorRef;
 import edu.clemson.cs.rsrg.init.file.ResolveFile;

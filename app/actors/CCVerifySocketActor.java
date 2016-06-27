@@ -1,4 +1,4 @@
-package models.actors;
+package actors;
 
 import akka.actor.ActorRef;
 import akka.actor.PoisonPill;
@@ -8,20 +8,20 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.Json;
 
-public class JarSocketActor extends AbstractSocketActor {
+public class CCVerifySocketActor extends AbstractSocketActor {
 
-    public JarSocketActor(ActorRef out, String job, String project) {
+    public CCVerifySocketActor(ActorRef out, String job, String project) {
         super(out, job, project);
     }
 
     public static Props props(ActorRef out, String job, String project) {
         // http://doc.akka.io/docs/akka/snapshot/java/untyped-actors.html
-        return Props.create(new Creator<JarSocketActor>() {
+        return Props.create(new Creator<CCVerifySocketActor>() {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public JarSocketActor create() throws Exception {
-                return new JarSocketActor(out, job, project);
+            public CCVerifySocketActor create() throws Exception {
+                return new CCVerifySocketActor(out, job, project);
             }
         });
     }

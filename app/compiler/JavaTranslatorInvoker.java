@@ -1,12 +1,12 @@
-package controllers.compiler;
+package compiler;
 
 import akka.actor.ActorRef;
 import edu.clemson.cs.rsrg.init.file.ResolveFile;
 import java.util.Map;
 
-public class VCGeneratorInvoker extends AbstractInvoker {
+public class JavaTranslatorInvoker extends AbstractInvoker {
 
-    public VCGeneratorInvoker(String[] args, ActorRef out) {
+    public JavaTranslatorInvoker(String[] args, ActorRef out) {
         super(args, out);
     }
 
