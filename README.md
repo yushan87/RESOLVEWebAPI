@@ -45,7 +45,7 @@ include:
 
 ##Copyright and license
 
-Copyright (c) Clemson University, 2016. All rights reserved. The use and
+Copyright (c) Clemson University, 2017. All rights reserved. The use and
 distribution terms for this software are covered by the BSD 3-clause license
 which can be found in the file `LICENSE.txt` at the root of this repository.
 By using this software in any fashion, you are agreeing to be bound by the terms
