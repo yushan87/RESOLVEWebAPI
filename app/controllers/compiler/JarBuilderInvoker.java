@@ -16,5 +16,5 @@ public class JarBuilderInvoker extends AbstractInvoker {
     public JarBuilderInvoker(String[] args) {
         super(args);
     }
-    
+
 }
