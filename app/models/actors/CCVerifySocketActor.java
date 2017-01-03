@@ -38,8 +38,13 @@ public class CCVerifySocketActor extends AbstractSocketActor {
                 // Create a JSON Object informing we are starting the job
                 ObjectNode result = Json.newObject();
                 result.put("status", "info");
-                result.put("msg", "Received request with the following parameters: "
-                        + myJob + " and " + myProject + ". Launching the RESOLVE compiler with the specified arguments.");
+                result.put(
+                        "msg",
+                        "Received request with the following parameters: "
+                                + myJob
+                                + " and "
+                                + myProject
+                                + ". Launching the RESOLVE compiler with the specified arguments.");
 
                 // Send the message through the websocket
                 myWebSocketOut.tell(result.toString(), self());

@@ -49,5 +49,8 @@ headers := headers.value ++ Map(
   )
 )
 
+// Java Formatter
+javaFormattingSettingsFilename := "rsrg-format.xml"
+
 lazy val main = (project in file("."))
   .enablePlugins(PlayJava, AutomateHeaderPlugin)

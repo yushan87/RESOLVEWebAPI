@@ -18,13 +18,19 @@ jdk:
 # Note: At lot of the configurations listed below come from Play Framework's Travis CI settings
 # and from the Travis CI documentations.
 env:
-  # Use the following JAVA_OPTS configuration (From Play Framework's .travis.yml)
-  - JAVA_OPTS="-Xmx4G -Xms1G -Xss4M -XX:MaxMetaspaceSize=512M -XX:ReservedCodeCacheSize=256M -Dfile.encoding=UTF-8"
+  # Various different scripts to be run
+  - SCRIPT=runFormatter
+  - SCRIPT=runLicensePlugin
+  - SCRIPT=runJUnitTests
 before_script:
   - mkdir -p $HOME/.sbt/launchers/0.13.11 && wget -O $HOME/.sbt/launchers/0.13.11/sbt-launch.jar https://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/0.13.11/sbt-launch.jar
   - cp test/lib/*.jar custom_lib
+  - chmod +x bin/$SCRIPT
+  # Use the following JAVA_OPTS configuration (From Play Framework's .travis.yml)
+  - export JAVA_OPTS="-Xmx4G -Xms1G -Xss4M -XX:MaxMetaspaceSize=512M -XX:ReservedCodeCacheSize=256M -Dfile.encoding=UTF-8"
+  - echo $JAVA_OPTS
 script:
-  - sbt test
+  - bin/$SCRIPT
 cache:
   directories:
     - $HOME/.ivy2/cache

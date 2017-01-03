@@ -35,9 +35,8 @@ public class RouterTest extends WithApplication {
      */
     @Test
     public void testBadRoute() {
-        RequestBuilder request = new RequestBuilder()
-                .method("GET")
-                .uri("/xx/Kiwi");
+        RequestBuilder request =
+                new RequestBuilder().method("GET").uri("/xx/Kiwi");
 
         Result result = route(request);
         assertEquals(NOT_FOUND, result.status());
@@ -48,9 +47,7 @@ public class RouterTest extends WithApplication {
      */
     @Test
     public void testIndexRoute() {
-        RequestBuilder request = new RequestBuilder()
-                .method("GET")
-                .uri("/");
+        RequestBuilder request = new RequestBuilder().method("GET").uri("/");
 
         Result result = route(request);
         assertEquals(OK, result.status());
