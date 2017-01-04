@@ -1,0 +1,13 @@
+#
+# Style checking settings for Hound
+#
+fail_on_violations: true
+
+# Disable JSHint (Use ESLint instead)
+jshint:
+  enabled: false
+
+# ESLint (JavaScript)
+eslint:
+  enabled: true
+  config_file: .eslintrc
