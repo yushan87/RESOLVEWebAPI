@@ -28,6 +28,7 @@ public class TranslateJavaSocketActor extends AbstractSocketActor {
     public static Props props(ActorRef out, String job, String project) {
         // http://doc.akka.io/docs/akka/snapshot/java/untyped-actors.html
         return Props.create(new Creator<TranslateJavaSocketActor>() {
+
             private static final long serialVersionUID = 1L;
 
             @Override

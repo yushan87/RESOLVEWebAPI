@@ -29,7 +29,8 @@ public abstract class AbstractSocketActor extends UntypedActor {
         myJob = job;
         myProject = project;
         myWebSocketOut = out;
-        myWorkspacePath = Play.application().configuration().getString("workingdir");
+        myWorkspacePath =
+                Play.application().configuration().getString("workingdir");
     }
 
     @Override

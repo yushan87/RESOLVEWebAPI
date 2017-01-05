@@ -13,10 +13,10 @@ public class TheoryAnalyzeInvoker extends AbstractInvoker {
     @Override
     public void executeJob(Map<String, ResolveFile> fileMap) {
         //Run the compiler
-        try{
+        try {
             myCompilerInstance.invokeCompiler(fileMap, null, null);
         }
-        catch(Exception ex){
+        catch (Exception ex) {
             //obviously not too concerned about this situation ever happening
         }
     }
