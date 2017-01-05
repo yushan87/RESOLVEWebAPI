@@ -1,3 +1,14 @@
+/**
+ * ---------------------------------
+ * Copyright (c) 2017
+ * RESOLVE Software Research Group
+ * School of Computing
+ * Clemson University
+ * All rights reserved.
+ * ---------------------------------
+ * This file is subject to the terms and conditions defined in
+ * file 'LICENSE.txt', which is part of this source code package.
+ */
 package routing;
 
 import org.junit.Test;
@@ -24,9 +35,8 @@ public class RouterTest extends WithApplication {
      */
     @Test
     public void testBadRoute() {
-        RequestBuilder request = new RequestBuilder()
-                .method("GET")
-                .uri("/xx/Kiwi");
+        RequestBuilder request =
+                new RequestBuilder().method("GET").uri("/xx/Kiwi");
 
         Result result = route(request);
         assertEquals(NOT_FOUND, result.status());
@@ -37,9 +47,7 @@ public class RouterTest extends WithApplication {
      */
     @Test
     public void testIndexRoute() {
-        RequestBuilder request = new RequestBuilder()
-                .method("GET")
-                .uri("/");
+        RequestBuilder request = new RequestBuilder().method("GET").uri("/");
 
         Result result = route(request);
         assertEquals(OK, result.status());

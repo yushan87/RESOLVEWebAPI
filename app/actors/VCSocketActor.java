@@ -1,3 +1,14 @@
+/**
+ * ---------------------------------
+ * Copyright (c) 2017
+ * RESOLVE Software Research Group
+ * School of Computing
+ * Clemson University
+ * All rights reserved.
+ * ---------------------------------
+ * This file is subject to the terms and conditions defined in
+ * file 'LICENSE.txt', which is part of this source code package.
+ */
 package actors;
 
 import akka.actor.ActorRef;
@@ -36,8 +47,13 @@ public class VCSocketActor extends AbstractSocketActor {
                 // Create a JSON Object informing we are starting the job
                 ObjectNode result = Json.newObject();
                 result.put("status", "info");
-                result.put("msg", "Received request with the following parameters: "
-                        + myJob + " and " + myProject + ". Launching the RESOLVE compiler with the specified arguments.");
+                result.put(
+                        "msg",
+                        "Received request with the following parameters: "
+                                + myJob
+                                + " and "
+                                + myProject
+                                + ". Launching the RESOLVE compiler with the specified arguments.");
 
                 // Send the message through the websocket
                 myWebSocketOut.tell(result.toString(), self());
