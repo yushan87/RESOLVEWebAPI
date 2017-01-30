@@ -16,6 +16,7 @@ import akka.stream.javadsl.Flow;
 import actors.*;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import org.slf4j.Logger;
 import play.Configuration;
 import play.mvc.Controller;
 import play.mvc.LegacyWebSocket;
@@ -37,6 +38,9 @@ public class RESOLVECompilerAPI extends Controller {
 
     /** <p>An actor system that keeps track of all user requests</p> */
     private ActorSystem myActorSystem;
+
+    /** <p>Logger for Akka related items</p> */
+    private Logger myAkkaLogger = org.slf4j.LoggerFactory.getLogger("akka");
 
     /** <p>Class that retrieves configurations</p> */
     @Inject
