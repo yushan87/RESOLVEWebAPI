@@ -11,36 +11,55 @@
  */
 package controllers;
 
+import akka.actor.ActorSystem;
 import akka.stream.javadsl.Flow;
 import actors.*;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import play.Configuration;
 import play.mvc.Controller;
 import play.mvc.LegacyWebSocket;
 import play.mvc.WebSocket;
 
 /**
- * <p>This class serves as the controller for handling the various
+ * <p>This singleton class serves as the controller for handling the various
  * requests to the RESOLVE compiler.</p>
  *
  * @author Yu-Shan Sun
  * @version 1.0
  */
+@Singleton
 public class RESOLVECompilerAPI extends Controller {
 
     // ===========================================================
     // Global Variables
     // ===========================================================
 
+    /** <p>An actor system that keeps track of all user requests</p> */
+    private ActorSystem myActorSystem;
+
     /** <p>Class that retrieves configurations</p> */
     @Inject
     private Configuration myConfiguration;
 
     // ===========================================================
+    // Constructors
+    // ===========================================================
+
+    @Inject
+    public RESOLVECompilerAPI(ActorSystem actorSystem) {
+        myActorSystem = actorSystem;
+    }
+
+    // ===========================================================
     // Public Methods
     // ===========================================================
 
-    public LegacyWebSocket<String> socket(String job, String project) {
+    public WebSocket socket(String job, String project) {
+        return null;
+    }
+
+    /*public LegacyWebSocket<String> socket(String job, String project) {
         WebSocket newRetVal = WebSocket.Text.accept(requestHeader -> {
             return Flow.of(String.class);
         });
@@ -72,5 +91,5 @@ public class RESOLVECompilerAPI extends Controller {
         }
 
         return retVal;
-    }
+    }*/
 }
