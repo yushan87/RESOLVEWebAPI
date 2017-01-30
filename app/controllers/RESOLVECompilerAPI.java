@@ -13,11 +13,32 @@ package controllers;
 
 import akka.stream.javadsl.Flow;
 import actors.*;
+import javax.inject.Inject;
+import play.Configuration;
 import play.mvc.Controller;
 import play.mvc.LegacyWebSocket;
 import play.mvc.WebSocket;
 
+/**
+ * <p>This class serves as the controller for handling the various
+ * requests to the RESOLVE compiler.</p>
+ *
+ * @author Yu-Shan Sun
+ * @version 1.0
+ */
 public class RESOLVECompilerAPI extends Controller {
+
+    // ===========================================================
+    // Global Variables
+    // ===========================================================
+
+    /** <p>Class that retrieves configurations</p> */
+    @Inject
+    private Configuration myConfiguration;
+
+    // ===========================================================
+    // Public Methods
+    // ===========================================================
 
     public LegacyWebSocket<String> socket(String job, String project) {
         WebSocket newRetVal = WebSocket.Text.accept(requestHeader -> {
