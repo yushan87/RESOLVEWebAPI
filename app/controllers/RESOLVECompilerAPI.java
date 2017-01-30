@@ -17,7 +17,7 @@ import play.mvc.Controller;
 import play.mvc.LegacyWebSocket;
 import play.mvc.WebSocket;
 
-public class CompilerSocket extends Controller {
+public class RESOLVECompilerAPI extends Controller {
 
     public LegacyWebSocket<String> socket(String job, String project) {
         WebSocket newRetVal = WebSocket.Text.accept(requestHeader -> {
