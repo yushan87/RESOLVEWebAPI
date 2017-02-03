@@ -13,19 +13,18 @@ package controllers;
 
 import akka.actor.ActorSystem;
 import akka.stream.Materializer;
-import akka.stream.javadsl.Flow;
-import actors.*;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.slf4j.Logger;
 import play.Configuration;
 import play.mvc.Controller;
-import play.mvc.LegacyWebSocket;
 import play.mvc.WebSocket;
 
 /**
  * <p>This singleton class serves as the controller for handling the various
  * requests to the RESOLVE compiler.</p>
+ *
+ * <p>For more information, see: <a href=http://doc.akka.io/docs/akka/2.4/AkkaJava.pdf>AkkaJava</a></p>
  *
  * @author Yu-Shan Sun
  * @version 1.0
