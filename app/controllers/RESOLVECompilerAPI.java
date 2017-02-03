@@ -24,7 +24,7 @@ import play.mvc.WebSocket;
  * <p>This singleton class serves as the controller for handling the various
  * requests to the RESOLVE compiler.</p>
  *
- * <p>For more information, see: <a href=http://doc.akka.io/docs/akka/2.4/AkkaJava.pdf>AkkaJava</a></p>
+ * <p>For more information, see: <a href=http://doc.akka.io/docs/akka/current/AkkaJava.pdf>AkkaJava</a></p>
  *
  * @author Yu-Shan Sun
  * @version 1.0
