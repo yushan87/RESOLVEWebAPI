@@ -12,6 +12,7 @@
 package controllers;
 
 import akka.actor.ActorSystem;
+import akka.stream.Materializer;
 import akka.stream.javadsl.Flow;
 import actors.*;
 import javax.inject.Inject;
@@ -46,13 +47,17 @@ public class RESOLVECompilerAPI extends Controller {
     @Inject
     private Configuration myConfiguration;
 
+    /** <p>A factory that makes the streams we create run</p> */
+    private Materializer myStreamMaterializer;
+
     // ===========================================================
     // Constructors
     // ===========================================================
 
     @Inject
-    public RESOLVECompilerAPI(ActorSystem actorSystem) {
+    public RESOLVECompilerAPI(ActorSystem actorSystem, Materializer materializer) {
         myActorSystem = actorSystem;
+        myStreamMaterializer = materializer;
     }
 
     // ===========================================================
@@ -67,11 +72,11 @@ public class RESOLVECompilerAPI extends Controller {
         WebSocket newRetVal = WebSocket.Text.accept(requestHeader -> {
             return Flow.of(String.class);
         });
-		// Still need to figure out how to create a Flow object
-		//return WebSocket.Text.accept(requestHeader -> {
-		// return a Flow<String, String, ?>
-		//});
-		
+    	// Still need to figure out how to create a Flow object
+    	//return WebSocket.Text.accept(requestHeader -> {
+    	// return a Flow<String, String, ?>
+    	//});
+    	
         LegacyWebSocket<String> retVal;
         String lowercaseJob = job.toLowerCase();
 
