@@ -21,7 +21,7 @@ javacOptions ++= Seq(
 
 // Managed Dependencies
 libraryDependencies ++= Seq(
-  "org.antlr" % "antlr4" % "4.6"
+  "org.antlr" % "antlr4" % "4.7"
 )
 
 // Unmanaged Dependencies
