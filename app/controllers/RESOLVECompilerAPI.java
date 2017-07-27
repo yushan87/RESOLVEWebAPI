@@ -37,17 +37,17 @@ public class RESOLVECompilerAPI extends Controller {
     // ===========================================================
 
     /** <p>An actor system that keeps track of all user requests</p> */
-    private ActorSystem myActorSystem;
+    private final ActorSystem myActorSystem;
 
     /** <p>Logger for Akka related items</p> */
-    private Logger myAkkaLogger = org.slf4j.LoggerFactory.getLogger("akka");
+    private final Logger myAkkaLogger = org.slf4j.LoggerFactory.getLogger("akka");
 
     /** <p>Class that retrieves configurations</p> */
     @Inject
-    private Configuration myConfiguration;
+    private final Configuration myConfiguration;
 
     /** <p>A factory that makes the streams we create run</p> */
-    private Materializer myStreamMaterializer;
+    private final Materializer myStreamMaterializer;
 
     // ===========================================================
     // Constructors
@@ -75,7 +75,7 @@ public class RESOLVECompilerAPI extends Controller {
     	//return WebSocket.Text.accept(requestHeader -> {
     	// return a Flow<String, String, ?>
     	//});
-    	
+
         LegacyWebSocket<String> retVal;
         String lowercaseJob = job.toLowerCase();
 
