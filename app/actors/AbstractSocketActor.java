@@ -11,26 +11,56 @@
  */
 package actors;
 
+import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.PoisonPill;
-import akka.actor.UntypedActor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.typesafe.config.Config;
 import javax.inject.Inject;
 import play.Play;
 import play.libs.Json;
 
-public abstract class AbstractSocketActor extends UntypedActor {
+/**
+ * <p>This is the abstract base class for all the {@code Actors}
+ * that handle the RESOLVE compiler invocation.</p>
+ *
+ * @author Yu-Shan Sun
+ * @version 1.0
+ */
+public abstract class AbstractSocketActor extends AbstractActor {
 
+    // ===========================================================
+    // Member Fields
+    // ===========================================================
+
+    /** <p>This retrieves configuration settings.</p> */
+    @Inject
+    protected final Config myConfiguration;
+
+    /** <p>This indicates the name of the job to be executed.</p> */
     protected final String myJob;
+
+    /** <p>This indicates which RESOLVE project folder to use.</p> */
     protected final String myProject;
+
+    /** <p>This is the outgoing end of the stream.</p> */
     protected final ActorRef myWebSocketOut;
+
+    /** <p>This indicates the path to all of our RESOLVE workspaces.</p> */
     protected final String myWorkspacePath;
 
-    /** <p>Class that retrieves configurations</p> */
-    @Inject
-    private final Config myConfiguration;
+    // ===========================================================
+    // Constructors
+    // ===========================================================
 
+    /**
+     * <p>An helper constructor that stores all common objects for
+     * classes that inherits from {@link AbstractSocketActor}.</p>
+     *
+     * @param out Outgoing end of the stream.
+     * @param job Name of the job to be executed.
+     * @param project RESOLVE project folder to be used.
+     */
     protected AbstractSocketActor(ActorRef out, String job, String project) {
         myJob = job;
         myProject = project;
@@ -38,7 +68,11 @@ public abstract class AbstractSocketActor extends UntypedActor {
         myWorkspacePath = myConfiguration.getString("workingdir");
     }
 
-    @Override
+    // ===========================================================
+    // Public Methods
+    // ===========================================================
+
+    /*@Override
     public void unhandled(Object message) {
         // Create the error JSON Object
         ObjectNode result = Json.newObject();
@@ -50,6 +84,6 @@ public abstract class AbstractSocketActor extends UntypedActor {
 
         // Close the connection
         self().tell(PoisonPill.getInstance(), self());
-    }
+    }*/
 
 }
