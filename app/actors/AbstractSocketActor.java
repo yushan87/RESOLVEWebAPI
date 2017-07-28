@@ -15,6 +15,8 @@ import akka.actor.ActorRef;
 import akka.actor.PoisonPill;
 import akka.actor.UntypedActor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.typesafe.config.Config;
+import javax.inject.Inject;
 import play.Play;
 import play.libs.Json;
 
@@ -25,12 +27,15 @@ public abstract class AbstractSocketActor extends UntypedActor {
     protected final ActorRef myWebSocketOut;
     protected final String myWorkspacePath;
 
+    /** <p>Class that retrieves configurations</p> */
+    @Inject
+    private final Config myConfiguration;
+
     protected AbstractSocketActor(ActorRef out, String job, String project) {
         myJob = job;
         myProject = project;
         myWebSocketOut = out;
-        myWorkspacePath =
-                Play.application().configuration().getString("workingdir");
+        myWorkspacePath = myConfiguration.getString("workingdir");
     }
 
     @Override

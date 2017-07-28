@@ -13,10 +13,10 @@ package controllers;
 
 import akka.actor.ActorSystem;
 import akka.stream.Materializer;
+import com.typesafe.config.Config;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.slf4j.Logger;
-import play.Configuration;
 import play.mvc.Controller;
 import play.mvc.WebSocket;
 
@@ -44,7 +44,7 @@ public class RESOLVECompilerAPI extends Controller {
 
     /** <p>Class that retrieves configurations</p> */
     @Inject
-    private final Configuration myConfiguration;
+    private final Config myConfiguration;
 
     /** <p>A factory that makes the streams we create run</p> */
     private final Materializer myStreamMaterializer;
