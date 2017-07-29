@@ -17,8 +17,27 @@ import akka.actor.Props;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.Json;
 
+/**
+ * <p>This class contains error logic for handling miscellaneous job
+ * requests that are not supported by the current WebAPI.</p>
+ *
+ * @author Yu-Shan Sun
+ * @version 1.0
+ */
 public class ErrorSocketActor extends AbstractSocketActor {
 
+    // ===========================================================
+    // Constructors
+    // ===========================================================
+
+    /**
+     * <p>This creates a new actor for handling erroneous
+     * compiler jobs.</p>
+     *
+     * @param out Outgoing end of the stream.
+     * @param job Name of the job to be executed.
+     * @param project RESOLVE project folder to be used.
+     */
     public ErrorSocketActor(ActorRef out, String job, String project) {
         super(out, job, project);
 
@@ -33,6 +52,10 @@ public class ErrorSocketActor extends AbstractSocketActor {
         // Close the connection
         self().tell(PoisonPill.getInstance(), self());
     }
+
+    // ===========================================================
+    // Public Methods
+    // ===========================================================
 
     public static Props props(ActorRef out, String job, String project) {
         // https://doc.akka.io/docs/akka/current//actors.html

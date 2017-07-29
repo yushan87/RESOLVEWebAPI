@@ -18,11 +18,32 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.Json;
 
+/**
+ * <p>This class handles all request for verifying a file.</p>
+ *
+ * @author Yu-Shan Sun
+ * @version 1.0
+ */
 public class CCVerifySocketActor extends AbstractSocketActor {
 
+    // ===========================================================
+    // Constructors
+    // ===========================================================
+
+    /**
+     * <p>This creates a new compiler job for verifying a file.</p>
+     *
+     * @param out Outgoing end of the stream.
+     * @param job Name of the job to be executed.
+     * @param project RESOLVE project folder to be used.
+     */
     public CCVerifySocketActor(ActorRef out, String job, String project) {
         super(out, job, project);
     }
+
+    // ===========================================================
+    // Public Methods
+    // ===========================================================
 
     public static Props props(ActorRef out, String job, String project) {
         // https://doc.akka.io/docs/akka/current//actors.html

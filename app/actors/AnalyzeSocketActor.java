@@ -17,13 +17,36 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.util.HashMap;
 import play.libs.Json;
 
+/**
+ * <p>This class handles all request for analyzing a RESOLVE file, which is
+ * simply populate and type check the file. This is mainly used to check to see
+ * if a theory file is valid or not.</p>
+ *
+ * @author Yu-Shan Sun
+ * @version 1.0
+ */
 public class AnalyzeSocketActor extends AbstractSocketActor {
 
+    // ===========================================================
+    // Constructors
+    // ===========================================================
+
+    /**
+     * <p>This creates a new compiler job for analyzing a file.</p>
+     *
+     * @param out Outgoing end of the stream.
+     * @param job Name of the job to be executed.
+     * @param project RESOLVE project folder to be used.
+     */
     public AnalyzeSocketActor(ActorRef out, String job, String project) {
         super(out, job, project);
     }
 
-    static Props props(ActorRef out, String job, String project) {
+    // ===========================================================
+    // Public Methods
+    // ===========================================================
+
+    public static Props props(ActorRef out, String job, String project) {
         // https://doc.akka.io/docs/akka/current//actors.html
         return Props.create(AnalyzeSocketActor.class, () -> new AnalyzeSocketActor(out, job, project));
     }
