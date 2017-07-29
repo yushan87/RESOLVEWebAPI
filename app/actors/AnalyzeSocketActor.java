@@ -13,9 +13,7 @@ package actors;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.japi.Creator;
 import com.fasterxml.jackson.databind.JsonNode;
-import compiler.TheoryAnalyzeInvoker;
 import java.util.HashMap;
 import play.libs.Json;
 
@@ -25,20 +23,12 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
         super(out, job, project);
     }
 
-    public static Props props(ActorRef out, String job, String project) {
-        // http://doc.akka.io/docs/akka/current/java/untyped-actors.html
-        return Props.create(new Creator<AnalyzeSocketActor>() {
-
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public AnalyzeSocketActor create() throws Exception {
-                return new AnalyzeSocketActor(out, job, project);
-            }
-        });
+    static Props props(ActorRef out, String job, String project) {
+        // https://doc.akka.io/docs/akka/current//actors.html
+        return Props.create(AnalyzeSocketActor.class, () -> new AnalyzeSocketActor(out, job, project));
     }
 
-    @Override
+    /*@Override
     public void onReceive(Object message) {
         try {
             // Only deal with Strings
@@ -61,6 +51,6 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
             // socket connection for all invalid JSON strings.
             unhandled(message);
         }
-    }
+    }*/
 
 }

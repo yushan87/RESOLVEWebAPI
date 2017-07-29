@@ -14,7 +14,6 @@ package actors;
 import akka.actor.ActorRef;
 import akka.actor.PoisonPill;
 import akka.actor.Props;
-import akka.japi.Creator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.Json;
@@ -26,19 +25,11 @@ public class JarSocketActor extends AbstractSocketActor {
     }
 
     public static Props props(ActorRef out, String job, String project) {
-        // http://doc.akka.io/docs/akka/snapshot/java/untyped-actors.html
-        return Props.create(new Creator<JarSocketActor>() {
-
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public JarSocketActor create() throws Exception {
-                return new JarSocketActor(out, job, project);
-            }
-        });
+        // https://doc.akka.io/docs/akka/current//actors.html
+        return Props.create(JarSocketActor.class, () -> new JarSocketActor(out, job, project));
     }
 
-    @Override
+    /*@Override
     public void onReceive(Object message) {
         try {
             // Only deal with Strings
@@ -73,6 +64,6 @@ public class JarSocketActor extends AbstractSocketActor {
             // socket connection for all invalid JSON strings.
             unhandled(message);
         }
-    }
+    }*/
 
 }
