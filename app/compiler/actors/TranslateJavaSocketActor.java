@@ -9,7 +9,7 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-package actors;
+package compiler.actors;
 
 import akka.actor.ActorRef;
 import akka.actor.PoisonPill;
@@ -19,25 +19,26 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.Json;
 
 /**
- * <p>This class handles all request for verifying a file.</p>
+ * <p>This class handles all request for translating a file to Java.</p>
  *
  * @author Yu-Shan Sun
  * @version 1.0
  */
-public class CCVerifySocketActor extends AbstractSocketActor {
+public class TranslateJavaSocketActor extends AbstractSocketActor {
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
     /**
-     * <p>This creates a new compiler job for verifying a file.</p>
+     * <p>This creates a new compiler job for translating a file
+     * to Java.</p>
      *
      * @param out Outgoing end of the stream.
      * @param job Name of the job to be executed.
      * @param project RESOLVE project folder to be used.
      */
-    public CCVerifySocketActor(ActorRef out, String job, String project) {
+    public TranslateJavaSocketActor(ActorRef out, String job, String project) {
         super(out, job, project);
     }
 
@@ -47,7 +48,7 @@ public class CCVerifySocketActor extends AbstractSocketActor {
 
     public static Props props(ActorRef out, String job, String project) {
         // https://doc.akka.io/docs/akka/current//actors.html
-        return Props.create(CCVerifySocketActor.class, () -> new CCVerifySocketActor(out, job, project));
+        return Props.create(TranslateJavaSocketActor.class, () -> new TranslateJavaSocketActor(out, job, project));
     }
 
     /*@Override

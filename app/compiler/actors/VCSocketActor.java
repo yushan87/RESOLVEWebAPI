@@ -9,36 +9,35 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-package actors;
+package compiler.actors;
 
 import akka.actor.ActorRef;
+import akka.actor.PoisonPill;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
-import java.util.HashMap;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import play.libs.Json;
 
 /**
- * <p>This class handles all request for analyzing a RESOLVE file, which is
- * simply populate and type check the file. This is mainly used to check to see
- * if a theory file is valid or not.</p>
+ * <p>This class handles all request for generating VCs.</p>
  *
  * @author Yu-Shan Sun
  * @version 1.0
  */
-public class AnalyzeSocketActor extends AbstractSocketActor {
+public class VCSocketActor extends AbstractSocketActor {
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
-    /**
-     * <p>This creates a new compiler job for analyzing a file.</p>
+    /**c
+     * <p>This creates a new compiler job for generating VCs.</p>
      *
      * @param out Outgoing end of the stream.
      * @param job Name of the job to be executed.
      * @param project RESOLVE project folder to be used.
      */
-    public AnalyzeSocketActor(ActorRef out, String job, String project) {
+    public VCSocketActor(ActorRef out, String job, String project) {
         super(out, job, project);
     }
 
@@ -48,7 +47,7 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
 
     public static Props props(ActorRef out, String job, String project) {
         // https://doc.akka.io/docs/akka/current//actors.html
-        return Props.create(AnalyzeSocketActor.class, () -> new AnalyzeSocketActor(out, job, project));
+        return Props.create(VCSocketActor.class, () -> new VCSocketActor(out, job, project));
     }
 
     /*@Override
@@ -57,11 +56,23 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
             // Only deal with Strings
             if (message instanceof String) {
                 JsonNode request = Json.parse((String) message);
-                String[] args =
-                        { "-main", myWorkspacePath, "-webinterface", "Test.mt" };
-                TheoryAnalyzeInvoker invoker =
-                        new TheoryAnalyzeInvoker(args, myWebSocketOut);
-                invoker.executeJob(new HashMap<>());
+
+                // Create a JSON Object informing we are starting the job
+                ObjectNode result = Json.newObject();
+                result.put("status", "info");
+                result.put(
+                        "msg",
+                        "Received request with the following parameters: "
+                                + myJob
+                                + " and "
+                                + myProject
+                                + ". Launching the RESOLVE compiler with the specified arguments.");
+
+                // Send the message through the websocket
+                myWebSocketOut.tell(result.toString(), self());
+
+                // Close the connection
+                self().tell(PoisonPill.getInstance(), self());
             }
             else {
                 // Send an error message back to user and close
