@@ -24,7 +24,8 @@ import play.mvc.WebSocket;
  * <p>This singleton class serves as the controller for handling the various
  * requests to the RESOLVE compiler.</p>
  *
- * <p>For more information, see: <a href=http://doc.akka.io/docs/akka/current/AkkaJava.pdf>AkkaJava</a></p>
+ * <p>For more information, see:
+ * <a href="https://www.playframework.com/documentation/2.6.x/JavaWebSockets">Play WebSockets</a></p>
  *
  * @author Yu-Shan Sun
  * @version 1.0
@@ -33,7 +34,7 @@ import play.mvc.WebSocket;
 public class RESOLVECompilerAPI extends Controller {
 
     // ===========================================================
-    // Global Variables
+    // Member Fields
     // ===========================================================
 
     /** <p>An actor system that keeps track of all user requests</p> */
@@ -46,13 +47,20 @@ public class RESOLVECompilerAPI extends Controller {
     @Inject
     private final Config myConfiguration;
 
-    /** <p>A factory that makes the streams we create run</p> */
+    /** <p>A factory that makes the streams we create run.</p> */
     private final Materializer myStreamMaterializer;
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
+    /**
+     * <p>This creates an object for handling the various different
+     * {@code WebSocket} requests to this application.</p>
+     *
+     * @param actorSystem An actor system for keeping track of all user requests.
+     * @param materializer A factory that makes the streams we create run.
+     */
     @Inject
     public RESOLVECompilerAPI(ActorSystem actorSystem, Materializer materializer) {
         myActorSystem = actorSystem;
@@ -63,7 +71,16 @@ public class RESOLVECompilerAPI extends Controller {
     // Public Methods
     // ===========================================================
 
-    public WebSocket socket(String job, String project) {
+    /**
+     * <p>This method creates a {@code WebSocket} for handling different compiler
+     * requests.</p>
+     *
+     * @param job Name of the job to be executed.
+     * @param project RESOLVE project folder to be used.
+     *
+     * @return A {@link WebSocket} object.
+     */
+    public final WebSocket socket(String job, String project) {
         return null;
     }
 
