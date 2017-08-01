@@ -44,7 +44,6 @@ public class RESOLVECompilerAPI extends Controller {
     private final Logger myAkkaLogger = org.slf4j.LoggerFactory.getLogger("akka");
 
     /** <p>Class that retrieves configurations</p> */
-    @Inject
     private final Config myConfiguration;
 
     /** <p>A factory that makes the streams we create run.</p> */
@@ -62,8 +61,9 @@ public class RESOLVECompilerAPI extends Controller {
      * @param materializer A factory that makes the streams we create run.
      */
     @Inject
-    public RESOLVECompilerAPI(ActorSystem actorSystem, Materializer materializer) {
+    public RESOLVECompilerAPI(ActorSystem actorSystem, Materializer materializer, Config config) {
         myActorSystem = actorSystem;
+        myConfiguration = config;
         myStreamMaterializer = materializer;
     }
 
