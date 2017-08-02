@@ -37,9 +37,10 @@ public class ErrorSocketActor extends AbstractSocketActor {
      * @param out Outgoing end of the stream.
      * @param job Name of the job to be executed.
      * @param project RESOLVE project folder to be used.
+     * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public ErrorSocketActor(ActorRef out, String job, String project) {
-        super(out, job, project);
+    public ErrorSocketActor(ActorRef out, String job, String project, String workspacePath) {
+        super(out, job, project, workspacePath);
 
         // Create the error JSON Object
         ObjectNode result = Json.newObject();
@@ -57,9 +58,10 @@ public class ErrorSocketActor extends AbstractSocketActor {
     // Public Methods
     // ===========================================================
 
-    public static Props props(ActorRef out, String job, String project) {
+    public static Props props(ActorRef out, String job, String project, String workspacePath) {
         // https://doc.akka.io/docs/akka/current//actors.html
-        return Props.create(ErrorSocketActor.class, () -> new ErrorSocketActor(out, job, project));
+        return Props.create(ErrorSocketActor.class,
+                () -> new ErrorSocketActor(out, job, project, workspacePath));
     }
 
     /*@Override

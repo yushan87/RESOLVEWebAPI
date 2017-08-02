@@ -33,10 +33,6 @@ public abstract class AbstractSocketActor extends AbstractActor {
     // Member Fields
     // ===========================================================
 
-    /** <p>This retrieves configuration settings.</p> */
-    @Inject
-    protected final Config myConfiguration;
-
     /** <p>This indicates the name of the job to be executed.</p> */
     protected final String myJob;
 
@@ -60,12 +56,13 @@ public abstract class AbstractSocketActor extends AbstractActor {
      * @param out Outgoing end of the stream.
      * @param job Name of the job to be executed.
      * @param project RESOLVE project folder to be used.
+     * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    protected AbstractSocketActor(ActorRef out, String job, String project) {
+    protected AbstractSocketActor(ActorRef out, String job, String project, String workspacePath) {
         myJob = job;
         myProject = project;
         myWebSocketOut = out;
-        myWorkspacePath = myConfiguration.getString("workingdir");
+        myWorkspacePath = workspacePath;
     }
 
     // ===========================================================

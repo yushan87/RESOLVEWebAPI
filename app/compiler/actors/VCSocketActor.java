@@ -36,18 +36,20 @@ public class VCSocketActor extends AbstractSocketActor {
      * @param out Outgoing end of the stream.
      * @param job Name of the job to be executed.
      * @param project RESOLVE project folder to be used.
+     * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public VCSocketActor(ActorRef out, String job, String project) {
-        super(out, job, project);
+    public VCSocketActor(ActorRef out, String job, String project, String workspacePath) {
+        super(out, job, project, workspacePath);
     }
 
     // ===========================================================
     // Public Methods
     // ===========================================================
 
-    public static Props props(ActorRef out, String job, String project) {
+    public static Props props(ActorRef out, String job, String project, String workspacePath) {
         // https://doc.akka.io/docs/akka/current//actors.html
-        return Props.create(VCSocketActor.class, () -> new VCSocketActor(out, job, project));
+        return Props.create(VCSocketActor.class,
+                () -> new VCSocketActor(out, job, project, workspacePath));
     }
 
     /*@Override

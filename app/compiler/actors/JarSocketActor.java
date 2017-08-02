@@ -37,18 +37,20 @@ public class JarSocketActor extends AbstractSocketActor {
      * @param out Outgoing end of the stream.
      * @param job Name of the job to be executed.
      * @param project RESOLVE project folder to be used.
+     * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public JarSocketActor(ActorRef out, String job, String project) {
-        super(out, job, project);
+    public JarSocketActor(ActorRef out, String job, String project, String workspacePath) {
+        super(out, job, project, workspacePath);
     }
 
     // ===========================================================
     // Public Methods
     // ===========================================================
 
-    public static Props props(ActorRef out, String job, String project) {
+    public static Props props(ActorRef out, String job, String project, String workspacePath) {
         // https://doc.akka.io/docs/akka/current//actors.html
-        return Props.create(JarSocketActor.class, () -> new JarSocketActor(out, job, project));
+        return Props.create(JarSocketActor.class,
+                () -> new JarSocketActor(out, job, project, workspacePath));
     }
 
     /*@Override
