@@ -11,13 +11,10 @@
  */
 package compiler.actors;
 
-import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.PoisonPill;
+import akka.actor.UntypedAbstractActor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.typesafe.config.Config;
-import javax.inject.Inject;
-import play.Play;
 import play.libs.Json;
 
 /**
@@ -27,7 +24,7 @@ import play.libs.Json;
  * @author Yu-Shan Sun
  * @version 1.0
  */
-public abstract class AbstractSocketActor extends AbstractActor {
+public abstract class AbstractSocketActor extends UntypedAbstractActor {
 
     // ===========================================================
     // Member Fields
@@ -69,7 +66,12 @@ public abstract class AbstractSocketActor extends AbstractActor {
     // Public Methods
     // ===========================================================
 
-    /*@Override
+    /**
+     * <p>This method overrides overrides the default {@code unhandled} method implementation.</p>>
+     *
+     * @param message Message to be displayed.
+     */
+    @Override
     public void unhandled(Object message) {
         // Create the error JSON Object
         ObjectNode result = Json.newObject();
@@ -81,6 +83,6 @@ public abstract class AbstractSocketActor extends AbstractActor {
 
         // Close the connection
         self().tell(PoisonPill.getInstance(), self());
-    }*/
+    }
 
 }
