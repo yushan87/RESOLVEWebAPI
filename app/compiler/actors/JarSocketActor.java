@@ -47,18 +47,35 @@ public class JarSocketActor extends AbstractSocketActor {
     // Public Methods
     // ===========================================================
 
+    /**
+     * <p>Props is a configuration object using in creating an {@code Actor};
+     * It is immutable, so it is thread-safe and fully shareable.</p>
+     *
+     * @param out Outgoing end of the stream.
+     * @param job Name of the job to be executed.
+     * @param project RESOLVE project folder to be used.
+     * @param workspacePath Path to all the RESOLVE workspaces.
+     *
+     * @return A {@link JarSocketActor}.
+     */
     public static Props props(ActorRef out, String job, String project, String workspacePath) {
         // https://doc.akka.io/docs/akka/current//actors.html
         return Props.create(JarSocketActor.class,
                 () -> new JarSocketActor(out, job, project, workspacePath));
     }
 
-    /*@Override
-    public void onReceive(Object message) {
+    /**
+     * <p>This method overrides overrides the default {@code onReceive} method implementation
+     * to handle.</p>
+     *
+     * @param message Message received by the input stream.
+     */
+    @Override
+    public final void onReceive(Object message) {
         try {
             // Only deal with Strings
             if (message instanceof String) {
-                JsonNode request = Json.parse((String) message);
+                /*JsonNode request = Json.parse((String) message);
 
                 // Create a JSON Object informing we are starting the job
                 ObjectNode result = Json.newObject();
@@ -75,7 +92,7 @@ public class JarSocketActor extends AbstractSocketActor {
                 myWebSocketOut.tell(result.toString(), self());
 
                 // Close the connection
-                self().tell(PoisonPill.getInstance(), self());
+                self().tell(PoisonPill.getInstance(), self());*/
             }
             else {
                 // Send an error message back to user and close
@@ -88,6 +105,6 @@ public class JarSocketActor extends AbstractSocketActor {
             // socket connection for all invalid JSON strings.
             unhandled(message);
         }
-    }*/
+    }
 
 }

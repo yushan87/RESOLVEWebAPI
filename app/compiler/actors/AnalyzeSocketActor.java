@@ -46,23 +46,40 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
     // Public Methods
     // ===========================================================
 
+    /**
+     * <p>Props is a configuration object using in creating an {@code Actor};
+     * It is immutable, so it is thread-safe and fully shareable.</p>
+     *
+     * @param out Outgoing end of the stream.
+     * @param job Name of the job to be executed.
+     * @param project RESOLVE project folder to be used.
+     * @param workspacePath Path to all the RESOLVE workspaces.
+     *
+     * @return An {@link AnalyzeSocketActor}.
+     */
     public static Props props(ActorRef out, String job, String project, String workspacePath) {
         // https://doc.akka.io/docs/akka/current//actors.html
         return Props.create(AnalyzeSocketActor.class,
                 () -> new AnalyzeSocketActor(out, job, project, workspacePath));
     }
 
-    /*@Override
-    public void onReceive(Object message) {
+    /**
+     * <p>This method overrides overrides the default {@code onReceive} method implementation
+     * to handle.</p>
+     *
+     * @param message Message received by the input stream.
+     */
+    @Override
+    public final void onReceive(Object message) {
         try {
             // Only deal with Strings
             if (message instanceof String) {
-                JsonNode request = Json.parse((String) message);
+                /*JsonNode request = Json.parse((String) message);
                 String[] args =
                         { "-main", myWorkspacePath, "-webinterface", "Test.mt" };
                 TheoryAnalyzeInvoker invoker =
                         new TheoryAnalyzeInvoker(args, myWebSocketOut);
-                invoker.executeJob(new HashMap<>());
+                invoker.executeJob(new HashMap<>());*/
             }
             else {
                 // Send an error message back to user and close
@@ -75,6 +92,6 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
             // socket connection for all invalid JSON strings.
             unhandled(message);
         }
-    }*/
+    }
 
 }

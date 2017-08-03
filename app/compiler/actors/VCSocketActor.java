@@ -30,7 +30,7 @@ public class VCSocketActor extends AbstractSocketActor {
     // Constructors
     // ===========================================================
 
-    /**c
+    /**
      * <p>This creates a new compiler job for generating VCs.</p>
      *
      * @param out Outgoing end of the stream.
@@ -46,14 +46,31 @@ public class VCSocketActor extends AbstractSocketActor {
     // Public Methods
     // ===========================================================
 
+    /**
+     * <p>Props is a configuration object using in creating an {@code Actor};
+     * It is immutable, so it is thread-safe and fully shareable.</p>
+     *
+     * @param out Outgoing end of the stream.
+     * @param job Name of the job to be executed.
+     * @param project RESOLVE project folder to be used.
+     * @param workspacePath Path to all the RESOLVE workspaces.
+     *
+     * @return A {@link VCSocketActor}.
+     */
     public static Props props(ActorRef out, String job, String project, String workspacePath) {
         // https://doc.akka.io/docs/akka/current//actors.html
         return Props.create(VCSocketActor.class,
                 () -> new VCSocketActor(out, job, project, workspacePath));
     }
 
-    /*@Override
-    public void onReceive(Object message) {
+    /**
+     * <p>This method overrides overrides the default {@code onReceive} method implementation
+     * to handle.</p>
+     *
+     * @param message Message received by the input stream.
+     */
+    @Override
+    public final void onReceive(Object message) {
         try {
             // Only deal with Strings
             if (message instanceof String) {
@@ -87,6 +104,6 @@ public class VCSocketActor extends AbstractSocketActor {
             // socket connection for all invalid JSON strings.
             unhandled(message);
         }
-    }*/
+    }
 
 }

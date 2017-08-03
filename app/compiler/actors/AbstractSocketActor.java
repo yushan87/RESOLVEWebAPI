@@ -67,12 +67,12 @@ public abstract class AbstractSocketActor extends UntypedAbstractActor {
     // ===========================================================
 
     /**
-     * <p>This method overrides overrides the default {@code unhandled} method implementation.</p>>
+     * <p>This method overrides overrides the default {@code unhandled} method implementation.</p>
      *
      * @param message Message to be displayed.
      */
     @Override
-    public void unhandled(Object message) {
+    public final void unhandled(Object message) {
         // Create the error JSON Object
         ObjectNode result = Json.newObject();
         result.put("status", "error");
