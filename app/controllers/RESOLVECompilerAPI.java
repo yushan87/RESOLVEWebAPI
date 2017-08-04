@@ -14,9 +14,11 @@ package controllers;
 import akka.actor.ActorSystem;
 import akka.stream.Materializer;
 import com.typesafe.config.Config;
+import compiler.actors.*;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.slf4j.Logger;
+import play.libs.streams.ActorFlow;
 import play.mvc.Controller;
 import play.mvc.WebSocket;
 
@@ -81,40 +83,42 @@ public class RESOLVECompilerAPI extends Controller {
      * @return A {@link WebSocket} object.
      */
     public final WebSocket socket(String job, String project) {
-        return null;
-    }
-
-    /*public LegacyWebSocket<String> socket(String job, String project) {
-        WebSocket newRetVal = WebSocket.Text.accept(requestHeader -> {
-            return Flow.of(String.class);
-        });
-    	// Still need to figure out how to create a Flow object
-    	//return WebSocket.Text.accept(requestHeader -> {
-    	// return a Flow<String, String, ?>
-    	//});
-
-        LegacyWebSocket<String> retVal;
+        WebSocket socket;
         String lowercaseJob = job.toLowerCase();
+        String workspaceDir = myConfiguration.getString("workingdir");
 
         if (lowercaseJob.equals("analyze")) {
-            retVal = WebSocket.withActor(a -> AnalyzeSocketActor.props(a, lowercaseJob, project));
+            socket = WebSocket.Json.accept(request ->
+                    ActorFlow.actorRef(out -> AnalyzeSocketActor.props(out, lowercaseJob, project, workspaceDir),
+                            myActorSystem, myStreamMaterializer));
         }
         else if (lowercaseJob.equals("buildjar")) {
-            retVal = WebSocket.withActor(a -> JarSocketActor.props(a, lowercaseJob, project));
+            socket = WebSocket.Json.accept(request ->
+                    ActorFlow.actorRef(out -> JarSocketActor.props(out, lowercaseJob, project, workspaceDir),
+                            myActorSystem, myStreamMaterializer));
         }
         else if (lowercaseJob.equals("ccverify")) {
-            retVal = WebSocket.withActor(a -> CCVerifySocketActor.props(a, lowercaseJob, project));
+            socket = WebSocket.Json.accept(request ->
+                    ActorFlow.actorRef(out -> CCVerifySocketActor.props(out, lowercaseJob, project, workspaceDir),
+                            myActorSystem, myStreamMaterializer));
         }
         else if (lowercaseJob.equals("genvcs")) {
-            retVal = WebSocket.withActor(a -> VCSocketActor.props(a, lowercaseJob, project));
+            socket = WebSocket.Json.accept(request ->
+                    ActorFlow.actorRef(out -> VCSocketActor.props(out, lowercaseJob, project, workspaceDir),
+                            myActorSystem, myStreamMaterializer));
         }
         else if (lowercaseJob.equals("translatejava")) {
-            retVal = WebSocket.withActor(a -> TranslateJavaSocketActor.props(a, lowercaseJob, project));
+            socket = WebSocket.Json.accept(request ->
+                    ActorFlow.actorRef(out -> TranslateJavaSocketActor.props(out, lowercaseJob, project, workspaceDir),
+                            myActorSystem, myStreamMaterializer));
         }
         else {
-            retVal = WebSocket.withActor(a -> ErrorSocketActor.props(a, lowercaseJob, project));
+            socket = WebSocket.Json.accept(request ->
+                    ActorFlow.actorRef(out -> ErrorSocketActor.props(out, lowercaseJob, project, workspaceDir),
+                            myActorSystem, myStreamMaterializer));
         }
 
-        return retVal;
-    }*/
+        return socket;
+    }
+
 }
