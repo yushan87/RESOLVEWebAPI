@@ -87,35 +87,37 @@ public class RESOLVECompilerAPI extends Controller {
         String lowercaseJob = job.toLowerCase();
         String workspaceDir = myConfiguration.getString("workingdir");
 
-        if (lowercaseJob.equals("analyze")) {
-            socket = WebSocket.Json.accept(request ->
-                    ActorFlow.actorRef(out -> AnalyzeSocketActor.props(out, lowercaseJob, project, workspaceDir),
-                            myActorSystem, myStreamMaterializer));
-        }
-        else if (lowercaseJob.equals("buildjar")) {
-            socket = WebSocket.Json.accept(request ->
-                    ActorFlow.actorRef(out -> JarSocketActor.props(out, lowercaseJob, project, workspaceDir),
-                            myActorSystem, myStreamMaterializer));
-        }
-        else if (lowercaseJob.equals("ccverify")) {
-            socket = WebSocket.Json.accept(request ->
-                    ActorFlow.actorRef(out -> CCVerifySocketActor.props(out, lowercaseJob, project, workspaceDir),
-                            myActorSystem, myStreamMaterializer));
-        }
-        else if (lowercaseJob.equals("genvcs")) {
-            socket = WebSocket.Json.accept(request ->
-                    ActorFlow.actorRef(out -> VCSocketActor.props(out, lowercaseJob, project, workspaceDir),
-                            myActorSystem, myStreamMaterializer));
-        }
-        else if (lowercaseJob.equals("translatejava")) {
-            socket = WebSocket.Json.accept(request ->
-                    ActorFlow.actorRef(out -> TranslateJavaSocketActor.props(out, lowercaseJob, project, workspaceDir),
-                            myActorSystem, myStreamMaterializer));
-        }
-        else {
-            socket = WebSocket.Json.accept(request ->
-                    ActorFlow.actorRef(out -> ErrorSocketActor.props(out, lowercaseJob, project, workspaceDir),
-                            myActorSystem, myStreamMaterializer));
+        switch (lowercaseJob) {
+            case "analyze":
+                socket = WebSocket.Json.accept(request ->
+                        ActorFlow.actorRef(out -> AnalyzeSocketActor.props(out, job, project, workspaceDir),
+                                myActorSystem, myStreamMaterializer));
+                break;
+            case "buildjar":
+                socket = WebSocket.Json.accept(request ->
+                        ActorFlow.actorRef(out -> JarSocketActor.props(out, job, project, workspaceDir),
+                                myActorSystem, myStreamMaterializer));
+                break;
+            case "ccverify":
+                socket = WebSocket.Json.accept(request ->
+                        ActorFlow.actorRef(out -> CCVerifySocketActor.props(out, job, project, workspaceDir),
+                                myActorSystem, myStreamMaterializer));
+                break;
+            case "genvcs":
+                socket = WebSocket.Json.accept(request ->
+                        ActorFlow.actorRef(out -> VCSocketActor.props(out, job, project, workspaceDir),
+                                myActorSystem, myStreamMaterializer));
+                break;
+            case "translatejava":
+                socket = WebSocket.Json.accept(request ->
+                        ActorFlow.actorRef(out -> TranslateJavaSocketActor.props(out, job, project, workspaceDir),
+                                myActorSystem, myStreamMaterializer));
+                break;
+            default:
+                socket = WebSocket.Json.accept(request ->
+                        ActorFlow.actorRef(out -> ErrorSocketActor.props(out, job, project, workspaceDir),
+                                myActorSystem, myStreamMaterializer));
+                break;
         }
 
         return socket;
