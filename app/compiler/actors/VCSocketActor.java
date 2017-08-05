@@ -12,11 +12,8 @@
 package compiler.actors;
 
 import akka.actor.ActorRef;
-import akka.actor.PoisonPill;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import play.libs.Json;
 
 /**
  * <p>This class handles all request for generating VCs.</p>
@@ -74,7 +71,7 @@ public class VCSocketActor extends AbstractSocketActor {
         try {
             // Only deal with Strings
             if (message instanceof String) {
-                JsonNode request = Json.parse((String) message);
+                /*JsonNode request = Json.parse((String) message);
 
                 // Create a JSON Object informing we are starting the job
                 ObjectNode result = Json.newObject();
@@ -91,7 +88,7 @@ public class VCSocketActor extends AbstractSocketActor {
                 myWebSocketOut.tell(result.toString(), self());
 
                 // Close the connection
-                self().tell(PoisonPill.getInstance(), self());
+                self().tell(PoisonPill.getInstance(), self());*/
             }
             else {
                 // Send an error message back to user and close
