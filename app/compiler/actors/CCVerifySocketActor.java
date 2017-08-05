@@ -12,11 +12,8 @@
 package compiler.actors;
 
 import akka.actor.ActorRef;
-import akka.actor.PoisonPill;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import play.libs.Json;
 
 /**
  * <p>This class handles all request for verifying a file.</p>
@@ -72,8 +69,8 @@ public class CCVerifySocketActor extends AbstractSocketActor {
     @Override
     public final void onReceive(Object message) {
         try {
-            // Only deal with Strings
-            if (message instanceof String) {
+            // Only deal with JsonNode
+            if (message instanceof JsonNode) {
                 /*JsonNode request = Json.parse((String) message);
 
                 // Create a JSON Object informing we are starting the job

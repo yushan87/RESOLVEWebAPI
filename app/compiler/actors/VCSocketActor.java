@@ -69,8 +69,8 @@ public class VCSocketActor extends AbstractSocketActor {
     @Override
     public final void onReceive(Object message) {
         try {
-            // Only deal with Strings
-            if (message instanceof String) {
+            // Only deal with JsonNode
+            if (message instanceof JsonNode) {
                 /*JsonNode request = Json.parse((String) message);
 
                 // Create a JSON Object informing we are starting the job

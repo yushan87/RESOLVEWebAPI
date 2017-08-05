@@ -14,7 +14,6 @@ package compiler.actors;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
-import play.libs.Json;
 
 /**
  * <p>This class handles all request for analyzing a RESOLVE file, which is
@@ -72,8 +71,8 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
     @Override
     public final void onReceive(Object message) {
         try {
-            // Only deal with Strings
-            if (message instanceof String) {
+            // Only deal with JsonNode
+            if (message instanceof JsonNode) {
                 /*JsonNode request = Json.parse((String) message);
                 String[] args =
                         { "-main", myWorkspacePath, "-webinterface", "Test.mt" };
