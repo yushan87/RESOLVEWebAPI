@@ -37,7 +37,8 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public AnalyzeSocketActor(ActorRef out, String job, String project, String workspacePath) {
+    public AnalyzeSocketActor(ActorRef out, String job, String project,
+            String workspacePath) {
         super(out, job, project, workspacePath);
     }
 

@@ -55,7 +55,8 @@ public abstract class AbstractSocketActor extends UntypedAbstractActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    protected AbstractSocketActor(ActorRef out, String job, String project, String workspacePath) {
+    protected AbstractSocketActor(ActorRef out, String job, String project,
+            String workspacePath) {
         myJob = job;
         myProject = project;
         myWebSocketOut = out;

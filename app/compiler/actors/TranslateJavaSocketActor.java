@@ -36,7 +36,8 @@ public class TranslateJavaSocketActor extends AbstractSocketActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public TranslateJavaSocketActor(ActorRef out, String job, String project, String workspacePath) {
+    public TranslateJavaSocketActor(ActorRef out, String job, String project,
+            String workspacePath) {
         super(out, job, project, workspacePath);
     }
 

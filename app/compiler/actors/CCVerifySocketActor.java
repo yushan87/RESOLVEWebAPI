@@ -35,7 +35,8 @@ public class CCVerifySocketActor extends AbstractSocketActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public CCVerifySocketActor(ActorRef out, String job, String project, String workspacePath) {
+    public CCVerifySocketActor(ActorRef out, String job, String project,
+            String workspacePath) {
         super(out, job, project, workspacePath);
     }
 
