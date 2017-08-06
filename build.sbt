@@ -9,7 +9,7 @@ scalaVersion := "2.12.2"
 // Scala compiler options
 scalacOptions ++= Seq(
   "-feature", // Shows warnings in detail in the stdout
-  "-language:reflectiveCalls" 
+  "-language:reflectiveCalls"
 )
 
 // Javac compiler options
@@ -40,7 +40,7 @@ routesGenerator := InjectedRoutesGenerator
 headers := headers.value ++ Map(
   "java" -> (
     HeaderPattern.cStyleBlockComment,
-    """|/**
+    """|/*
        | * ---------------------------------
        | * Copyright (c) 2017
        | * RESOLVE Software Research Group
