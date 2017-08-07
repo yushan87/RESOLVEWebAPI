@@ -15,9 +15,25 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
 
+/**
+ * <p>This is the application's main entry point.</p>
+ *
+ * @author Yu-Shan Sun
+ * @version 1.0
+ */
 public class Application extends Controller {
 
-    public Result index() {
+    // ===========================================================
+    // Public Methods
+    // ===========================================================
+
+    /**
+     * <p>This method creates an object that renders the index page
+     * to this application.</p>
+     *
+     * @return An {@link Result} object from rendering the index page.
+     */
+    public final Result index() {
         return ok(index.render("The RESOLVE Web API is currently online."));
     }
 
