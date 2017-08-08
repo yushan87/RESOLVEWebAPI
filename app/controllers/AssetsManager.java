@@ -22,26 +22,26 @@ import play.api.mvc.AnyContent;
  * @author Yu-Shan Sun
  * @version 1.0
  */
-public class Assets {
+public class AssetsManager {
 
-	// ===========================================================
+    // ===========================================================
     // Member Fields
     // ===========================================================
 
-	/** <p>Assets Manager</p> */
+    /** <p>Assets Manager</p> */
     @Inject
     private controllers.Assets myAssets;
 
-	// ===========================================================
+    // ===========================================================
     // Public Methods
     // ===========================================================
 
     /**
      * <p>This method returns the asset located at {@code path}.</p>
      *
-	 * @param path Path where the asset files are located.
-	 * @param file An {@link Asset} file.
-	 *
+     * @param path Path where the asset files are located.
+     * @param file An {@link Asset} file.
+     *
      * @return Result from attempting to retrieve an {@link Asset}.
      */
     public final Action<AnyContent> versioned(String path, Asset file) {
