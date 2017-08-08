@@ -21,7 +21,7 @@ import views.html.index;
  * @author Yu-Shan Sun
  * @version 1.0
  */
-public class Application extends Controller {
+public class HomeController extends Controller {
 
     // ===========================================================
     // Public Methods
