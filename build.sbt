@@ -1,5 +1,3 @@
-import de.heikoseeberger.sbtheader.HeaderPattern
-
 name := "RESOLVEWebAPI"
 
 version := "1.0"
@@ -37,23 +35,19 @@ unmanagedBase := baseDirectory.value / "custom_lib"
 routesGenerator := InjectedRoutesGenerator
 
 // License Headers
-headers := headers.value ++ Map(
-  "java" -> (
-    HeaderPattern.cStyleBlockComment,
-    """|/*
-       | * ---------------------------------
-       | * Copyright (c) 2017
-       | * RESOLVE Software Research Group
-       | * School of Computing
-       | * Clemson University
-       | * All rights reserved.
-       | * ---------------------------------
-       | * This file is subject to the terms and conditions defined in
-       | * file 'LICENSE.txt', which is part of this source code package.
-       | */
-       |""".stripMargin
-  )
-)
+headerMappings := headerMappings.value + (HeaderFileType.java -> HeaderCommentStyle.CStyleBlockComment)
+
+headerLicense := Some(HeaderLicense.Custom(
+  """| ---------------------------------
+     | Copyright (c) 2017
+     | RESOLVE Software Research Group
+     | School of Computing
+     | Clemson University
+     | All rights reserved.
+     | ---------------------------------
+     | This file is subject to the terms and conditions defined in
+     | file 'LICENSE.txt', which is part of this source code package.""".stripMargin
+))
 
 // Java Formatter
 javaFormattingSettingsFilename := "rsrg-format.xml"
