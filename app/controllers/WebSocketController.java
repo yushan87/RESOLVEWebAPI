@@ -34,7 +34,7 @@ import play.mvc.WebSocket;
  * @version 1.0
  */
 @Singleton
-public class RESOLVECompilerAPI extends Controller {
+public class WebSocketController extends Controller {
 
     // ===========================================================
     // Member Fields
@@ -65,8 +65,8 @@ public class RESOLVECompilerAPI extends Controller {
      * @param materializer A factory that makes the streams we create run.
      */
     @Inject
-    public RESOLVECompilerAPI(ActorSystem actorSystem,
-            Materializer materializer, Config config) {
+    public WebSocketController(ActorSystem actorSystem,
+                               Materializer materializer, Config config) {
         myActorSystem = actorSystem;
         myConfiguration = config;
         myStreamMaterializer = materializer;
