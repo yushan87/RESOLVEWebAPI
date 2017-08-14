@@ -1,13 +1,13 @@
 /*
- *  ---------------------------------
- *  Copyright (c) 2017
- *  RESOLVE Software Research Group
- *  School of Computing
- *  Clemson University
- *  All rights reserved.
- *  ---------------------------------
- *  This file is subject to the terms and conditions defined in
- *  file 'LICENSE.txt', which is part of this source code package.
+ * ---------------------------------
+ * Copyright (c) 2017
+ * RESOLVE Software Research Group
+ * School of Computing
+ * Clemson University
+ * All rights reserved.
+ * ---------------------------------
+ * This file is subject to the terms and conditions defined in
+ * file 'LICENSE.txt', which is part of this source code package.
  */
 
 package compiler.actors;
@@ -15,6 +15,7 @@ package compiler.actors;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
+import edu.clemson.cs.rsrg.init.ResolveCompiler;
 
 /**
  * <p>This class handles all request for analyzing a RESOLVE file, which is
@@ -75,12 +76,11 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
         try {
             // Only deal with JsonNode
             if (message instanceof JsonNode) {
-                /*JsonNode request = Json.parse((String) message);
+                /*JsonNode request = Json.parse((String) message); */
                 String[] args =
                         { "-main", myWorkspacePath, "-webinterface", "Test.mt" };
-                TheoryAnalyzeInvoker invoker =
-                        new TheoryAnalyzeInvoker(args, myWebSocketOut);
-                invoker.executeJob(new HashMap<>());*/
+                myCompiler = new ResolveCompiler(args);
+                myCompiler.invokeCompiler();
             }
             else {
                 // Send an error message back to user and close

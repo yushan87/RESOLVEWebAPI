@@ -1,13 +1,13 @@
 /*
- *  ---------------------------------
- *  Copyright (c) 2017
- *  RESOLVE Software Research Group
- *  School of Computing
- *  Clemson University
- *  All rights reserved.
- *  ---------------------------------
- *  This file is subject to the terms and conditions defined in
- *  file 'LICENSE.txt', which is part of this source code package.
+ * ---------------------------------
+ * Copyright (c) 2017
+ * RESOLVE Software Research Group
+ * School of Computing
+ * Clemson University
+ * All rights reserved.
+ * ---------------------------------
+ * This file is subject to the terms and conditions defined in
+ * file 'LICENSE.txt', which is part of this source code package.
  */
 
 package controllers;
@@ -66,7 +66,7 @@ public class WebSocketController extends Controller {
      */
     @Inject
     public WebSocketController(ActorSystem actorSystem,
-                               Materializer materializer, Config config) {
+            Materializer materializer, Config config) {
         myActorSystem = actorSystem;
         myConfiguration = config;
         myStreamMaterializer = materializer;
