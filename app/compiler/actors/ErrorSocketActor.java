@@ -47,7 +47,7 @@ public class ErrorSocketActor extends AbstractSocketActor {
         // Create the error JSON Object
         ObjectNode result = Json.newObject();
         result.put("status", "error");
-        result.put("msg", "Undefined job request");
+        result.put("msg", "Undefined job request: " + myJob);
 
         // Send the message through the websocket
         myWebSocketOut.tell(result.toString(), self());
