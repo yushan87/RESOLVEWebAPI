@@ -88,7 +88,7 @@ public class WebSocketController extends Controller {
     public final WebSocket socket(String job, String project) {
         WebSocket socket;
         String lowercaseJob = job.toLowerCase();
-        String workspaceDir = myConfiguration.getString("workingdir");
+        String workspaceDir = myConfiguration.getString("webapi.workingdir");
 
         switch (lowercaseJob) {
             case "analyze":
