@@ -15,7 +15,11 @@ package compiler.actors;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.clemson.cs.rsrg.init.ResolveCompiler;
+import play.libs.Json;
+
+import java.io.File;
 
 /**
  * <p>This class handles all request for analyzing a RESOLVE file, which is
@@ -77,10 +81,26 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
             // Only deal with JsonNode
             if (message instanceof JsonNode) {
                 /*JsonNode request = Json.parse((String) message); */
+                String filePath = "Integer_Theory.mt";
+                String workspacePath =
+                        myWorkspacePath + "RESOLVE" + File.separator + "Main"
+                                + File.separator + "Math_Units"
+                                + File.separator;
                 String[] args =
-                        { "-main", myWorkspacePath, "-webinterface", "Test.mt" };
+                        { "-workspaceDir", workspacePath, "-noFileOutput",
+                                filePath };
                 myCompiler = new ResolveCompiler(args);
                 myCompiler.invokeCompiler();
+
+                // Create a JSON Object that indicates we are done analyzing
+                // the specified file.
+                ObjectNode result = Json.newObject();
+                result.put("status", "complete");
+                result.put("job", myJob);
+                result.put("result", "");
+
+                // Send the message through the websocket
+                myWebSocketOut.tell(result, self());
             }
             else {
                 // Send an error message back to user and close
