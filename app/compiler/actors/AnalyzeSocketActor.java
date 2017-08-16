@@ -80,7 +80,16 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
         try {
             // Only deal with JsonNode
             if (message instanceof JsonNode) {
-                /*JsonNode request = Json.parse((String) message); */
+                // Create a JSON Object that indicates we are done analyzing
+                // the specified file.
+                ObjectNode info = Json.newObject();
+                info.put("status", "info");
+                info.put("msg", "Launching compiler job: " + myJob);
+                
+                // Send the message through the websocket
+                myWebSocketOut.tell(info, self());
+
+                // Invoke compiler
                 String filePath = "Integer_Theory.mt";
                 String workspacePath =
                         myWorkspacePath + "RESOLVE" + File.separator + "Main"
