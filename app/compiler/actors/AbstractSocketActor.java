@@ -85,7 +85,7 @@ public abstract class AbstractSocketActor extends UntypedAbstractActor {
         result.put("msg", "Error while parsing request as a JSON Object!");
 
         // Send the message through the websocket
-        myWebSocketOut.tell(result.toString(), self());
+        myWebSocketOut.tell(result, self());
 
         // Close the connection
         self().tell(PoisonPill.getInstance(), self());

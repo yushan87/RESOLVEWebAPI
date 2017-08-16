@@ -50,7 +50,7 @@ public class ErrorSocketActor extends AbstractSocketActor {
         result.put("msg", "Undefined job request: " + myJob);
 
         // Send the message through the websocket
-        myWebSocketOut.tell(result.toString(), self());
+        myWebSocketOut.tell(result, self());
 
         // Close the connection
         self().tell(PoisonPill.getInstance(), self());
