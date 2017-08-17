@@ -16,10 +16,15 @@ import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import compiler.impl.WebSocketStatusHandler;
 import edu.clemson.cs.rsrg.init.ResolveCompiler;
+import edu.clemson.cs.rsrg.init.file.ResolveFile;
+import edu.clemson.cs.rsrg.init.output.FileOutputListener;
+import edu.clemson.cs.rsrg.init.output.OutputListener;
 import play.libs.Json;
-
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>This class handles all request for analyzing a RESOLVE file, which is
@@ -89,7 +94,7 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
                 // Send the message through the websocket
                 myWebSocketOut.tell(info, self());
 
-                // Invoke compiler
+                // Setup items to be passed to the compiler
                 String filePath = "Integer_Theory.mt";
                 String workspacePath =
                         myWorkspacePath + "RESOLVE" + File.separator + "Main"
@@ -98,18 +103,32 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
                 String[] args =
                         { "-workspaceDir", workspacePath, "-noFileOutput",
                                 filePath };
+
+                Map<String, ResolveFile> filesMap = new HashMap<>();
+                WebSocketStatusHandler statusHandler =
+                        new WebSocketStatusHandler(self(), myWebSocketOut);
+                OutputListener outputListener =
+                        new FileOutputListener(statusHandler);
+
+                // Invoke the compiler
                 myCompiler = new ResolveCompiler(args);
-                myCompiler.invokeCompiler();
+                myCompiler.invokeCompiler(filesMap, statusHandler,
+                        outputListener);
 
                 // Create a JSON Object that indicates we are done analyzing
-                // the specified file.
-                ObjectNode result = Json.newObject();
-                result.put("status", "complete");
-                result.put("job", myJob);
-                result.put("result", "");
+                // the specified file if there are no error messages.
+                if (!statusHandler.hasError()) {
+                    ObjectNode result = Json.newObject();
+                    result.put("status", "complete");
+                    result.put("job", myJob);
+                    result.put("result", "");
 
-                // Send the message through the websocket
-                myWebSocketOut.tell(result, self());
+                    // Send the message through the websocket
+                    myWebSocketOut.tell(result, self());
+                }
+
+                // Close the connection
+                //self().tell(PoisonPill.getInstance(), self());
             }
             else {
                 // Send an error message back to user and close
