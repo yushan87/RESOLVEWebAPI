@@ -10,32 +10,27 @@
  *  file 'LICENSE.txt', which is part of this source code package.
  */
 
-package controllers;
-
-import play.mvc.Controller;
-import play.mvc.Result;
-import views.html.index;
+package compiler.impl;
 
 /**
- * <p>This is the application's main entry point.</p>
+ * <p>A listener that contains methods for retrieving compilation
+ * results from the compiler and outputs as messages to the client.</p>
  *
  * @author Yu-Shan Sun
  * @version 1.0
  */
-public class HomeController extends Controller {
+public class WebOutputListener {
+
+    // ===========================================================
+    // Member Fields
+    // ===========================================================
+
+    // ===========================================================
+    // Constructors
+    // ===========================================================
 
     // ===========================================================
     // Public Methods
     // ===========================================================
-
-    /**
-     * <p>This method creates an object that renders the index page
-     * to this application.</p>
-     *
-     * @return An {@link Result} object from rendering the index page.
-     */
-    public final Result index() {
-        return ok(index.render("The RESOLVE Web API is currently online."));
-    }
 
 }

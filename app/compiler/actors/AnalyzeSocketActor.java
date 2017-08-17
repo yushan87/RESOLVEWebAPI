@@ -85,7 +85,7 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
                 ObjectNode info = Json.newObject();
                 info.put("status", "info");
                 info.put("msg", "Launching compiler job: " + myJob);
-                
+
                 // Send the message through the websocket
                 myWebSocketOut.tell(info, self());
 
