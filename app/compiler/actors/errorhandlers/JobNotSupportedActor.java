@@ -10,12 +10,13 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-package compiler.actors;
+package compiler.actors.errorhandlers;
 
 import akka.actor.ActorRef;
 import akka.actor.PoisonPill;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import compiler.actors.AbstractCompilerActor;
 import play.libs.Json;
 
 /**
@@ -25,14 +26,14 @@ import play.libs.Json;
  * @author Yu-Shan Sun
  * @version 1.0
  */
-public class ErrorSocketActor extends AbstractSocketActor {
+public class JobNotSupportedActor extends AbstractCompilerActor {
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
     /**
-     * <p>This creates a new actor for handling erroneous
+     * <p>This creates a new actor for handling unsupported
      * compiler jobs.</p>
      *
      * @param out Outgoing end of the stream.
@@ -40,8 +41,7 @@ public class ErrorSocketActor extends AbstractSocketActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public ErrorSocketActor(ActorRef out, String job, String project,
-            String workspacePath) {
+    public JobNotSupportedActor(ActorRef out, String job, String project, String workspacePath) {
         super(out, job, project, workspacePath);
 
         // Create the error JSON Object
@@ -69,12 +69,12 @@ public class ErrorSocketActor extends AbstractSocketActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      *
-     * @return An {@link ErrorSocketActor}.
+     * @return An {@link JobNotSupportedActor}.
      */
     public static Props props(ActorRef out, String job, String project, String workspacePath) {
         // https://doc.akka.io/docs/akka/current//actors.html
-        return Props.create(ErrorSocketActor.class,
-                () -> new ErrorSocketActor(out, job, project, workspacePath));
+        return Props.create(JobNotSupportedActor.class,
+                () -> new JobNotSupportedActor(out, job, project, workspacePath));
     }
 
     /**

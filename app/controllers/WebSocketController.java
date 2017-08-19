@@ -15,7 +15,8 @@ package controllers;
 import akka.actor.ActorSystem;
 import akka.stream.Materializer;
 import com.typesafe.config.Config;
-import compiler.actors.*;
+import compiler.actors.errorhandlers.*;
+import compiler.actors.invokers.*;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.slf4j.Logger;
@@ -93,32 +94,32 @@ public class WebSocketController extends Controller {
         switch (lowercaseJob) {
             case "analyze":
                 socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> AnalyzeSocketActor.props(out, job, project, workspaceDir),
+                        ActorFlow.actorRef(out -> AnalyzeInvokerActor.props(out, job, project, workspaceDir),
                                 myActorSystem, myStreamMaterializer));
                 break;
             case "buildjar":
                 socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> JarSocketActor.props(out, job, project, workspaceDir),
+                        ActorFlow.actorRef(out -> JarInvokerActor.props(out, job, project, workspaceDir),
                                 myActorSystem, myStreamMaterializer));
                 break;
             case "ccverify":
                 socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> CCVerifySocketActor.props(out, job, project, workspaceDir),
+                        ActorFlow.actorRef(out -> CCVerifyInvokerActor.props(out, job, project, workspaceDir),
                                 myActorSystem, myStreamMaterializer));
                 break;
             case "genvcs":
                 socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> VCSocketActor.props(out, job, project, workspaceDir),
+                        ActorFlow.actorRef(out -> VCInvokerActor.props(out, job, project, workspaceDir),
                                 myActorSystem, myStreamMaterializer));
                 break;
             case "translatejava":
                 socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> TranslateJavaSocketActor.props(out, job, project, workspaceDir),
+                        ActorFlow.actorRef(out -> TranslateJavaInvokerActor.props(out, job, project, workspaceDir),
                                 myActorSystem, myStreamMaterializer));
                 break;
             default:
                 socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> ErrorSocketActor.props(out, job, project, workspaceDir),
+                        ActorFlow.actorRef(out -> JobNotSupportedActor.props(out, job, project, workspaceDir),
                                 myActorSystem, myStreamMaterializer));
                 break;
         }

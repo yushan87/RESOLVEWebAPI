@@ -10,35 +10,34 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-package compiler.actors;
+package compiler.actors.invokers;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
+import compiler.actors.AbstractCompilerActor;
 
 /**
- * <p>This class handles all request for creating an executable jar file.</p>
+ * <p>This class handles all request for verifying a file.</p>
  *
  * @author Yu-Shan Sun
  * @version 1.0
  */
-public class JarSocketActor extends AbstractSocketActor {
+public class CCVerifyInvokerActor extends AbstractCompilerActor {
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
     /**
-     * <p>This creates a new compiler job for creating an executable
-     * jar file.</p>
+     * <p>This creates a new compiler job for verifying a file.</p>
      *
      * @param out Outgoing end of the stream.
      * @param job Name of the job to be executed.
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public JarSocketActor(ActorRef out, String job, String project,
-            String workspacePath) {
+    public CCVerifyInvokerActor(ActorRef out, String job, String project, String workspacePath) {
         super(out, job, project, workspacePath);
     }
 
@@ -55,12 +54,12 @@ public class JarSocketActor extends AbstractSocketActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      *
-     * @return A {@link JarSocketActor}.
+     * @return A {@link CCVerifyInvokerActor}.
      */
     public static Props props(ActorRef out, String job, String project, String workspacePath) {
         // https://doc.akka.io/docs/akka/current//actors.html
-        return Props.create(JarSocketActor.class,
-                () -> new JarSocketActor(out, job, project, workspacePath));
+        return Props.create(CCVerifyInvokerActor.class,
+                () -> new CCVerifyInvokerActor(out, job, project, workspacePath));
     }
 
     /**

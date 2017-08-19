@@ -10,34 +10,35 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-package compiler.actors;
+package compiler.actors.invokers;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
+import compiler.actors.AbstractCompilerActor;
 
 /**
- * <p>This class handles all request for generating VCs.</p>
+ * <p>This class handles all request for creating an executable jar file.</p>
  *
  * @author Yu-Shan Sun
  * @version 1.0
  */
-public class VCSocketActor extends AbstractSocketActor {
+public class JarInvokerActor extends AbstractCompilerActor {
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
     /**
-     * <p>This creates a new compiler job for generating VCs.</p>
+     * <p>This creates a new compiler job for creating an executable
+     * jar file.</p>
      *
      * @param out Outgoing end of the stream.
      * @param job Name of the job to be executed.
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public VCSocketActor(ActorRef out, String job, String project,
-            String workspacePath) {
+    public JarInvokerActor(ActorRef out, String job, String project, String workspacePath) {
         super(out, job, project, workspacePath);
     }
 
@@ -54,12 +55,12 @@ public class VCSocketActor extends AbstractSocketActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      *
-     * @return A {@link VCSocketActor}.
+     * @return A {@link JarInvokerActor}.
      */
     public static Props props(ActorRef out, String job, String project, String workspacePath) {
         // https://doc.akka.io/docs/akka/current//actors.html
-        return Props.create(VCSocketActor.class,
-                () -> new VCSocketActor(out, job, project, workspacePath));
+        return Props.create(JarInvokerActor.class,
+                () -> new JarInvokerActor(out, job, project, workspacePath));
     }
 
     /**

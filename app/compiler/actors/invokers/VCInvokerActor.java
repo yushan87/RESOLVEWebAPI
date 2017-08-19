@@ -10,34 +10,34 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-package compiler.actors;
+package compiler.actors.invokers;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
+import compiler.actors.AbstractCompilerActor;
 
 /**
- * <p>This class handles all request for verifying a file.</p>
+ * <p>This class handles all request for generating VCs.</p>
  *
  * @author Yu-Shan Sun
  * @version 1.0
  */
-public class CCVerifySocketActor extends AbstractSocketActor {
+public class VCInvokerActor extends AbstractCompilerActor {
 
     // ===========================================================
     // Constructors
     // ===========================================================
 
     /**
-     * <p>This creates a new compiler job for verifying a file.</p>
+     * <p>This creates a new compiler job for generating VCs.</p>
      *
      * @param out Outgoing end of the stream.
      * @param job Name of the job to be executed.
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public CCVerifySocketActor(ActorRef out, String job, String project,
-            String workspacePath) {
+    public VCInvokerActor(ActorRef out, String job, String project, String workspacePath) {
         super(out, job, project, workspacePath);
     }
 
@@ -54,12 +54,12 @@ public class CCVerifySocketActor extends AbstractSocketActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      *
-     * @return A {@link CCVerifySocketActor}.
+     * @return A {@link VCInvokerActor}.
      */
     public static Props props(ActorRef out, String job, String project, String workspacePath) {
         // https://doc.akka.io/docs/akka/current//actors.html
-        return Props.create(CCVerifySocketActor.class,
-                () -> new CCVerifySocketActor(out, job, project, workspacePath));
+        return Props.create(VCInvokerActor.class,
+                () -> new VCInvokerActor(out, job, project, workspacePath));
     }
 
     /**

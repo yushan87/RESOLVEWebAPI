@@ -21,12 +21,12 @@ import play.libs.Json;
 
 /**
  * <p>This is the abstract base class for all the {@code Actors}
- * that handle the RESOLVE compiler invocation.</p>
+ * that handle the RESOLVE compiler invocation or any error handlers.</p>
  *
  * @author Yu-Shan Sun
  * @version 1.0
  */
-public abstract class AbstractSocketActor extends UntypedAbstractActor {
+public abstract class AbstractCompilerActor extends UntypedAbstractActor {
 
     // ===========================================================
     // Member Fields
@@ -53,15 +53,14 @@ public abstract class AbstractSocketActor extends UntypedAbstractActor {
 
     /**
      * <p>An helper constructor that stores all common objects for
-     * classes that inherits from {@link AbstractSocketActor}.</p>
+     * classes that inherits from {@link AbstractCompilerActor}.</p>
      *
      * @param out Outgoing end of the stream.
      * @param job Name of the job to be executed.
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    protected AbstractSocketActor(ActorRef out, String job, String project,
-            String workspacePath) {
+    protected AbstractCompilerActor(ActorRef out, String job, String project, String workspacePath) {
         myJob = job;
         myProject = project;
         myWebSocketOut = out;

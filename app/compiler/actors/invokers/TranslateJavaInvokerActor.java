@@ -10,11 +10,12 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-package compiler.actors;
+package compiler.actors.invokers;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
+import compiler.actors.AbstractCompilerActor;
 
 /**
  * <p>This class handles all request for translating a file to Java.</p>
@@ -22,7 +23,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  * @author Yu-Shan Sun
  * @version 1.0
  */
-public class TranslateJavaSocketActor extends AbstractSocketActor {
+public class TranslateJavaInvokerActor extends AbstractCompilerActor {
 
     // ===========================================================
     // Constructors
@@ -37,8 +38,7 @@ public class TranslateJavaSocketActor extends AbstractSocketActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public TranslateJavaSocketActor(ActorRef out, String job, String project,
-            String workspacePath) {
+    public TranslateJavaInvokerActor(ActorRef out, String job, String project, String workspacePath) {
         super(out, job, project, workspacePath);
     }
 
@@ -55,12 +55,12 @@ public class TranslateJavaSocketActor extends AbstractSocketActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      *
-     * @return A {@link TranslateJavaSocketActor}.
+     * @return A {@link TranslateJavaInvokerActor}.
      */
     public static Props props(ActorRef out, String job, String project, String workspacePath) {
         // https://doc.akka.io/docs/akka/current//actors.html
-        return Props.create(TranslateJavaSocketActor.class,
-                () -> new TranslateJavaSocketActor(out, job, project, workspacePath));
+        return Props.create(TranslateJavaInvokerActor.class,
+                () -> new TranslateJavaInvokerActor(out, job, project, workspacePath));
     }
 
     /**

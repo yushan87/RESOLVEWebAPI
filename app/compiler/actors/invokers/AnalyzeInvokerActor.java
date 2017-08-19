@@ -10,12 +10,13 @@
  * file 'LICENSE.txt', which is part of this source code package.
  */
 
-package compiler.actors;
+package compiler.actors.invokers;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import compiler.actors.AbstractCompilerActor;
 import compiler.impl.WebSocketStatusHandler;
 import edu.clemson.cs.rsrg.init.ResolveCompiler;
 import edu.clemson.cs.rsrg.init.file.ResolveFile;
@@ -34,7 +35,7 @@ import java.util.Map;
  * @author Yu-Shan Sun
  * @version 1.0
  */
-public class AnalyzeSocketActor extends AbstractSocketActor {
+public class AnalyzeInvokerActor extends AbstractCompilerActor {
 
     // ===========================================================
     // Constructors
@@ -48,8 +49,7 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public AnalyzeSocketActor(ActorRef out, String job, String project,
-            String workspacePath) {
+    public AnalyzeInvokerActor(ActorRef out, String job, String project, String workspacePath) {
         super(out, job, project, workspacePath);
     }
 
@@ -66,12 +66,12 @@ public class AnalyzeSocketActor extends AbstractSocketActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      *
-     * @return An {@link AnalyzeSocketActor}.
+     * @return An {@link AnalyzeInvokerActor}.
      */
     public static Props props(ActorRef out, String job, String project, String workspacePath) {
         // https://doc.akka.io/docs/akka/current//actors.html
-        return Props.create(AnalyzeSocketActor.class,
-                () -> new AnalyzeSocketActor(out, job, project, workspacePath));
+        return Props.create(AnalyzeInvokerActor.class,
+                () -> new AnalyzeInvokerActor(out, job, project, workspacePath));
     }
 
     /**
