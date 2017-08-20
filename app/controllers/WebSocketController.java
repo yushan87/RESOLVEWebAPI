@@ -54,6 +54,12 @@ public class WebSocketController extends Controller {
     /** <p>A factory that makes the streams we create run.</p> */
     private final Materializer myStreamMaterializer;
 
+    /**
+     * <p>The directory where all the {@code RESOLVE} workspaces
+     * are located.</p>
+     */
+    private final String myWorkspaceDir;
+
     // ===========================================================
     // Constructors
     // ===========================================================
@@ -71,6 +77,7 @@ public class WebSocketController extends Controller {
         myActorSystem = actorSystem;
         myConfiguration = config;
         myStreamMaterializer = materializer;
+        myWorkspaceDir = myConfiguration.getString("webapi.workingdir");
     }
 
     // ===========================================================
@@ -89,37 +96,36 @@ public class WebSocketController extends Controller {
     public final WebSocket socket(String job, String project) {
         WebSocket socket;
         String lowercaseJob = job.toLowerCase();
-        String workspaceDir = myConfiguration.getString("webapi.workingdir");
 
         switch (lowercaseJob) {
             case "analyze":
                 socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> AnalyzeInvokerActor.props(out, job, project, workspaceDir),
+                        ActorFlow.actorRef(out -> AnalyzeInvokerActor.props(out, job, project, myWorkspaceDir),
                                 myActorSystem, myStreamMaterializer));
                 break;
             case "buildjar":
                 socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> JarInvokerActor.props(out, job, project, workspaceDir),
+                        ActorFlow.actorRef(out -> JarInvokerActor.props(out, job, project, myWorkspaceDir),
                                 myActorSystem, myStreamMaterializer));
                 break;
             case "ccverify":
                 socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> CCVerifyInvokerActor.props(out, job, project, workspaceDir),
+                        ActorFlow.actorRef(out -> CCVerifyInvokerActor.props(out, job, project, myWorkspaceDir),
                                 myActorSystem, myStreamMaterializer));
                 break;
             case "genvcs":
                 socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> VCInvokerActor.props(out, job, project, workspaceDir),
+                        ActorFlow.actorRef(out -> VCInvokerActor.props(out, job, project, myWorkspaceDir),
                                 myActorSystem, myStreamMaterializer));
                 break;
             case "translatejava":
                 socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> TranslateJavaInvokerActor.props(out, job, project, workspaceDir),
+                        ActorFlow.actorRef(out -> TranslateJavaInvokerActor.props(out, job, project, myWorkspaceDir),
                                 myActorSystem, myStreamMaterializer));
                 break;
             default:
                 socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> JobNotSupportedActor.props(out, job, project, workspaceDir),
+                        ActorFlow.actorRef(out -> JobNotSupportedActor.props(out, job, project, myWorkspaceDir),
                                 myActorSystem, myStreamMaterializer));
                 break;
         }
