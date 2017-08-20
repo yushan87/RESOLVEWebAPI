@@ -17,6 +17,7 @@ import akka.actor.PoisonPill;
 import akka.actor.UntypedAbstractActor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.clemson.cs.rsrg.init.ResolveCompiler;
+import org.slf4j.Logger;
 import play.libs.Json;
 
 /**
@@ -31,6 +32,9 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     // ===========================================================
     // Member Fields
     // ===========================================================
+
+    /** <p>Logger for Akka related items</p> */
+    private final Logger myAkkaLogger;
 
     /** <p>This is the entry point for the RESOLVE compiler.</p> */
     protected ResolveCompiler myCompiler;
@@ -61,6 +65,7 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
     protected AbstractCompilerActor(ActorRef out, String job, String project, String workspacePath) {
+        myAkkaLogger = org.slf4j.LoggerFactory.getLogger("akka");
         myJob = job;
         myProject = project;
         myWebSocketOut = out;
@@ -72,7 +77,8 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     // ===========================================================
 
     /**
-     * <p>This method overrides overrides the default {@code unhandled} method implementation.</p>
+     * <p>This method overrides overrides the default {@code unhandled}
+     * method implementation.</p>
      *
      * @param message Message to be displayed.
      */
@@ -82,6 +88,33 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
         ObjectNode result = Json.newObject();
         result.put("status", "error");
         result.put("msg", "Error while parsing request as a JSON Object!");
+
+        // Send the message through the websocket
+        myWebSocketOut.tell(result, self());
+
+        // Close the connection
+        self().tell(PoisonPill.getInstance(), self());
+    }
+
+    // ===========================================================
+    // Protected Methods
+    // ===========================================================
+
+    /**
+     * <p>An helper method that notifies the user that some compiler
+     * exception occurred.</p>
+     *
+     * @param e The {@link Exception} found while invoking
+     *          the {@code RESOLVE} compiler.
+     */
+    protected final void notifyCompilerException(Exception e) {
+        // Log this exception.
+        myAkkaLogger.error("Compiler Exception: ", e);
+
+        // Create the error JSON Object
+        ObjectNode result = Json.newObject();
+        result.put("status", "error");
+        result.put("msg", "Unknown compiler exception. Please contact the administrators for support!");
 
         // Send the message through the websocket
         myWebSocketOut.tell(result, self());

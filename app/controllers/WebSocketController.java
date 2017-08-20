@@ -19,7 +19,6 @@ import compiler.actors.errorhandlers.*;
 import compiler.actors.invokers.*;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import org.slf4j.Logger;
 import play.libs.streams.ActorFlow;
 import play.mvc.Controller;
 import play.mvc.WebSocket;
@@ -43,10 +42,6 @@ public class WebSocketController extends Controller {
 
     /** <p>An actor system that keeps track of all user requests</p> */
     private final ActorSystem myActorSystem;
-
-    /** <p>Logger for Akka related items</p> */
-    private final Logger myAkkaLogger = org.slf4j.LoggerFactory
-            .getLogger("akka");
 
     /** <p>Class that retrieves configurations</p> */
     private final Config myConfiguration;

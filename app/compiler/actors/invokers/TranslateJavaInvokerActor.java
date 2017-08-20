@@ -99,10 +99,9 @@ public class TranslateJavaInvokerActor extends AbstractCompilerActor {
                 unhandled(message);
             }
         }
-        catch (RuntimeException rte) {
-            // Send an error message back to user and close
-            // socket connection for all invalid JSON strings.
-            unhandled(message);
+        catch (Exception e) {
+            // Notify the user that some kind of exception occurred.
+            notifyCompilerException(e);
         }
     }
 
