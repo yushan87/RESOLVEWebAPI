@@ -17,10 +17,10 @@ import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import compiler.actors.AbstractCompilerActor;
+import compiler.impl.WebOutputListener;
 import compiler.impl.WebSocketStatusHandler;
 import edu.clemson.cs.rsrg.init.ResolveCompiler;
 import edu.clemson.cs.rsrg.init.file.ResolveFile;
-import edu.clemson.cs.rsrg.init.output.FileOutputListener;
 import edu.clemson.cs.rsrg.init.output.OutputListener;
 import play.libs.Json;
 import java.io.File;
@@ -109,7 +109,7 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
                 WebSocketStatusHandler statusHandler =
                         new WebSocketStatusHandler(self(), myWebSocketOut);
                 OutputListener outputListener =
-                        new FileOutputListener(statusHandler);
+                        new WebOutputListener(statusHandler);
 
                 // Invoke the compiler
                 myCompiler = new ResolveCompiler(args);
