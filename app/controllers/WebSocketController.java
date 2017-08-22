@@ -17,6 +17,9 @@ import akka.stream.Materializer;
 import com.typesafe.config.Config;
 import compiler.actors.errorhandlers.*;
 import compiler.actors.invokers.*;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import play.libs.streams.ActorFlow;
@@ -90,41 +93,75 @@ public class WebSocketController extends Controller {
      */
     public final WebSocket socket(String job, String project) {
         WebSocket socket;
-        String lowercaseJob = job.toLowerCase();
 
-        switch (lowercaseJob) {
-            case "analyze":
-                socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> AnalyzeInvokerActor.props(out, job, project, myWorkspaceDir),
-                                myActorSystem, myStreamMaterializer));
-                break;
-            case "buildjar":
-                socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> JarInvokerActor.props(out, job, project, myWorkspaceDir),
-                                myActorSystem, myStreamMaterializer));
-                break;
-            case "ccverify":
-                socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> CCVerifyInvokerActor.props(out, job, project, myWorkspaceDir),
-                                myActorSystem, myStreamMaterializer));
-                break;
-            case "genvcs":
-                socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> VCInvokerActor.props(out, job, project, myWorkspaceDir),
-                                myActorSystem, myStreamMaterializer));
-                break;
-            case "translatejava":
-                socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> TranslateJavaInvokerActor.props(out, job, project, myWorkspaceDir),
-                                myActorSystem, myStreamMaterializer));
-                break;
-            default:
-                socket = WebSocket.Json.accept(request ->
-                        ActorFlow.actorRef(out -> JobNotSupportedActor.props(out, job, project, myWorkspaceDir),
-                                myActorSystem, myStreamMaterializer));
-                break;
+        // Check to see if that project folder exists
+        if (projectExists(project)) {
+            // Create the invokers to handle the specified job request.
+            String lowercaseJob = job.toLowerCase();
+            switch (lowercaseJob) {
+                case "analyze":
+                    socket = WebSocket.Json.accept(request ->
+                            ActorFlow.actorRef(out ->
+                                            AnalyzeInvokerActor.props(out, job, project, myWorkspaceDir),
+                                    myActorSystem, myStreamMaterializer));
+                    break;
+                case "buildjar":
+                    socket = WebSocket.Json.accept(request ->
+                            ActorFlow.actorRef(out ->
+                                            JarInvokerActor.props(out, job, project, myWorkspaceDir),
+                                    myActorSystem, myStreamMaterializer));
+                    break;
+                case "ccverify":
+                    socket = WebSocket.Json.accept(request ->
+                            ActorFlow.actorRef(out ->
+                                            CCVerifyInvokerActor.props(out, job, project, myWorkspaceDir),
+                                    myActorSystem, myStreamMaterializer));
+                    break;
+                case "genvcs":
+                    socket = WebSocket.Json.accept(request ->
+                            ActorFlow.actorRef(out ->
+                                            VCInvokerActor.props(out, job, project, myWorkspaceDir),
+                                    myActorSystem, myStreamMaterializer));
+                    break;
+                case "translatejava":
+                    socket = WebSocket.Json.accept(request ->
+                            ActorFlow.actorRef(out ->
+                                            TranslateJavaInvokerActor.props(out, job, project, myWorkspaceDir),
+                                    myActorSystem, myStreamMaterializer));
+                    break;
+                default:
+                    socket = WebSocket.Json.accept(request ->
+                            ActorFlow.actorRef(out ->
+                                            JobNotSupportedActor.props(out, job, project, myWorkspaceDir),
+                                    myActorSystem, myStreamMaterializer));
+                    break;
+            }
+        }
+        else {
+            socket = WebSocket.Json.accept(request ->
+                    ActorFlow.actorRef(out ->
+                                    ProjectNotFoundActor.props(out, job, project, myWorkspaceDir),
+                            myActorSystem, myStreamMaterializer));
         }
 
         return socket;
+    }
+
+    // ===========================================================
+    // Private Methods
+    // ===========================================================
+
+    /**
+     * <p>An helper method that checks if the project name specified by
+     * the user's request is valid.</p>
+     *
+     * @param project RESOLVE project folder to be used.
+     *
+     * @return {@code true} if a directory exists with that name,
+     * {@code false} otherwise.
+     */
+    private boolean projectExists(String project) {
+        return Files.exists(new File(myWorkspaceDir + File.separator + project).toPath(),
+                LinkOption.NOFOLLOW_LINKS);
     }
 }
