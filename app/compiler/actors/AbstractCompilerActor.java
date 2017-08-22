@@ -64,7 +64,8 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    protected AbstractCompilerActor(ActorRef out, String job, String project, String workspacePath) {
+    protected AbstractCompilerActor(ActorRef out, String job, String project,
+            String workspacePath) {
         myAkkaLogger = org.slf4j.LoggerFactory.getLogger("akka");
         myJob = job;
         myProject = project;
@@ -114,7 +115,8 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
         // Create the error JSON Object
         ObjectNode result = Json.newObject();
         result.put("status", "error");
-        result.put("msg", "Unknown compiler exception. Please contact the administrators for support!");
+        result.put("msg",
+                "Unknown compiler exception. Please contact the administrators for support!");
 
         // Send the message through the websocket
         myWebSocketOut.tell(result, self());

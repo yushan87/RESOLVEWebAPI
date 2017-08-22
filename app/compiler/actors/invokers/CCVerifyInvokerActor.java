@@ -37,7 +37,8 @@ public class CCVerifyInvokerActor extends AbstractCompilerActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public CCVerifyInvokerActor(ActorRef out, String job, String project, String workspacePath) {
+    public CCVerifyInvokerActor(ActorRef out, String job, String project,
+            String workspacePath) {
         super(out, job, project, workspacePath);
     }
 

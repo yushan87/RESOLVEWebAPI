@@ -38,7 +38,8 @@ public class TranslateJavaInvokerActor extends AbstractCompilerActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public TranslateJavaInvokerActor(ActorRef out, String job, String project, String workspacePath) {
+    public TranslateJavaInvokerActor(ActorRef out, String job, String project,
+            String workspacePath) {
         super(out, job, project, workspacePath);
     }
 

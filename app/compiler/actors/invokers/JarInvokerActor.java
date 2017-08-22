@@ -38,7 +38,8 @@ public class JarInvokerActor extends AbstractCompilerActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public JarInvokerActor(ActorRef out, String job, String project, String workspacePath) {
+    public JarInvokerActor(ActorRef out, String job, String project,
+            String workspacePath) {
         super(out, job, project, workspacePath);
     }
 
