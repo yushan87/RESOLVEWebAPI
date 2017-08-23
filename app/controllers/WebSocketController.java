@@ -20,6 +20,8 @@ import compiler.actors.invokers.*;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import play.libs.streams.ActorFlow;
@@ -91,7 +93,7 @@ public class WebSocketController extends Controller {
      *
      * @return A {@link WebSocket} object.
      */
-    public final WebSocket socket(String job, String project) {
+    public final CompletionStage<WebSocket> socket(String job, String project) {
         WebSocket socket;
 
         // Check to see if that project folder exists
@@ -144,7 +146,7 @@ public class WebSocketController extends Controller {
                             myActorSystem, myStreamMaterializer));
         }
 
-        return socket;
+        return CompletableFuture.completedFuture(socket);
     }
 
     // ===========================================================
