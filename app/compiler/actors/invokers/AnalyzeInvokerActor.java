@@ -86,14 +86,8 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
         try {
             // Only deal with JsonNode
             if (message instanceof JsonNode) {
-                // Create a JSON Object that indicates we are done analyzing
-                // the specified file.
-                ObjectNode info = Json.newObject();
-                info.put("status", "info");
-                info.put("msg", "Launching compiler job: " + myJob);
-
-                // Send the message through the websocket
-                myWebSocketOut.tell(info, self());
+                // Send message to user about launching compiler job
+                notifyLaunchingCompilerJob();
 
                 // Setup items to be passed to the compiler
                 String filePath = "Integer_Theory.mt";

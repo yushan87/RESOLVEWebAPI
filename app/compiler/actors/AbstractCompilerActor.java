@@ -126,6 +126,21 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
         self().tell(PoisonPill.getInstance(), self());
     }
 
+    /**
+     * <p>An helper method that notifies the user that we are
+     * launching the compiler.</p>
+     */
+    protected final void notifyLaunchingCompilerJob() {
+        // Create a JSON Object that indicates we are launching
+        // the specified compiler job.
+        ObjectNode info = Json.newObject();
+        info.put("status", "info");
+        info.put("msg", "Launching compiler job: " + myJob);
+
+        // Send the message through the websocket
+        myWebSocketOut.tell(info, self());
+    }
+
     // ===========================================================
     // Private Methods
     // ===========================================================
