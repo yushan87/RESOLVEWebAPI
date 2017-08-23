@@ -16,14 +16,19 @@ import akka.actor.ActorRef;
 import akka.actor.PoisonPill;
 import akka.actor.UntypedAbstractActor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import compiler.impl.WebOutputListener;
+import compiler.impl.WebSocketStatusHandler;
 import edu.clemson.cs.rsrg.init.ResolveCompiler;
+import edu.clemson.cs.rsrg.init.file.ResolveFile;
+import edu.clemson.cs.rsrg.init.output.OutputListener;
 import java.io.File;
+import java.util.*;
 import org.slf4j.Logger;
 import play.libs.Json;
 
 /**
  * <p>This is the abstract base class for all the {@code Actors}
- * that handle the RESOLVE compiler invocation or any error handlers.</p>
+ * that handle the {@code RESOLVE} compiler invocation or any error handlers.</p>
  *
  * @author Yu-Shan Sun
  * @version 1.0
@@ -37,19 +42,22 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     /** <p>Logger for Akka related items</p> */
     private final Logger myAkkaLogger;
 
-    /** <p>This is the entry point for the RESOLVE compiler.</p> */
-    protected ResolveCompiler myCompiler;
+    /** <p>This contains the arguments to be sent to the {@code RESOLVE} compiler.</p> */
+    protected final List<String> myCompilerArgs;
+
+    /** <p>This contains the user supplied {@link ResolveFile ResolveFiles}.</p> */
+    protected final Map<String, ResolveFile> myFilesMap;
 
     /** <p>This indicates the name of the job to be executed.</p> */
     protected final String myJob;
 
-    /** <p>This indicates which RESOLVE project folder to use.</p> */
+    /** <p>This indicates which {@code RESOLVE} project folder to use.</p> */
     protected final String myProject;
 
     /** <p>This is the outgoing end of the stream.</p> */
     protected final ActorRef myWebSocketOut;
 
-    /** <p>This indicates the path to all of our RESOLVE workspaces.</p> */
+    /** <p>This indicates the path to all of our {@code RESOLVE} workspaces.</p> */
     protected final String myWorkspacePath;
 
     // ===========================================================
@@ -68,10 +76,17 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     protected AbstractCompilerActor(ActorRef out, String job, String project,
             String workspacePath) {
         myAkkaLogger = org.slf4j.LoggerFactory.getLogger("akka");
+        myFilesMap = new LinkedHashMap<>();
         myJob = job;
         myProject = project;
         myWebSocketOut = out;
         myWorkspacePath = workspacePath;
+
+        // Populate the common compiler arguments
+        myCompilerArgs = new ArrayList<>();
+        myCompilerArgs.add("-workspaceDir");
+        myCompilerArgs.add(formProjectWorkspacePath());
+        myCompilerArgs.add( "-noFileOutput");
     }
 
     // ===========================================================
@@ -101,6 +116,32 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     // ===========================================================
     // Protected Methods
     // ===========================================================
+
+    /**
+     * <p>An helper method that invoke the {@code RESOLVE} compiler.</p>
+     */
+    protected final void invokeResolveCompiler() {
+        WebSocketStatusHandler statusHandler =
+                new WebSocketStatusHandler(self(), myWebSocketOut);
+        OutputListener outputListener =
+                new WebOutputListener(statusHandler);
+
+        // Invoke the compiler
+        ResolveCompiler compiler = new ResolveCompiler(myCompilerArgs.toArray(new String[0]));
+        compiler.invokeCompiler(myFilesMap, statusHandler, outputListener);
+
+        // Create a JSON Object that indicates we are done analyzing
+        // the specified file if there are no error messages.
+        if (!statusHandler.hasError()) {
+            ObjectNode result = Json.newObject();
+            result.put("status", "complete");
+            result.put("job", myJob);
+            result.put("result", "");
+
+            // Send the message through the websocket
+            myWebSocketOut.tell(result, self());
+        }
+    }
 
     /**
      * <p>An helper method that notifies the user that some compiler
@@ -152,7 +193,8 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
      * @return The project workspace path as a string.
      */
     private String formProjectWorkspacePath() {
-        return myWorkspacePath + File.separator + myProject + File.separator + "RESOLVE" + File.separator + "Main" + File.separator;
+        return myWorkspacePath + File.separator + myProject
+                + File.separator + "RESOLVE" + File.separator + "Main" + File.separator;
     }
 
 }

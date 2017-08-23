@@ -15,17 +15,8 @@ package compiler.actors.invokers;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import compiler.actors.AbstractCompilerActor;
-import compiler.impl.WebOutputListener;
-import compiler.impl.WebSocketStatusHandler;
-import edu.clemson.cs.rsrg.init.ResolveCompiler;
-import edu.clemson.cs.rsrg.init.file.ResolveFile;
-import edu.clemson.cs.rsrg.init.output.OutputListener;
-import play.libs.Json;
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * <p>This class handles all request for analyzing a RESOLVE file, which is
@@ -99,28 +90,8 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
                         { "-workspaceDir", workspacePath, "-noFileOutput",
                                 filePath };
 
-                Map<String, ResolveFile> filesMap = new HashMap<>();
-                WebSocketStatusHandler statusHandler =
-                        new WebSocketStatusHandler(self(), myWebSocketOut);
-                OutputListener outputListener =
-                        new WebOutputListener(statusHandler);
-
-                // Invoke the compiler
-                myCompiler = new ResolveCompiler(args);
-                myCompiler.invokeCompiler(filesMap, statusHandler,
-                        outputListener);
-
-                // Create a JSON Object that indicates we are done analyzing
-                // the specified file if there are no error messages.
-                if (!statusHandler.hasError()) {
-                    ObjectNode result = Json.newObject();
-                    result.put("status", "complete");
-                    result.put("job", myJob);
-                    result.put("result", "");
-
-                    // Send the message through the websocket
-                    myWebSocketOut.tell(result, self());
-                }
+                // Invoke the RESOLVE compiler
+                invokeResolveCompiler();
 
                 // Close the connection
                 //self().tell(PoisonPill.getInstance(), self());

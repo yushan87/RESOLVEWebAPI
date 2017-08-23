@@ -163,7 +163,8 @@ public class WebSocketController extends Controller {
      * {@code false} otherwise.
      */
     private boolean projectExists(String project) {
-        return Files.exists(new File(myWorkspaceDir + File.separator + project).toPath(),
+        return Files.exists(
+                new File(myWorkspaceDir + File.separator + project).toPath(),
                 LinkOption.NOFOLLOW_LINKS);
     }
 }
