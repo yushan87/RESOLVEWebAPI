@@ -17,6 +17,7 @@ import akka.actor.PoisonPill;
 import akka.actor.UntypedAbstractActor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.clemson.cs.rsrg.init.ResolveCompiler;
+import java.io.File;
 import org.slf4j.Logger;
 import play.libs.Json;
 
@@ -123,6 +124,20 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
 
         // Close the connection
         self().tell(PoisonPill.getInstance(), self());
+    }
+
+    // ===========================================================
+    // Private Methods
+    // ===========================================================
+
+    /**
+     * <p>An helper method for forming the specified project's
+     * workspace path.</p>
+     *
+     * @return The project workspace path as a string.
+     */
+    private String formProjectWorkspacePath() {
+        return myWorkspacePath + File.separator + myProject + File.separator + "RESOLVE" + File.separator + "Main" + File.separator;
     }
 
 }
