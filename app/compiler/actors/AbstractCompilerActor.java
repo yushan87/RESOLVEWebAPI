@@ -58,7 +58,7 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     protected final ActorRef myWebSocketOut;
 
     /** <p>This indicates the path to all of our {@code RESOLVE} workspaces.</p> */
-    protected final String myWorkspacePath;
+    private final String myWorkspacePath;
 
     // ===========================================================
     // Constructors
@@ -86,7 +86,7 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
         myCompilerArgs = new ArrayList<>();
         myCompilerArgs.add("-workspaceDir");
         myCompilerArgs.add(formProjectWorkspacePath());
-        myCompilerArgs.add( "-noFileOutput");
+        myCompilerArgs.add("-noFileOutput");
     }
 
     // ===========================================================
@@ -123,11 +123,11 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     protected final void invokeResolveCompiler() {
         WebSocketStatusHandler statusHandler =
                 new WebSocketStatusHandler(self(), myWebSocketOut);
-        OutputListener outputListener =
-                new WebOutputListener(statusHandler);
+        OutputListener outputListener = new WebOutputListener(statusHandler);
 
         // Invoke the compiler
-        ResolveCompiler compiler = new ResolveCompiler(myCompilerArgs.toArray(new String[0]));
+        ResolveCompiler compiler =
+                new ResolveCompiler(myCompilerArgs.toArray(new String[0]));
         compiler.invokeCompiler(myFilesMap, statusHandler, outputListener);
 
         // Create a JSON Object that indicates we are done analyzing
@@ -164,7 +164,7 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
         myWebSocketOut.tell(result, self());
 
         // Close the connection
-        self().tell(PoisonPill.getInstance(), self());
+        self().tell(PoisonPill.getInstance(), ActorRef.noSender());
     }
 
     /**
@@ -193,8 +193,8 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
      * @return The project workspace path as a string.
      */
     private String formProjectWorkspacePath() {
-        return myWorkspacePath + File.separator + myProject
-                + File.separator + "RESOLVE" + File.separator + "Main" + File.separator;
+        return myWorkspacePath + File.separator + myProject + File.separator
+                + "RESOLVE" + File.separator + "Main" + File.separator;
     }
 
 }

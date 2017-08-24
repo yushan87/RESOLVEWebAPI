@@ -54,7 +54,7 @@ public class JobNotSupportedActor extends AbstractCompilerActor {
         myWebSocketOut.tell(result, self());
 
         // Close the connection
-        self().tell(PoisonPill.getInstance(), self());
+        self().tell(PoisonPill.getInstance(), ActorRef.noSender());
     }
 
     // ===========================================================
