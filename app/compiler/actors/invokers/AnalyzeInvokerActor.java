@@ -13,6 +13,7 @@
 package compiler.actors.invokers;
 
 import akka.actor.ActorRef;
+import akka.actor.PoisonPill;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
 import compiler.actors.AbstractCompilerActor;
@@ -81,20 +82,14 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
                 notifyLaunchingCompilerJob();
 
                 // Setup items to be passed to the compiler
-                String filePath = "Integer_Theory.mt";
-                String workspacePath =
-                        myWorkspacePath + "RESOLVE" + File.separator + "Main"
-                                + File.separator + "Math_Units"
-                                + File.separator;
-                String[] args =
-                        { "-workspaceDir", workspacePath, "-noFileOutput",
-                                filePath };
+                myCompilerArgs.add("Math_Units" + File.separator
+                        + "Integer_Theory.mt");
 
                 // Invoke the RESOLVE compiler
                 invokeResolveCompiler();
 
                 // Close the connection
-                //self().tell(PoisonPill.getInstance(), self());
+                self().tell(PoisonPill.getInstance(), ActorRef.noSender());
             }
             else {
                 // Send an error message back to user and close
