@@ -14,16 +14,22 @@ package controllers;
 
 import akka.actor.ActorSystem;
 import akka.stream.Materializer;
+import akka.stream.javadsl.Flow;
+import akka.stream.javadsl.Sink;
+import akka.stream.javadsl.Source;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.typesafe.config.Config;
-import compiler.actors.errorhandlers.*;
 import compiler.actors.invokers.*;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import play.libs.Json;
 import play.libs.streams.ActorFlow;
 import play.mvc.Controller;
+import play.mvc.Http;
 import play.mvc.WebSocket;
 
 /**
@@ -31,7 +37,7 @@ import play.mvc.WebSocket;
  * requests to the RESOLVE compiler.</p>
  *
  * <p>For more information, see:
- * <a href="https://www.playframework.com/documentation/2.6.x/JavaWebSockets">Play WebSockets</a></p>
+ * <a href="https://www.playframework.com/documentation/latest/JavaWebSockets">Play WebSockets</a></p>
  *
  * @author Yu-Shan Sun
  * @version 1.0
@@ -92,59 +98,86 @@ public class WebSocketController extends Controller {
      * @return A {@link WebSocket} object.
      */
     public final WebSocket socket(String job, String project) {
-        WebSocket socket;
+        // YS: As noted in the documentation, Play's WebSocket is built using Akka streams.
+        //     Therefore, we are using the helper method that Play supplies to build
+        //     a Flow of Json objects. To make things simpler, we have created Actors for
+        //     each of the different compiler actions and add the various different messages
+        //     depending on what we encounter.
+        return WebSocket.Json.accept((Http.RequestHeader request) -> {
+            // Check to see if that project folder exists
+            if (projectExists(project)) {
+                // Create the invokers to handle the specified job request.
+                String lowercaseJob = job.toLowerCase();
 
-        // Check to see if that project folder exists
-        if (projectExists(project)) {
-            // Create the invokers to handle the specified job request.
-            String lowercaseJob = job.toLowerCase();
-            switch (lowercaseJob) {
-                case "analyze":
-                    socket = WebSocket.Json.accept(request ->
-                            ActorFlow.actorRef(out ->
-                                            AnalyzeInvokerActor.props(out, job, project, myWorkspaceDir),
-                                    myActorSystem, myStreamMaterializer));
-                    break;
-                case "buildjar":
-                    socket = WebSocket.Json.accept(request ->
-                            ActorFlow.actorRef(out ->
-                                            JarInvokerActor.props(out, job, project, myWorkspaceDir),
-                                    myActorSystem, myStreamMaterializer));
-                    break;
-                case "ccverify":
-                    socket = WebSocket.Json.accept(request ->
-                            ActorFlow.actorRef(out ->
-                                            CCVerifyInvokerActor.props(out, job, project, myWorkspaceDir),
-                                    myActorSystem, myStreamMaterializer));
-                    break;
-                case "genvcs":
-                    socket = WebSocket.Json.accept(request ->
-                            ActorFlow.actorRef(out ->
-                                            VCInvokerActor.props(out, job, project, myWorkspaceDir),
-                                    myActorSystem, myStreamMaterializer));
-                    break;
-                case "translatejava":
-                    socket = WebSocket.Json.accept(request ->
-                            ActorFlow.actorRef(out ->
-                                            TranslateJavaInvokerActor.props(out, job, project, myWorkspaceDir),
-                                    myActorSystem, myStreamMaterializer));
-                    break;
-                default:
-                    socket = WebSocket.Json.accept(request ->
-                            ActorFlow.actorRef(out ->
-                                            JobNotSupportedActor.props(out, job, project, myWorkspaceDir),
-                                    myActorSystem, myStreamMaterializer));
-                    break;
+                // Create a WebSocket using the appropriate compiler actor
+                // to construct a flow.
+                Flow<JsonNode, JsonNode, ?> flow;
+                switch (lowercaseJob) {
+                    case "analyze":
+                        flow = ActorFlow.actorRef(out ->
+                                        AnalyzeInvokerActor.props(out, job, project, myWorkspaceDir),
+                                myActorSystem, myStreamMaterializer);
+                        break;
+                    case "buildjar":
+                        flow = ActorFlow.actorRef(out ->
+                                        JarInvokerActor.props(out, job, project, myWorkspaceDir),
+                                myActorSystem, myStreamMaterializer);
+                        break;
+                    case "ccverify":
+                        flow = ActorFlow.actorRef(out ->
+                                        CCVerifyInvokerActor.props(out, job, project, myWorkspaceDir),
+                                myActorSystem, myStreamMaterializer);
+                        break;
+                    case "genvcs":
+                        flow = ActorFlow.actorRef(out ->
+                                        VCInvokerActor.props(out, job, project, myWorkspaceDir),
+                                myActorSystem, myStreamMaterializer);
+                        break;
+                    case "translatejava":
+                        flow = ActorFlow.actorRef(out ->
+                                        TranslateJavaInvokerActor.props(out, job, project, myWorkspaceDir),
+                                myActorSystem, myStreamMaterializer);
+                        break;
+                    default:
+                        flow = null;
+                        break;
+                }
+
+                // Check to see if we have constructed the appropriate actor flow for handling
+                // the specified job request.
+                if (flow != null) {
+                    return flow;
+                }
+                else {
+                    // Ignore all input from the user
+                    Sink<JsonNode, ?> in = Sink.ignore();
+
+                    // Create an JSON object informing that the specified job is unsupported.
+                    ObjectNode result = Json.newObject();
+                    result.put("status", "error");
+                    result.put("msg", "Unsupported job request: " + job);
+
+                    // Send the message and close the socket
+                    Source<JsonNode, ?> out = Source.single(result);
+
+                    return Flow.fromSinkAndSource(in, out);
+                }
             }
-        }
-        else {
-            socket = WebSocket.Json.accept(request ->
-                    ActorFlow.actorRef(out ->
-                                    ProjectNotFoundActor.props(out, job, project, myWorkspaceDir),
-                            myActorSystem, myStreamMaterializer));
-        }
+            else {
+                // Ignore all input from the user
+                Sink<JsonNode, ?> in = Sink.ignore();
 
-        return socket;
+                // Create an JSON object informing that the project was not found.
+                ObjectNode result = Json.newObject();
+                result.put("status", "error");
+                result.put("msg", "Project not found: " + project);
+
+                // Send the message and close the socket
+                Source<JsonNode, ?> out = Source.single(result);
+
+                return Flow.fromSinkAndSource(in, out);
+            }
+        });
     }
 
     // ===========================================================
