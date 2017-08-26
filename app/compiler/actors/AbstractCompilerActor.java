@@ -21,6 +21,7 @@ import compiler.impl.WebSocketStatusHandler;
 import edu.clemson.cs.rsrg.init.ResolveCompiler;
 import edu.clemson.cs.rsrg.init.file.ResolveFile;
 import edu.clemson.cs.rsrg.init.output.OutputListener;
+import edu.clemson.cs.rsrg.statushandling.StatusHandler;
 import java.io.File;
 import java.util.*;
 import org.slf4j.Logger;
@@ -39,8 +40,25 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     // Member Fields
     // ===========================================================
 
+    // -----------------------------------------------------------
+    // Compiler Actor-Related
+    // -----------------------------------------------------------
+
     /** <p>Logger for Akka related items</p> */
     private final Logger myAkkaLogger;
+
+    /** <p>This indicates the name of the job to be executed.</p> */
+    private final String myJob;
+
+    /** <p>This indicates which {@code RESOLVE} project folder to use.</p> */
+    private final String myProject;
+
+    /** <p>This is the outgoing end of the stream.</p> */
+    private final ActorRef myWebSocketOut;
+
+    // -----------------------------------------------------------
+    // Compiler Argument-Related
+    // -----------------------------------------------------------
 
     /** <p>This contains the arguments to be sent to the {@code RESOLVE} compiler.</p> */
     protected final List<String> myCompilerArgs;
@@ -48,14 +66,11 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     /** <p>This contains the user supplied {@link ResolveFile ResolveFiles}.</p> */
     protected final Map<String, ResolveFile> myFilesMap;
 
-    /** <p>This indicates the name of the job to be executed.</p> */
-    protected final String myJob;
+    /** <p>This is an implementation of the {@link OutputListener} for the {@code RESOLVE} compiler.</p> */
+    private OutputListener myOutputListener;
 
-    /** <p>This indicates which {@code RESOLVE} project folder to use.</p> */
-    protected final String myProject;
-
-    /** <p>This is the outgoing end of the stream.</p> */
-    protected final ActorRef myWebSocketOut;
+    /** <p>This is an implementation of the {@link StatusHandler} for the {@code RESOLVE} compiler.</p> */
+    private WebSocketStatusHandler myStatusHandler;
 
     /** <p>This indicates the path to all of our {@code RESOLVE} workspaces.</p> */
     private final String myWorkspacePath;
@@ -94,6 +109,23 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     // ===========================================================
 
     /**
+     * <p>This method overrides overrides the default {@code postStop}
+     * method implementation.</p>
+     */
+    @Override
+    public final void postStop() {
+        // If we haven't stopped logging in our status handler,
+        // do it now!
+        if (myStatusHandler != null && !myStatusHandler.hasStopped()) {
+            myStatusHandler.stopLogging();
+        }
+
+        // Set these to null
+        myStatusHandler = null;
+        myOutputListener = null;
+    }
+
+    /**
      * <p>This method overrides overrides the default {@code unhandled}
      * method implementation.</p>
      *
@@ -121,18 +153,17 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
      * <p>An helper method that invoke the {@code RESOLVE} compiler.</p>
      */
     protected final void invokeResolveCompiler() {
-        WebSocketStatusHandler statusHandler =
-                new WebSocketStatusHandler(self(), myWebSocketOut);
-        OutputListener outputListener = new WebOutputListener(statusHandler);
+        myStatusHandler = new WebSocketStatusHandler(self(), myWebSocketOut);
+        myOutputListener = new WebOutputListener(myStatusHandler);
 
         // Invoke the compiler
         ResolveCompiler compiler =
                 new ResolveCompiler(myCompilerArgs.toArray(new String[0]));
-        compiler.invokeCompiler(myFilesMap, statusHandler, outputListener);
+        compiler.invokeCompiler(myFilesMap, myStatusHandler, myOutputListener);
 
         // Create a JSON Object that indicates we are done analyzing
         // the specified file if there are no error messages.
-        if (!statusHandler.hasError()) {
+        if (!myStatusHandler.hasError()) {
             ObjectNode result = Json.newObject();
             result.put("status", "complete");
             result.put("job", myJob);
