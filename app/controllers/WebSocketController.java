@@ -52,9 +52,6 @@ public class WebSocketController extends Controller {
     /** <p>An actor system that keeps track of all user requests</p> */
     private final ActorSystem myActorSystem;
 
-    /** <p>Class that retrieves configurations</p> */
-    private final Config myConfiguration;
-
     /** <p>A factory that makes the streams we create run.</p> */
     private final Materializer myStreamMaterializer;
 
@@ -79,9 +76,8 @@ public class WebSocketController extends Controller {
     public WebSocketController(ActorSystem actorSystem,
             Materializer materializer, Config config) {
         myActorSystem = actorSystem;
-        myConfiguration = config;
         myStreamMaterializer = materializer;
-        myWorkspaceDir = myConfiguration.getString("webapi.workingdir");
+        myWorkspaceDir = config.getString("webapi.workingdir");
     }
 
     // ===========================================================
