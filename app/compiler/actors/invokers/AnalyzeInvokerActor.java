@@ -17,7 +17,11 @@ import akka.actor.PoisonPill;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
 import compiler.actors.AbstractCompilerActor;
+import compiler.inputmessage.CompilerMessage;
+import play.libs.Json;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>This class handles all request for analyzing a RESOLVE file, which is
@@ -78,6 +82,10 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
         try {
             // Only deal with JsonNode
             if (message instanceof JsonNode) {
+                CompilerMessage compilerMessage =
+                        Json.fromJson((JsonNode) message, CompilerMessage.class);
+                System.out.println(compilerMessage);
+
                 // Send message to user about launching compiler job
                 notifyLaunchingCompilerJob();
 
@@ -101,6 +109,23 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
             // Notify the user that some kind of exception occurred.
             notifyCompilerException(e);
         }
+    }
+
+    // ===========================================================
+    // Protected Methods
+    // ===========================================================
+
+    /**
+     * <p>An helper method that validates an input message from the user
+     * and generates any error messages.</p>
+     *
+     * @param compilerMessage An input message to be validated.
+     * @return A list of error messages.
+     */
+    @Override
+    protected final List<String> validateInputMessage(
+            CompilerMessage compilerMessage) {
+        return new ArrayList<>();
     }
 
 }

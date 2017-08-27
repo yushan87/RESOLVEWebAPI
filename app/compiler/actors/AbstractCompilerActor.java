@@ -18,6 +18,7 @@ import akka.actor.UntypedAbstractActor;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import compiler.impl.WebOutputListener;
 import compiler.impl.WebSocketStatusHandler;
+import compiler.inputmessage.CompilerMessage;
 import edu.clemson.cs.rsrg.init.ResolveCompiler;
 import edu.clemson.cs.rsrg.init.file.ResolveFile;
 import edu.clemson.cs.rsrg.init.output.OutputListener;
@@ -212,6 +213,17 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
         // Send the message through the websocket
         myWebSocketOut.tell(info, self());
     }
+
+    /**
+     * <p>An helper method that validates an input message from the user
+     * and generates any error messages.</p>
+     *
+     * @param compilerMessage An input message to be validated.
+     *
+     * @return A list of error messages.
+     */
+    protected abstract List<String> validateInputMessage(
+            CompilerMessage compilerMessage);
 
     // ===========================================================
     // Private Methods

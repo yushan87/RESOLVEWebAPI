@@ -16,6 +16,9 @@ import akka.actor.ActorRef;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
 import compiler.actors.AbstractCompilerActor;
+import compiler.inputmessage.CompilerMessage;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>This class handles all request for generating VCs.</p>
@@ -103,6 +106,23 @@ public class VCInvokerActor extends AbstractCompilerActor {
             // Notify the user that some kind of exception occurred.
             notifyCompilerException(e);
         }
+    }
+
+    // ===========================================================
+    // Protected Methods
+    // ===========================================================
+
+    /**
+     * <p>An helper method that validates an input message from the user
+     * and generates any error messages.</p>
+     *
+     * @param compilerMessage An input message to be validated.
+     * @return A list of error messages.
+     */
+    @Override
+    protected final List<String> validateInputMessage(
+            CompilerMessage compilerMessage) {
+        return new ArrayList<>();
     }
 
 }
