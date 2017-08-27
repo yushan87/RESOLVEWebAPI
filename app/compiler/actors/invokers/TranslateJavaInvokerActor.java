@@ -115,10 +115,11 @@ public class TranslateJavaInvokerActor extends AbstractCompilerActor {
 
     /**
      * <p>An helper method that validates an input message from the user
-     * and generates any error messages.</p>
+     * and adds any invalid fields to the return list.</p>
      *
      * @param compilerMessage An input message to be validated.
-     * @return A list of error messages.
+     *
+     * @return A list of invalid fields
      */
     @Override
     protected final List<String> validateInputMessage(

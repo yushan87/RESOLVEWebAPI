@@ -52,7 +52,7 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     private final String myJob;
 
     /** <p>This indicates which {@code RESOLVE} project folder to use.</p> */
-    private final String myProject;
+    protected final String myProject;
 
     /** <p>This is the outgoing end of the stream.</p> */
     private final ActorRef myWebSocketOut;
@@ -215,12 +215,43 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     }
 
     /**
+     * <p>An helper method that notifies the user that there are
+     * erroneous or missing input fields.</p>
+     *
+     * @param errorFields A list of fields that are erroneous.
+     */
+    protected final void notifyMissingInputFields(List<String> errorFields) {
+        // Construct a string using the error fields
+        StringBuilder sb = new StringBuilder();
+        Iterator<String> it = errorFields.iterator();
+        while (it.hasNext()) {
+            sb.append(it.next());
+
+            if (it.hasNext()) {
+                sb.append(", ");
+            }
+        }
+
+        // Create the error JSON Object
+        ObjectNode result = Json.newObject();
+        result.put("status", "error");
+        result.put("msg", "The fields: <" + sb.toString()
+                + "> are either undefined or incorrect!");
+
+        // Send the message through the websocket
+        myWebSocketOut.tell(result, self());
+
+        // Close the connection
+        self().tell(PoisonPill.getInstance(), ActorRef.noSender());
+    }
+
+    /**
      * <p>An helper method that validates an input message from the user
-     * and generates any error messages.</p>
+     * and adds any invalid fields to the return list.</p>
      *
      * @param compilerMessage An input message to be validated.
      *
-     * @return A list of error messages.
+     * @return A list of invalid fields
      */
     protected abstract List<String> validateInputMessage(
             CompilerMessage compilerMessage);

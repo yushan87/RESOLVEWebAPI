@@ -25,16 +25,16 @@ import edu.clemson.cs.rsrg.init.file.ResolveFile;
 public class CompilerMessage {
 
     /** <p>This contains the name of the file.</p> */
-    public String NAME;
+    public String name;
 
     /** <p>This contains the extension type of the file.</p> */
-    public String TYPE;
+    public String type;
 
     /** <p>This contains the project name that the file belongs to.</p> */
-    public String PROJECT;
+    public String project;
 
     /** <p>This contains the contents of the file.</p> */
-    public String CONTENT;
+    public String content;
 
     /**
      * <p>This method returns the object in string format.</p>
@@ -42,9 +42,9 @@ public class CompilerMessage {
      * @return Object as a string.
      */
     @Override
-    public final String toString() {
-        return "CompilerMessage{" + "NAME='" + NAME + '\'' + ", TYPE='" + TYPE
-                + '\'' + ", PROJECT='" + PROJECT + '\'' + ", CONTENT='"
-                + CONTENT + '\'' + '}';
+    public String toString() {
+        return "CompilerMessage{" + "name='" + name + '\'' + ", type='" + type
+                + '\'' + ", project='" + project + '\'' + ", content='"
+                + content + '\'' + '}';
     }
 }

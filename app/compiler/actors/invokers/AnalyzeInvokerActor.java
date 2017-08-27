@@ -82,22 +82,32 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
         try {
             // Only deal with JsonNode
             if (message instanceof JsonNode) {
+                // Validate the input message
                 CompilerMessage compilerMessage =
                         Json.fromJson((JsonNode) message, CompilerMessage.class);
-                System.out.println(compilerMessage);
+                List<String> errorMessages =
+                        validateInputMessage(compilerMessage);
 
-                // Send message to user about launching compiler job
-                notifyLaunchingCompilerJob();
+                // Only proceed if the validation step didn't generate an error message
+                if (errorMessages.isEmpty()) {
+                    // Send message to user about launching compiler job
+                    notifyLaunchingCompilerJob();
 
-                // Setup items to be passed to the compiler
-                myCompilerArgs.add("Math_Units" + File.separator
-                        + "Integer_Theory.mt");
+                    // Setup items to be passed to the compiler
+                    myCompilerArgs.add("Math_Units" + File.separator
+                            + "Integer_Theory.mt");
 
-                // Invoke the RESOLVE compiler
-                invokeResolveCompiler();
+                    // Invoke the RESOLVE compiler
+                    invokeResolveCompiler();
 
-                // Close the connection
-                self().tell(PoisonPill.getInstance(), ActorRef.noSender());
+                    // Close the connection
+                    self().tell(PoisonPill.getInstance(), ActorRef.noSender());
+                }
+                else {
+                    // Send an error message back to user and close
+                    // socket connection for all other types.
+                    notifyMissingInputFields(errorMessages);
+                }
             }
             else {
                 // Send an error message back to user and close
@@ -117,15 +127,37 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
 
     /**
      * <p>An helper method that validates an input message from the user
-     * and generates any error messages.</p>
+     * and adds any invalid fields to the return list.</p>
      *
      * @param compilerMessage An input message to be validated.
-     * @return A list of error messages.
+     *
+     * @return A list of invalid fields
      */
     @Override
     protected final List<String> validateInputMessage(
             CompilerMessage compilerMessage) {
-        return new ArrayList<>();
+        List<String> invalidFields = new ArrayList<>();
+
+        // Check to see if any of the fields are null or
+        // don't match what we expect
+        if (compilerMessage.name == null) {
+            invalidFields.add("name");
+        }
+
+        if (compilerMessage.type == null || !compilerMessage.type.equals("t")) {
+            invalidFields.add("type");
+        }
+
+        if (compilerMessage.project == null
+                || !compilerMessage.project.equals(myProject)) {
+            invalidFields.add("project");
+        }
+
+        if (compilerMessage.content == null) {
+            invalidFields.add("content");
+        }
+
+        return invalidFields;
     }
 
 }
