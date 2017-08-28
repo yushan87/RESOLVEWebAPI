@@ -18,6 +18,7 @@ import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
 import compiler.actors.AbstractCompilerActor;
 import compiler.inputmessage.CompilerMessage;
+import edu.clemson.cs.rsrg.init.file.ResolveFile;
 import play.libs.Json;
 import java.io.File;
 import java.util.ArrayList;
@@ -124,6 +125,20 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
     // ===========================================================
     // Protected Methods
     // ===========================================================
+
+    /**
+     * <p>An helper method that builds the input {@link ResolveFile} from
+     * a {@link CompilerMessage}.</p>
+     *
+     * @param compilerMessage An input message.
+     *
+     * @return A {@link ResolveFile} representing the input message.
+     */
+    @Override
+    protected final ResolveFile buildInputResolveFile(
+            CompilerMessage compilerMessage) {
+        return null;
+    }
 
     /**
      * <p>An helper method that validates an input message from the user

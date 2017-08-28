@@ -151,6 +151,17 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     // ===========================================================
 
     /**
+     * <p>An helper method that builds the input {@link ResolveFile} from
+     * a {@link CompilerMessage}.</p>
+     *
+     * @param compilerMessage An input message.
+     *
+     * @return A {@link ResolveFile} representing the input message.
+     */
+    protected abstract ResolveFile buildInputResolveFile(
+            CompilerMessage compilerMessage);
+
+    /**
      * <p>An helper method that invoke the {@code RESOLVE} compiler.</p>
      */
     protected final void invokeResolveCompiler() {
