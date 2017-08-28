@@ -96,9 +96,14 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
                     // Send message to user about launching compiler job
                     notifyLaunchingCompilerJob();
 
+                    // Convert the message into a file and
+                    // add it to our user files map
+                    String completeFileName = compilerMessage.name + ".mt";
+                    myFilesMap.put(completeFileName,
+                            buildInputResolveFile(compilerMessage));
+
                     // Setup items to be passed to the compiler
-                    myCompilerArgs.add("Math_Units" + File.separator
-                            + "Integer_Theory.mt");
+                    myCompilerArgs.add(completeFileName);
 
                     // Invoke the RESOLVE compiler
                     invokeResolveCompiler();
