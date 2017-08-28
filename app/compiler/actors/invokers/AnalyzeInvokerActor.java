@@ -18,7 +18,9 @@ import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
 import compiler.actors.AbstractCompilerActor;
 import compiler.inputmessage.CompilerMessage;
+import edu.clemson.cs.rsrg.init.file.ModuleType;
 import edu.clemson.cs.rsrg.init.file.ResolveFile;
+import org.antlr.v4.runtime.CharStreams;
 import play.libs.Json;
 import java.io.File;
 import java.util.ArrayList;
@@ -137,7 +139,9 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
     @Override
     protected final ResolveFile buildInputResolveFile(
             CompilerMessage compilerMessage) {
-        return null;
+        return new ResolveFile(compilerMessage.name, ModuleType.THEORY,
+                CharStreams.fromString(compilerMessage.content),
+                new ArrayList<>(), "");
     }
 
     /**
