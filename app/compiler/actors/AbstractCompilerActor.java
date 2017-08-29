@@ -171,7 +171,7 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
      * @param rawContent A content string that came from
      *                   an input message.
      *
-     * @return The decorded string.
+     * @return The decoded string.
      */
     protected final String decode(String rawContent) {
         String decoded = null;
@@ -188,8 +188,7 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
             // Create the error JSON Object
             ObjectNode result = Json.newObject();
             result.put("status", "error");
-            result.put(
-                    "msg",
+            result.put("msg",
                     "Cannot parse the content. Please contact the administrators for support!");
 
             // Send the message through the websocket
