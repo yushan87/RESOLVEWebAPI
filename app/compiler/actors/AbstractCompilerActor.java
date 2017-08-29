@@ -24,6 +24,8 @@ import edu.clemson.cs.rsrg.init.file.ResolveFile;
 import edu.clemson.cs.rsrg.init.output.OutputListener;
 import edu.clemson.cs.rsrg.statushandling.StatusHandler;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.*;
 import org.slf4j.Logger;
 import play.libs.Json;
@@ -160,6 +162,45 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
      */
     protected abstract ResolveFile buildInputResolveFile(
             CompilerMessage compilerMessage);
+
+    /**
+     * <p>An helper method that helps us decode the input message
+     * that should have been encoded before sending it through the
+     * stream.</p>
+     *
+     * @param rawContent A content string that came from
+     *                   an input message.
+     *
+     * @return The decorded string.
+     */
+    protected final String decode(String rawContent) {
+        String decoded = null;
+        try {
+            // Replace all the %20 with spaces
+            decoded =
+                    URLDecoder.decode(rawContent.replaceAll("%20", " "),
+                            "UTF-8");
+        }
+        catch (UnsupportedEncodingException uee) {
+            // Log this exception and send error message to user.
+            myAkkaLogger.error("Decoding Exception: ", uee);
+
+            // Create the error JSON Object
+            ObjectNode result = Json.newObject();
+            result.put("status", "error");
+            result.put(
+                    "msg",
+                    "Cannot parse the content. Please contact the administrators for support!");
+
+            // Send the message through the websocket
+            myWebSocketOut.tell(result, self());
+
+            // Close the connection
+            self().tell(PoisonPill.getInstance(), ActorRef.noSender());
+        }
+
+        return decoded;
+    }
 
     /**
      * <p>An helper method that invoke the {@code RESOLVE} compiler.</p>
