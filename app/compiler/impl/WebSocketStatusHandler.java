@@ -77,18 +77,16 @@ public class WebSocketStatusHandler implements StatusHandler {
     public final void error(Location l, String msg) {
         myErrorFlag = true;
 
-        // Add the location detail if needed.
-        StringBuilder sb = new StringBuilder();
-        if (l != null) {
-            sb.append(l.toString());
-        }
-        sb.append(msg);
-
         // Create a JSON Object that contains the info to
         // be sent to the user.
         ObjectNode info = Json.newObject();
         info.put("status", "error");
-        info.put("msg", sb.toString());
+        info.put("msg", msg);
+
+        // Add the location detail if needed.
+        if (l != null) {
+            info.put("msgLocation", l.toString());
+        }
 
         // Send the message through the websocket
         myWebSocketOut.tell(info, myActorRef);
