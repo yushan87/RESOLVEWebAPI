@@ -21,7 +21,7 @@ import play.libs.Json;
 
 /**
  * <p>This class outputs all debugging, errors and/or
- * other information coming from the compiler to a websocket.</p>
+ * other information coming from the compiler to a WebSocket.</p>
  *
  * @author Yu-Shan Sun
  * @version 1.0
@@ -119,18 +119,16 @@ public class WebSocketStatusHandler implements StatusHandler {
      */
     @Override
     public final void info(Location l, String msg) {
-        // Add the location detail if needed.
-        StringBuilder sb = new StringBuilder();
-        if (l != null) {
-            sb.append(l.toString());
-        }
-        sb.append(msg);
-
         // Create a JSON Object that contains the info to
         // be sent to the user.
         ObjectNode info = Json.newObject();
         info.put("status", "info");
-        info.put("msg", sb.toString());
+        info.put("msg", msg);
+
+        // Add the location detail if needed.
+        if (l != null) {
+            info.put("msgLocation", l.toString());
+        }
 
         // Send the message through the websocket
         myWebSocketOut.tell(info, myActorRef);
@@ -164,18 +162,16 @@ public class WebSocketStatusHandler implements StatusHandler {
      */
     @Override
     public final void warning(Location l, String msg) {
-        // Add the location detail if needed.
-        StringBuilder sb = new StringBuilder();
-        if (l != null) {
-            sb.append(l.toString());
-        }
-        sb.append(msg);
-
         // Create a JSON Object that contains the info to
         // be sent to the user.
         ObjectNode info = Json.newObject();
         info.put("status", "warning");
-        info.put("msg", sb.toString());
+        info.put("msg", msg);
+
+        // Add the location detail if needed.
+        if (l != null) {
+            info.put("msgLocation", l.toString());
+        }
 
         // Send the message through the websocket
         myWebSocketOut.tell(info, myActorRef);
