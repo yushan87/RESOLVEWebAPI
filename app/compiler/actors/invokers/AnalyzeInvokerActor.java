@@ -23,6 +23,7 @@ import edu.clemson.cs.rsrg.init.file.ResolveFile;
 import org.antlr.v4.runtime.CharStreams;
 import play.libs.Json;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -105,7 +106,8 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
                     myCompilerArgs.add(completeFileName);
 
                     // Invoke the RESOLVE compiler
-                    invokeResolveCompiler();
+                    invokeResolveCompiler(Collections
+                            .singletonList(compilerMessage.name));
 
                     // Close the connection
                     self().tell(PoisonPill.getInstance(), ActorRef.noSender());

@@ -203,8 +203,10 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
 
     /**
      * <p>An helper method that invoke the {@code RESOLVE} compiler.</p>
+     *
+     * @param fileNames Names of files we are invoking our compiler on.
      */
-    protected final void invokeResolveCompiler() {
+    protected final void invokeResolveCompiler(List<String> fileNames) {
         myStatusHandler = new WebSocketStatusHandler(self(), myWebSocketOut);
         myOutputListener = new WebOutputListener(myStatusHandler);
 
@@ -219,7 +221,8 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
             ObjectNode result = Json.newObject();
             result.put("status", "complete");
             result.put("job", myJob);
-            result.put("result", "");
+            result.put("result",
+                    "Done analyzing files: " + fileNames.toString());
 
             // Send the message through the websocket
             myWebSocketOut.tell(result, self());
