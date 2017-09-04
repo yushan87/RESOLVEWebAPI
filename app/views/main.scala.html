@@ -28,16 +28,16 @@
             <ul class="navbar-nav flex-row ml-md-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="@controllers.routes.HomeController.index()"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home</a>
-                    <a class="nav-link" href="#"><i class="fa fa-bug fa-fw" aria-hidden="true"> Test Suite</i></a>
+                    <a class="nav-link" href="#"><i class="fa fa-bug fa-fw" aria-hidden="true">&nbsp; Test Suite</i></a>
                 </li>
             </ul>
         </header>
 
         <!-- Container Block -->
-        <div class="container-fluid">
-            <div class="row flex-xl-nowrap">
+        <div class="container-fluid w-100 px-4">
+            <div id="page-content" class="row flex-xl-nowrap">
                 <!-- Main Content Block -->
-                <main class="col-12 pt-3" role="main">
+                <main class="col-12" role="main">
                     @content
                 </main>
             </div>
