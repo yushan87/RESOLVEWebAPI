@@ -1,7 +1,7 @@
 /*
  * These are the CSS for the RESOLVEWebAPI
  * Created by: Yu-Shan Sun
- * Last Modified: 08/13/2017
+ * Last Modified: 09/05/2017
  */
 
 /* General CSS */
@@ -29,21 +29,12 @@ body {
     color: #FFFFFF;
 }
 
-#rsrg_logo{
-    width: 400px;
-    height: 68px;
-    display: inline;
-    float: left;
-    background: url(../images/rsrg.png);
-}
-
-#nsf_logo{
-    width: 67px;
-    height: 68px;
-    display: inline;
-    float: right;
-    background: url(../images/nsf1_orig.gif);
-    background-size: 67px;
+/* Main Content-Related CSS */
+#page-content {
+    position: relative;
+    top: 0px;
+    bottom: 60px;
+    height: calc(100vh - 120px);
 }
 
 /* Footer-Related CSS */
@@ -58,28 +49,4 @@ body {
 
 #page-footer-content {
     background-color: #3A4958;
-}
-
-#cu_wordmark{
-    float: left;
-    display: inline;
-    background: url(../images/wordmark.png);
-}
-
-#cu_wordmark a{
-    display: block;
-    width: 250px;
-    height: 72px;
-}
-
-#soc_wordmark{
-    float: right;
-    display: inline;
-    background: url(../images/computing.png);
-}
-
-#soc_wordmark a{
-    display: block;
-    width: 250px;
-    height: 64px;
 }
