@@ -29,7 +29,10 @@
 
         <!-- Page Header -->
         <header id="page-header" class="navbar navbar-expand navbar-dark flex-column flex-md-row">
-            <h1 class="navbar-brand mb-0">RESOLVEWebAPI</h1>
+            <div class="navbar-brand">
+                <img src="@controllers.routes.AssetsManager.versioned("images/rsrg_logo.png")" width="50" height="50" alt="Clemson RSRG Logo">
+                <h1 class="hidden-sm-down">RESOLVEWebAPI</h1>
+            </div>
             <ul class="navbar-nav flex-row ml-md-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="@controllers.routes.HomeController.index()"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home</a>
