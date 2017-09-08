@@ -31,11 +31,13 @@
         <header id="page-header" class="navbar navbar-expand navbar-dark flex-column flex-md-row">
             <div class="navbar-brand">
                 <img src="@controllers.routes.AssetsManager.versioned("images/rsrg_logo.png")" width="50" height="50" alt="Clemson RSRG Logo">
-                <h1 class="hidden-sm-down">RESOLVEWebAPI</h1>
+                <span class="hidden-sm-down">&nbsp; RESOLVEWebAPI</span>
             </div>
             <ul class="navbar-nav flex-row ml-md-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="@controllers.routes.HomeController.index()"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Home</a>
+                </li>
+				<li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa fa-bug fa-fw" aria-hidden="true">&nbsp; Test Suite</i></a>
                 </li>
             </ul>
