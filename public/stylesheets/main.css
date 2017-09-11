@@ -1,7 +1,7 @@
 /*
  * These are the CSS for the RESOLVEWebAPI
  * Created by: Yu-Shan Sun
- * Last Modified: 09/05/2017
+ * Last Modified: 09/11/2017
  */
 
 /* General CSS */
@@ -17,7 +17,7 @@ body {
 
 /* Header-Related CSS */
 #page-header {
-    min-height: 60px;
+    min-height: 76px;
     background-color: #522D80;
 }
 
@@ -34,7 +34,7 @@ body {
     position: relative;
     top: 0px;
     bottom: 60px;
-    height: calc(100vh - 120px);
+    height: calc(100vh - 136px);
 }
 
 /* Footer-Related CSS */
