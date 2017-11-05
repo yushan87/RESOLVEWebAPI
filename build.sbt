@@ -24,7 +24,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" % "play-ahc-ws-standalone_2.12" % "1.0.4",
   "com.typesafe.play" % "play-iteratees_2.12" % "2.6.1",
   "com.typesafe.play" % "play-iteratees-reactive-streams_2.12" % "2.6.1",
-  "com.typesafe.play" % "play-json_2.12" % "2.6.3",
+  "com.typesafe.play" % "play-json_2.12" % "2.6.7",
   "com.typesafe.play" % "play-ws-standalone-json_2.12" % "1.0.4",
   "org.antlr" % "antlr4" % "4.7"
 )
