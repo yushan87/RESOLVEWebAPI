@@ -36,7 +36,7 @@ unmanagedBase := baseDirectory.value / "custom_lib"
 routesGenerator := InjectedRoutesGenerator
 
 // License Headers
-headerMappings := headerMappings.value + (HeaderFileType.java -> HeaderCommentStyle.CStyleBlockComment)
+headerMappings := headerMappings.value + (HeaderFileType.java -> HeaderCommentStyle.cStyleBlockComment)
 
 headerLicense := Some(HeaderLicense.Custom(
   """| ---------------------------------
