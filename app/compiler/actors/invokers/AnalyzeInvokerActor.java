@@ -20,11 +20,12 @@ import compiler.actors.AbstractCompilerActor;
 import compiler.inputmessage.CompilerMessage;
 import edu.clemson.cs.rsrg.init.file.ModuleType;
 import edu.clemson.cs.rsrg.init.file.ResolveFile;
-import org.antlr.v4.runtime.CharStreams;
-import play.libs.Json;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.antlr.v4.runtime.CharStreams;
+import play.libs.Json;
 
 /**
  * <p>This class handles all request for analyzing a RESOLVE file, which is
@@ -147,7 +148,7 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
             CompilerMessage compilerMessage) {
         return new ResolveFile(compilerMessage.name, ModuleType.THEORY,
                 CharStreams.fromString(decode(compilerMessage.content)),
-                new ArrayList<>(), "");
+                Paths.get(formProjectWorkspacePath()), new ArrayList<>(), "");
     }
 
     /**

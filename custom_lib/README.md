@@ -1,3 +1,3 @@
 ## Instructions ##
 
-Add the RESOLVE compiler jar (resolve.jar) here.
+Add the RESOLVE compiler jar here.

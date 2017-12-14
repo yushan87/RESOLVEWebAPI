@@ -202,6 +202,17 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     }
 
     /**
+     * <p>An helper method for forming the specified project's
+     * workspace path.</p>
+     *
+     * @return The project workspace path as a string.
+     */
+    protected final String formProjectWorkspacePath() {
+        return myWorkspacePath + File.separator + myProject + File.separator
+                + "RESOLVE" + File.separator + "Main" + File.separator;
+    }
+
+    /**
      * <p>An helper method that invoke the {@code RESOLVE} compiler.</p>
      *
      * @param fileNames Names of files we are invoking our compiler on.
@@ -309,20 +320,5 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
      */
     protected abstract List<String> validateInputMessage(
             CompilerMessage compilerMessage);
-
-    // ===========================================================
-    // Private Methods
-    // ===========================================================
-
-    /**
-     * <p>An helper method for forming the specified project's
-     * workspace path.</p>
-     *
-     * @return The project workspace path as a string.
-     */
-    private String formProjectWorkspacePath() {
-        return myWorkspacePath + File.separator + myProject + File.separator
-                + "RESOLVE" + File.separator + "Main" + File.separator;
-    }
 
 }
