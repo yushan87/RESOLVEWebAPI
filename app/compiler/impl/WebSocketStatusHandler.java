@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.clemson.cs.rsrg.parsing.data.Location;
 import edu.clemson.cs.rsrg.statushandling.StatusHandler;
 import edu.clemson.cs.rsrg.statushandling.exception.CompilerException;
+import org.json.JSONObject;
 import play.libs.Json;
 
 /**
@@ -85,10 +86,10 @@ public class WebSocketStatusHandler implements StatusHandler {
 
         // Add the location detail if needed.
         if (l != null) {
-            info.put("msgLocation", l.toString());
+            info.set("msgLocation", locationAsJSON(l));
         }
 
-        // Send the message through the websocket
+        // Send the message through the WebSocket
         myWebSocketOut.tell(info, myActorRef);
     }
 
@@ -127,10 +128,10 @@ public class WebSocketStatusHandler implements StatusHandler {
 
         // Add the location detail if needed.
         if (l != null) {
-            info.put("msgLocation", l.toString());
+            info.set("msgLocation", locationAsJSON(l));
         }
 
-        // Send the message through the websocket
+        // Send the message through the WebSocket
         myWebSocketOut.tell(info, myActorRef);
     }
 
@@ -170,11 +171,32 @@ public class WebSocketStatusHandler implements StatusHandler {
 
         // Add the location detail if needed.
         if (l != null) {
-            info.put("msgLocation", l.toString());
+            info.set("msgLocation", locationAsJSON(l));
         }
 
-        // Send the message through the websocket
+        // Send the message through the WebSocket
         myWebSocketOut.tell(info, myActorRef);
+    }
+
+    // ===========================================================
+    // Private Methods
+    // ===========================================================
+
+    /**
+     * <p>An helper method that transforms a {@link Location} into
+     * a JSON object.</p>
+     *
+     * @param l The location where we encountered the error.
+     *
+     * @return A {@link JSONObject} containing the location details.
+     */
+    private ObjectNode locationAsJSON(Location l) {
+        ObjectNode location = Json.newObject();
+        location.put("file", l.getFilename());
+        location.put("line", l.getLine());
+        location.put("column", l.getColumn());
+
+        return location;
     }
 
 }
