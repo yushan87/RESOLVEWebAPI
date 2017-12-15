@@ -1,40 +1,50 @@
 #
 # Continuous integration settings for Travis CI
 #
-sudo: false
 dist: trusty
+sudo: false
 branches:
   only:
     - master
 
 # Play Framework 2.x only works with Java SDK8
-language: java
+language: scala
+scala:
+  - 2.12.4
 jdk:
   - oraclejdk8
 
-# The following settings allow us to execute "sbt test" command.
+# Build Stages Order
+stages:
+  - check styles
+  - unit tests
+
+# The following settings allow us to run concurrent tests using the scripts in the "bin" folder.
 # It also caches things related to SBT. If caching errors occur, please clear the cache on the
 # Travis CI website.
-# Note: At lot of the configurations listed below come from Play Framework's Travis CI settings
-# and from the Travis CI documentations.
-env:
-  # Various different scripts to be run
-  - SCRIPT=runFormatter
-  - SCRIPT=runLicensePlugin
-  - SCRIPT=runJUnitTests
-before_script:
-  - mkdir -p $HOME/.sbt/launchers/0.13.11 && wget -O $HOME/.sbt/launchers/0.13.11/sbt-launch.jar https://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/0.13.11/sbt-launch.jar
-  - cp test/lib/*.jar custom_lib
-  - chmod +x bin/$SCRIPT
-  # Use the following JAVA_OPTS configuration (From Play Framework's .travis.yml)
-  - export JAVA_OPTS="-Xmx4G -Xms1G -Xss4M -XX:MaxMetaspaceSize=512M -XX:ReservedCodeCacheSize=256M -Dfile.encoding=UTF-8"
-  - echo $JAVA_OPTS
-script:
-  - bin/$SCRIPT
+jobs:
+  include:
+    # This stage makes sure that our code styles are the same.
+    - stage: check styles
+      before_script:
+        - chmod +x bin/runFormatter
+      script:
+        - bin/runFormatter
+    - stage: check styles
+      before_script:
+        - chmod +x bin/runLicensePlugin
+      script:
+        - bin/runLicensePlugin
+    # This stage runs the Scala + JUnit tests.
+    - stage: unit tests
+      before_script:
+        - cp test/lib/*.jar custom_lib
+        - chmod +x bin/runUnitTests
+      script:
+        - bin/runUnitTests
 cache:
   directories:
-    - $HOME/.ivy2/cache
-    - $HOME/.sbt/boot/
+    - "$HOME/.ivy2/cache"
 before_cache:
   # Ensure changes to the cache aren't persisted (From Play Framework's .travis.yml)
   - rm -rf $HOME/.ivy2/cache/com.typesafe.play/*

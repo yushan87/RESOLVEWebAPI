@@ -1,33 +1,8 @@
 @(message: String)
 
-@main("RSRG: RESOLVE Web API") {
-    <div id="contentWrapper">
-        <header id="page_header">
-            <div id="rsrg_logo">
-                <a href="http://www.cs.clemson.edu/resolve/index.html" target="_blank"></a>
-            </div>
-            <div id="nsf_logo"><a href="http://nsf.gov" target="_blank"></a></div>
-        </header>
-        <nav>
-        </nav>
-        <section id="content">
-            <article>
-                <h1>Welcome to the Clemson RESOLVE Web API for the RESOLVE compiler.</h1>
-                <p>
-                    @message
-                </p>
-            </article>
-        </section>
-        <footer id="page_footer">
-            <div id="cu_wordmark"><a href="http://www.clemson.edu" target="_blank"></a></div>
-            <div id="html5">
-                <div id="html5_logo"></div>
-                <div id="html5_blurb">
-                    This site is optimized for modern browsers supporting the
-                    HTML5 standard.<br/>
-                </div>
-            </div>
-            <div id="soc_wordmark"><a href="http://www.clemson.edu/ces/computing/" target="_blank"></a></div>
-        </footer>
+@main("RESOLVEWebAPI") {
+    <div class="card-body">
+        <h4 class="card-title text-muted font-weight-bold">Welcome to the Clemson RSRG's WebAPI for the <code>RESOLVE</code> compiler.</h4>
+        <p class="card-text">@message</p>
     </div>
 }

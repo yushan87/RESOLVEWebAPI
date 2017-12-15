@@ -3,8 +3,8 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
-GET     /compiler                   controllers.CompilerSocket.socket(job:String, project:String)
+GET     /                           controllers.HomeController.index()
+GET     /compiler                   controllers.WebSocketController.socket(job:String, project:String)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /assets/*file               controllers.AssetsManager.versioned(path="/public", file: Asset)

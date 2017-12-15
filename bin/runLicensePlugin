@@ -2,7 +2,7 @@
 # This script runs the license plugin to make sure all source files have the appropriate license header.
 
 # Run the license plugin
-sbt "; clean; createHeaders"
+sbt "; clean; headerCreate"
 
 # Change the permission of this file back to 644
 chmod 644 bin/runLicensePlugin

@@ -1,15 +1,13 @@
-import de.heikoseeberger.sbtheader.HeaderPattern
-
 name := "RESOLVEWebAPI"
 
 version := "1.0"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.12.4"
 
 // Scala compiler options
 scalacOptions ++= Seq(
   "-feature", // Shows warnings in detail in the stdout
-  "-language:reflectiveCalls" 
+  "-language:reflectiveCalls"
 )
 
 // Javac compiler options
@@ -21,7 +19,14 @@ javacOptions ++= Seq(
 
 // Managed Dependencies
 libraryDependencies ++= Seq(
-  "org.antlr" % "antlr4" % "4.6"
+  guice,
+  "com.google.code.findbugs" % "jsr305" % "1.3.9",
+  "com.typesafe.play" % "play-ahc-ws-standalone_2.12" % "1.1.3",
+  "com.typesafe.play" % "play-iteratees_2.12" % "2.6.1",
+  "com.typesafe.play" % "play-iteratees-reactive-streams_2.12" % "2.6.1",
+  "com.typesafe.play" % "play-json_2.12" % "2.6.8",
+  "com.typesafe.play" % "play-ws-standalone-json_2.12" % "1.1.3",
+  "org.antlr" % "antlr4" % "4.7.1"
 )
 
 // Unmanaged Dependencies
@@ -31,26 +36,22 @@ unmanagedBase := baseDirectory.value / "custom_lib"
 routesGenerator := InjectedRoutesGenerator
 
 // License Headers
-headers := headers.value ++ Map(
-  "java" -> (
-    HeaderPattern.cStyleBlockComment,
-    """|/**
-       | * ---------------------------------
-       | * Copyright (c) 2017
-       | * RESOLVE Software Research Group
-       | * School of Computing
-       | * Clemson University
-       | * All rights reserved.
-       | * ---------------------------------
-       | * This file is subject to the terms and conditions defined in
-       | * file 'LICENSE.txt', which is part of this source code package.
-       | */
-       |""".stripMargin
-  )
-)
+headerMappings := headerMappings.value + (HeaderFileType.java -> HeaderCommentStyle.cStyleBlockComment)
+
+headerLicense := Some(HeaderLicense.Custom(
+  """|---------------------------------
+     |Copyright (c) 2017
+     |RESOLVE Software Research Group
+     |School of Computing
+     |Clemson University
+     |All rights reserved.
+     |---------------------------------
+     |This file is subject to the terms and conditions defined in
+     |file 'LICENSE.txt', which is part of this source code package.""".stripMargin
+))
 
 // Java Formatter
 javaFormattingSettingsFilename := "rsrg-format.xml"
 
 lazy val main = (project in file("."))
-  .enablePlugins(PlayJava, AutomateHeaderPlugin)
+  .enablePlugins(PlayJava)

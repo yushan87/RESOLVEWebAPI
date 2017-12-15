@@ -1,164 +1,52 @@
+/*
+ * These are the CSS for the RESOLVEWebAPI
+ * Created by: Yu-Shan Sun
+ * Last Modified: 12/11/2017
+ */
 
-body{
-    margin: 0 auto;
+/* General CSS */
+html {
+    position: relative;
+    min-height: 100%;
 }
 
-#contentWrapper{
-    width: 800px;
-    height: 100%;
-    margin: 0 auto;
-    border-left: 2px solid;
-    background: white;
+body {
+    /* Leaving space for footer */
+    margin-bottom: 60px;
 }
 
-header#page_header{
-    width: auto;
-    height: 75px;
-    margin: 0px 10px;
-    padding: 10px 0px;
+/* Header-Related CSS */
+#page-header {
+    min-height: 76px;
+    background-color: #522d80;
 }
 
-#rsrg_logo{
-    width: 400px;
-    height: 68px;
-    display: inline;
-    float: left;
-    background: url(../images/rsrg.png);
+#page-header .nav-link {
+    color: #d4c99e;
 }
 
-#nsf_logo{
-    width: 67px;
-    height: 68px;
-    display: inline;
-    float: right;
-    background: url(../images/nsf1_orig.gif);
-    background-size: 67px;
-}
-
-header a{
-    width: 400px;
-    height: 68px;
-    display: block;
-}
-
-nav{
-    width: auto;
-    clear: both;
-    background: lightgrey;
-    border: 1px solid black;
-}
-
-nav ul{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    height: 30px;
-    -moz-border-radius: .5em;
-    -webkit-border-radius: .5em;
-    border-radius: .5em;
-}
-
-nav li{
-    float: left;
-}
-
-nav a{
-    color: black;
-    padding: 0px 20px;
-    display: block;
-    line-height: 30px;
-    text-decoration: none;
-    border-right: 1px solid black;
-    background-color: lightgrey;
-}
-
-nav a:hover{
+#page-header .nav-link:hover {
     color: #fff;
-    background-color: grey;
 }
 
-nav li:last-child a {
-    -moz-border-radius: 0 6px 6px 0;
-    -webkit-border-radius: 0 6px 6px 0;
-    border-radius: 0 6px 6px 0;
+/* Main Content-Related CSS */
+#page-content {
+    position: relative;
+    top: 0;
+    bottom: 60px;
+    height: calc(100vh - 136px);
 }
 
-.selected{
-    background-color: darkgrey;
+/* Footer-Related CSS */
+#page-footer {
+    /* Sticky footer */
+    position: absolute;
+    bottom: 0;
+    height: 60px;
+    background-color: #3a4958;
+    opacity: 0.75;
 }
 
-section{
-    clear: left;
-    margin: 10px 10px;
-}
-
-article{
-    margin-left: 10px;
-    border-bottom: 2px solid black;
-}
-
-article:last-child{
-    border-bottom-style: none;
-}
-
-footer#page_footer{
-    clear: both;
-    border-top: 2px solid;
-    /*position: absolute;
-    bottom: 0;*/
-    padding: 10px 10px;
-    width: auto;
-    overflow: hidden;
-}
-
-#cu_wordmark{
-    float: left;
-    display: inline;
-    background: url(../images/wordmark.png);
-}
-
-#cu_wordmark a{
-    display: block;
-    width: 250px;
-    height: 72px;
-}
-
-#soc_wordmark{
-    float: right;
-    display: inline;
-    background: url(../images/computing.png);
-}
-
-#soc_wordmark a{
-    display: block;
-    width: 250px;
-    height: 64px;
-}
-
-#html5{
-    float: left;
-    margin-top: 20px;
-}
-
-#html5_logo{
-    width: 32px;
-    height: 32px;
-    margin: 0 auto;
-    background: url(../images/HTML5_Badge_32.png);
-}
-
-#html5_blurb{
-    width: 250px;
-    text-align: center;
-    margin: 0 auto;
-    font-size: smaller;
-}
-
-.content_frame{
-    width: 100%;
-    height: 1000px;
-}
-
-.centered_content{
-    text-align: center;
+#page-footer-content {
+    background-color: #3a4958;
 }
