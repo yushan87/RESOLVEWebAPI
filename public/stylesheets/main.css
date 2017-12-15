@@ -18,11 +18,11 @@ body {
 /* Header-Related CSS */
 #page-header {
     min-height: 76px;
-    background-color: #522D80;
+    background-color: #522d80;
 }
 
 #page-header .nav-link {
-    color: #D4C99E;
+    color: #d4c99e;
 }
 
 #page-header .nav-link:hover {
