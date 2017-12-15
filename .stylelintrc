@@ -9,6 +9,7 @@
     "at-rule-no-vendor-prefix": true,
     "at-rule-semicolon-space-before": "never",
     "color-named": "never",
+    "csstree/validator": true,
     "declaration-block-semicolon-newline-after": "always-multi-line",
     "declaration-block-semicolon-newline-before": "never-multi-line",
     "declaration-block-semicolon-space-after": "always-single-line",

@@ -38,6 +38,7 @@ jobs:
     # This stage runs the Scala + JUnit tests.
     - stage: unit tests
       before_script:
+        - cp test/lib/*.jar custom_lib
         - chmod +x bin/runUnitTests
       script:
         - bin/runUnitTests
