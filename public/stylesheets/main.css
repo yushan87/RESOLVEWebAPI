@@ -1,7 +1,7 @@
 /*
  * These are the CSS for the RESOLVEWebAPI
  * Created by: Yu-Shan Sun
- * Last Modified: 09/11/2017
+ * Last Modified: 12/11/2017
  */
 
 /* General CSS */
@@ -26,13 +26,13 @@ body {
 }
 
 #page-header .nav-link:hover {
-    color: #FFFFFF;
+    color: #fff;
 }
 
 /* Main Content-Related CSS */
 #page-content {
     position: relative;
-    top: 0px;
+    top: 0;
     bottom: 60px;
     height: calc(100vh - 136px);
 }
@@ -43,10 +43,10 @@ body {
     position: absolute;
     bottom: 0;
     height: 60px;
-    background-color: #3A4958;
+    background-color: #3a4958;
     opacity: 0.75;
 }
 
 #page-footer-content {
-    background-color: #3A4958;
+    background-color: #3a4958;
 }
