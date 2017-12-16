@@ -4,11 +4,12 @@ RESOLVEWebAPI
 <img align="right" src="public/images/resolve_logo.png"/>
 
 This is the back-end API that services request to compile, translate and verification using the RESOLVE compiler. 
-The project requires `Java 8+` and `Play Framework 2.6.x` to run. Instructions to install these requirements can be found on their respective websites.
+The project requires `sbt 1.x`, `Scala 2.12.x`, `Java 8+` and `Play Framework 2.6.x` to run. 
+Instructions to install these requirements can be found on their respective websites.
 
 ## Setting up
 
-As a first step, you will need to download `Play Framework 2.6.x`. 
+As a first step, you will need to download `sbt 1.x` and install the latest version of `Play Framework 2.6.x`. 
 Instructions on how to install `Play Framework` and setup your favorite development IDE can be found [here](http://www.playframework.com/).
 
 (* Add more instructions when they are needed *)
