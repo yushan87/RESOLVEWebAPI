@@ -9,8 +9,9 @@ Instructions to install these requirements can be found on their respective webs
 
 ## Setting up
 
-As a first step, you will need to download `sbt 1.x` and install the latest version of `Play Framework 2.6.x`. 
-Instructions on how to install `Play Framework` and setup your favorite development IDE can be found [here](http://www.playframework.com/).
+As a prerequisite, you will need to download and install `sbt 1.x` and `Java JDK 8+`. The current project is already 
+configured to install `Scala 2.12.x`, `Play Framework` and all necessary plugins. Instructions on how to 
+setup your favorite development IDE can be found [here](http://www.playframework.com/).
 
 (* Add more instructions when they are needed *)
 
