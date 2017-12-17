@@ -13,7 +13,17 @@ As a prerequisite, you will need to download and install `sbt 1.x` and `Java JDK
 configured to install `Scala 2.12.x`, `Play Framework` and all necessary plugins. Instructions on how to 
 setup your favorite development IDE can be found [here](http://www.playframework.com/).
 
-(* Add more instructions when they are needed *)
+### Imported Plugins
+
+(* Fill in all plugin information here! *)
+
+### Project Organization
+
+(* Fill in a basic overview of the project here! *)
+
+### Additional Project Configurations and Dependencies
+
+(* Fill in all the necessary information here! *)
 
 ## What is RESOLVE?
 
