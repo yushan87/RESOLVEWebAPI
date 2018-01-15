@@ -94,7 +94,7 @@ include:
 
 ## Copyright and license
 
-Copyright © 2017, [RESOLVE Software Research Group (RSRG)](https://www.cs.clemson.edu/resolve/). All rights reserved. 
+Copyright © 2018, [RESOLVE Software Research Group (RSRG)](https://www.cs.clemson.edu/resolve/). All rights reserved. 
 The use and distribution terms for this software are covered by the BSD 3-clause 
 license which can be found in the file `LICENSE.txt` at the root of this repository.
 By using this software in any fashion, you are agreeing to be bound by the terms
