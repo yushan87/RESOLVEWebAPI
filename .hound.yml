@@ -34,7 +34,7 @@ swift:
 
 # ESLint (JavaScript)
 eslint:
-  enabled: false
+  enabled: true
   config_file: .eslintrc
   ignore_file: .houndignore
 
