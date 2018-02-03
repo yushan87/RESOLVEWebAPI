@@ -38,7 +38,7 @@ Only the important files are described in this section and shown in the figure b
 See [here](https://www.playframework.com/documentation/2.6.x/Anatomy) for more information.
 All application source files are located inside the `app` folder and the unit testing files are located 
 in `test`. The `compiler` folder contains things that are needed to instantiate a compile job 
-as well as how to handle input and output messages fromthe compiler. The `controllers` and 
+as well as how to handle input and output messages from the compiler. The `controllers` and 
 `views` folders contain the controllers for the various different `WebSocket` protocols and 
 `HTML` rendering template code. All static resources can be found in the `public` directory. 
 
