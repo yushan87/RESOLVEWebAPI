@@ -1,0 +1,51 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <!-- Meta -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+        <title>@title</title>
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="@controllers.routes.AssetsManager.versioned("images/resolve_logo.png")">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+        <link rel="stylesheet" media="screen" href="@controllers.routes.AssetsManager.versioned("stylesheets/htmlError.css")">
+    </head>
+    <body>
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+        <!-- Page Header -->
+        <header id="page-header" class="d-flex flex-column border-bottom">
+            <div id="page-header-top" class="d-inline p-1"></div>
+            <nav class="navbar navbar-expand navbar-light flex-column flex-md-row" style="background-color: #fdfdfd;" role="navigation">
+                <div class="navbar-brand">
+                    <span id="site-title" class="pl-1 text-center align-bottom">The RESOLVE Project</span>
+                </div>
+                <ul class="navbar-nav flex-row ml-md-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="@controllers.routes.HomeController.index()"> Home</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Page Content -->
+        <main id="page-content" role="main">
+            <div class="container w-100 pt-3 pb-2">
+                @content
+            </div>
+        </main>
+    </body>
+</html>
