@@ -105,12 +105,10 @@ public class HttpErrorHandler extends DefaultHttpErrorHandler {
                     "default-src 'self'; style-src 'self' 'unsafe-inline'"));
         }
         else {
-            return CompletableFuture.completedFuture(Results.notFound(
-                    views.html.defaultpages.devNotFound.render(
+            return CompletableFuture.completedFuture(Results
+                    .notFound(views.html.htmlerror.dev.notFound.render(
                             request.method(), request.uri(),
-                            Some.apply(myRoutes.get()))).withHeader(
-                    "Content-Security-Policy",
-                    "default-src 'self'; style-src 'self' 'unsafe-inline'"));
+                            Some.apply(myRoutes.get()))));
         }
     }
 
