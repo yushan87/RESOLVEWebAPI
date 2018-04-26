@@ -72,6 +72,7 @@ public class HttpErrorHandler extends DefaultHttpErrorHandler {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected final CompletionStage<Result> onBadRequest(RequestHeader request,
             String message) {
         return CompletableFuture.completedFuture(Results.badRequest(
@@ -84,6 +85,7 @@ public class HttpErrorHandler extends DefaultHttpErrorHandler {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected final CompletionStage<Result> onForbidden(RequestHeader request,
             String message) {
         return CompletableFuture.completedFuture(Results.forbidden(
@@ -95,6 +97,7 @@ public class HttpErrorHandler extends DefaultHttpErrorHandler {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected final CompletionStage<Result> onNotFound(RequestHeader request,
             String message) {
         if (myEnvironment.isProd()) {
@@ -115,6 +118,7 @@ public class HttpErrorHandler extends DefaultHttpErrorHandler {
     /**
      * {@inheritDoc}
      */
+    @Override
     protected final CompletionStage<Result> onOtherClientError(
             RequestHeader request, int statusCode, String message) {
         return CompletableFuture.completedFuture(Results.status(
@@ -128,6 +132,16 @@ public class HttpErrorHandler extends DefaultHttpErrorHandler {
     /**
      * {@inheritDoc}
      */
+    @Override
+    protected final CompletionStage<Result> onDevServerError(
+            RequestHeader request, UsefulException exception) {
+        return this.onProdServerError(request, exception);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     protected final CompletionStage<Result> onProdServerError(
             RequestHeader request, UsefulException exception) {
         return CompletableFuture.completedFuture(Results.internalServerError(
