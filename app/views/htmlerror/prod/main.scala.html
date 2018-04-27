@@ -1,0 +1,24 @@
+@(title: String, codeNum: Int)(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        @views.html.includes.commonHTMLHead(title)
+
+        <!-- Our Own CSS -->
+        <link rel="stylesheet" media="screen" href="@controllers.routes.AssetsManager.versioned("stylesheets/htmlErrorProd.css")">
+    </head>
+    <body>
+        @views.html.includes.jsLibraries()
+
+        <!-- Page Content -->
+        <main id="page-content" role="main">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    @content
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
