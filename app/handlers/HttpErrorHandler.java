@@ -26,7 +26,6 @@ import play.http.DefaultHttpErrorHandler;
 import play.mvc.Http.RequestHeader;
 import play.mvc.Result;
 import play.mvc.Results;
-import scala.Option;
 import scala.Some;
 
 /**
@@ -45,9 +44,6 @@ public class HttpErrorHandler extends DefaultHttpErrorHandler {
     // Member Fields
     // ===========================================================
 
-    /** <p>Configuration handler</p> */
-    private final Config myConfiguration;
-
     /** <p>Contains all information related current deployment environment.</p> */
     private final Environment myEnvironment;
 
@@ -65,7 +61,6 @@ public class HttpErrorHandler extends DefaultHttpErrorHandler {
     public HttpErrorHandler(Config config, Environment environment,
             OptionalSourceMapper sourceMapper, Provider<Router> routes) {
         super(config, environment, sourceMapper, routes);
-        myConfiguration = config;
         myEnvironment = environment;
         myRoutes = routes;
     }
@@ -140,12 +135,9 @@ public class HttpErrorHandler extends DefaultHttpErrorHandler {
     @Override
     protected final CompletionStage<Result> onDevServerError(
             RequestHeader request, UsefulException exception) {
-        Option<String> playEditor =
-                Option.apply(myConfiguration.hasPath("play.editor") ? myConfiguration
-                        .getString("play.editor") : null);
         return CompletableFuture.completedFuture(Results
-                .internalServerError(views.html.defaultpages.devError.render(
-                        playEditor, exception)));
+                .internalServerError(views.html.htmlerror.dev.serverError
+                        .render(exception)));
     }
 
     /**
