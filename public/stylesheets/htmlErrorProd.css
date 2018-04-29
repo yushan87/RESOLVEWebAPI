@@ -10,8 +10,5 @@ body {
 
 /* Main Content-Related CSS */
 #page-content {
-    position: relative;
-    top: 0;
-    bottom: 0;
-    min-height: calc(100vh);
+    min-height: 100vh;
 }
