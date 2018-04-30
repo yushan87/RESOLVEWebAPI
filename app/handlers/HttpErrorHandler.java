@@ -75,11 +75,9 @@ public class HttpErrorHandler extends DefaultHttpErrorHandler {
     @Override
     protected final CompletionStage<Result> onBadRequest(RequestHeader request,
             String message) {
-        return CompletableFuture.completedFuture(Results.badRequest(
-                views.html.defaultpages.badRequest.render(request.method(),
-                        request.uri(), message)).withHeader(
-                "Content-Security-Policy",
-                "default-src 'self'; style-src 'self' 'unsafe-inline'"));
+        return CompletableFuture.completedFuture(Results
+                .badRequest(views.html.htmlerror.prod.badRequest.render(
+                        request.method(), request.uri(), message)));
     }
 
     /**
@@ -88,10 +86,9 @@ public class HttpErrorHandler extends DefaultHttpErrorHandler {
     @Override
     protected final CompletionStage<Result> onForbidden(RequestHeader request,
             String message) {
-        return CompletableFuture.completedFuture(Results.forbidden(
-                views.html.defaultpages.unauthorized.render()).withHeader(
-                "Content-Security-Policy",
-                "default-src 'self'; style-src 'self' 'unsafe-inline'"));
+        return CompletableFuture.completedFuture(Results
+                .forbidden(views.html.htmlerror.prod.unauthorized.render(
+                        request.method(), request.uri())));
     }
 
     /**
@@ -101,11 +98,9 @@ public class HttpErrorHandler extends DefaultHttpErrorHandler {
     protected final CompletionStage<Result> onNotFound(RequestHeader request,
             String message) {
         if (myEnvironment.isProd()) {
-            return CompletableFuture.completedFuture(Results.notFound(
-                    views.html.defaultpages.notFound.render(request.method(),
-                            request.uri())).withHeader(
-                    "Content-Security-Policy",
-                    "default-src 'self'; style-src 'self' 'unsafe-inline'"));
+            return CompletableFuture.completedFuture(Results
+                    .notFound(views.html.htmlerror.prod.notFound.render(
+                            request.method(), request.uri())));
         }
         else {
             return CompletableFuture.completedFuture(Results
@@ -121,12 +116,18 @@ public class HttpErrorHandler extends DefaultHttpErrorHandler {
     @Override
     protected final CompletionStage<Result> onOtherClientError(
             RequestHeader request, int statusCode, String message) {
-        return CompletableFuture.completedFuture(Results.status(
-                statusCode,
-                views.html.defaultpages.badRequest.render(request.method(),
-                        request.uri(), message)).withHeader(
-                "Content-Security-Policy",
-                "default-src 'self'; style-src 'self' 'unsafe-inline'"));
+        if (statusCode == 401) {
+            return CompletableFuture.completedFuture(Results.status(
+                    statusCode,
+                    views.html.htmlerror.prod.unauthorized.render(
+                            request.method(), request.uri())));
+        }
+        else {
+            return CompletableFuture.completedFuture(Results.status(statusCode,
+                    views.html.htmlerror.prod.otherClientError.render(
+                            "Other Client Error", statusCode, request.method(),
+                            request.uri(), message)));
+        }
     }
 
     /**
@@ -146,10 +147,9 @@ public class HttpErrorHandler extends DefaultHttpErrorHandler {
     @Override
     protected final CompletionStage<Result> onProdServerError(
             RequestHeader request, UsefulException exception) {
-        return CompletableFuture.completedFuture(Results.internalServerError(
-                views.html.defaultpages.error.render(exception)).withHeader(
-                "Content-Security-Policy",
-                "default-src 'self'; style-src 'self' 'unsafe-inline'"));
+        return CompletableFuture.completedFuture(Results
+                .internalServerError(views.html.htmlerror.prod.serverError
+                        .render(exception)));
     }
 
 }
