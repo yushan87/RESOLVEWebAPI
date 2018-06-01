@@ -1,7 +1,7 @@
 RESOLVEWebAPI
 ==============
 [![Build Status](https://travis-ci.org/ClemsonRSRG/RESOLVEWebAPI.svg?branch=master)](https://travis-ci.org/ClemsonRSRG/RESOLVEWebAPI)
-<img align="right" src="public/images/resolve_logo.png" style="width:200px;"/> [![License](https://img.shields.io/badge/license-BSD-blue.svg)](https://raw.githubusercontent.com/ClemsonRSRG/RESOLVEWebAPI/master/LICENSE.txt)
+<img align="right" src="public/images/resolve_logo.png" width="200"/> [![License](https://img.shields.io/badge/license-BSD-blue.svg)](https://raw.githubusercontent.com/ClemsonRSRG/RESOLVEWebAPI/master/LICENSE.txt)
 
 This is the back-end API that services request to compile, translate and verification using the [RESOLVE compiler](https://github.com/ClemsonRSRG/RESOLVE). 
 The project requires `sbt 1.x`, `Scala 2.12.x`, `Java 8+` and `Play Framework 2.6.x` to run. 
