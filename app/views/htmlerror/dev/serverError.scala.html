@@ -1,0 +1,22 @@
+@import play.api.UsefulException
+
+@(exception: UsefulException)
+
+@htmlerror.dev.main("Internal Server Error", 500) {
+    <div class="d-flex flex-row mt-3 mb-2">
+        @if(!exception.title.equals("")) {
+            <h4 class="m-0">@exception.title:</h4>
+        }
+        <span class="pl-2 align-self-end">@exception.description</span>
+    </div>
+    @if(exception.cause == null) {
+        <h6 class="py-1 text-muted">No source available, here is the exception stack trace:</h6>
+    } else {
+        <h6 class="py-1 text-muted">Caused by: @exception.cause.getClass.getName</h6>
+    }
+    <div class="d-flex flex-column">
+        @for(element <- exception.getStackTrace) {
+            <div class="ml-4 text-muted">at @element</div>
+        }
+    </div>
+}

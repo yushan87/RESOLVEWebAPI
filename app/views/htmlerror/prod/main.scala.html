@@ -1,0 +1,27 @@
+@(title: String, codeNum: Int)(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        @views.html.includes.commonHTMLHead(title)
+
+        <!-- Our Own CSS -->
+        <link rel="stylesheet" media="screen" href="@controllers.routes.AssetsManager.versioned("stylesheets/htmlErrorProd.css")">
+    </head>
+    <body>
+        @views.html.includes.jsLibraries()
+
+        <!-- Page Content -->
+        <main id="page-content" class="d-flex flex-column justify-content-center" role="main">
+            <div class="d-flex justify-content-center mb-3 align-items-center">
+                <h1 class="m-0 display-4 text-center">@title</h1>
+                <h4 class="pl-3 m-0 text-center text-muted"> [ Error @codeNum ]</h4>
+            </div>
+            @content
+            <div class="d-flex mt-4 justify-content-center align-items-center">
+                <a class="btn btn-outline-primary" href="@controllers.routes.HomeController.index()" role="button">Home</a>
+            </div>
+        </main>
+    </body>
+</html>

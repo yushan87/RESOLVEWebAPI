@@ -1,0 +1,23 @@
+@(method: String, uri: String, router: Option[play.api.routing.Router])
+
+@htmlerror.dev.main("Not Found", 404) {
+    <h4 class="mt-3">Request: '@method @uri'.</h4>
+    @router match {
+        case Some(routes) => {
+            <h6 class="py-1 text-muted">These routes have been tried, in this order:</h6>
+            <table class="table table-striped">
+            @routes.documentation.zipWithIndex.map { r =>
+                <tr>
+                    <th scope="row">@(r._2 + 1)</th>
+                    <td>@r._1._1</td>
+                    <td>@r._1._2</td>
+                    <td>@r._1._3</td>
+                </tr>
+            }
+            </table>
+        }
+        case None => {
+            <h6 class="py-1 text-muted">No router defined.</h6>
+        }
+    }
+}
