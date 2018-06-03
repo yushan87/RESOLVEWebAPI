@@ -2,7 +2,7 @@ name := "RESOLVEWebAPI"
 
 version := "1.0"
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.6"
 
 // Scala compiler options
 scalacOptions ++= Seq(
@@ -21,11 +21,11 @@ javacOptions ++= Seq(
 libraryDependencies ++= Seq(
   guice,
   "com.google.code.findbugs" % "jsr305" % "1.3.9",
-  "com.typesafe.play" % "play-ahc-ws-standalone_2.12" % "1.1.6",
+  "com.typesafe.play" % "play-ahc-ws-standalone_2.12" % "1.1.9",
   "com.typesafe.play" % "play-iteratees_2.12" % "2.6.1",
   "com.typesafe.play" % "play-iteratees-reactive-streams_2.12" % "2.6.1",
   "com.typesafe.play" % "play-json_2.12" % "2.6.9",
-  "com.typesafe.play" % "play-ws-standalone-json_2.12" % "1.1.6",
+  "com.typesafe.play" % "play-ws-standalone-json_2.12" % "1.1.9",
   "org.antlr" % "antlr4" % "4.7.1"
 )
 
