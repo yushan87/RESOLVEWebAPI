@@ -78,7 +78,7 @@ library files for the `RESOLVE` language. The workspace can be found [here](http
 Note that you can have multiple distinct copies of the RESOLVE workspace folder (with different names).
 
 Lastly, you will need to use the `local-config-template.conf` and create a `local-config.conf` file with all 
-the required information filled in. This contains information on the various port numbers as well as a the 
+the required information filled in. This contains information on the various port numbers as well as a  
 path to all the RESOLVE workspaces.
 
 ## Authors and major contributors
