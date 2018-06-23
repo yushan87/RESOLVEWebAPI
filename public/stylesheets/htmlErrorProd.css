@@ -1,0 +1,14 @@
+/* General CSS */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    background-color: #fdfdfd !important;
+}
+
+/* Main Content-Related CSS */
+#page-content {
+    min-height: 100vh;
+}
