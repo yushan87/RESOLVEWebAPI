@@ -4,28 +4,12 @@
 
 <html>
     <head>
-        @views.html.includes.commonHTMLHead(title)
+        @views.html.includes.html_head(title)
 
         <link rel="stylesheet" media="screen" href="@controllers.routes.AssetsManager.versioned("stylesheets/main.css")">
     </head>
     <body class="bg-light">
-        @views.html.includes.jsLibraries()
-
-        <!-- Page Header -->
-        <header id="page-header" class="navbar navbar-expand navbar-dark flex-column flex-md-row">
-            <div class="navbar-brand">
-                <img src="@controllers.routes.AssetsManager.versioned("images/rsrg_logo.png")" width="50" height="50" alt="Clemson RSRG Logo">
-                <span class="hidden-sm-down">&nbsp; RESOLVEWebAPI</span>
-            </div>
-            <ul class="navbar-nav flex-row ml-md-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="@controllers.routes.HomeController.index()"><i class="fas fa-home fa-fw" aria-hidden="true"></i>&nbsp;Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-bug fa-fw" aria-hidden="true"></i>&nbsp;Test Suite</a>
-                </li>
-            </ul>
-        </header>
+        @views.html.includes.body_header()
 
         <!-- Container Block -->
         <div class="container-fluid w-100 px-5">

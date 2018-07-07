@@ -4,13 +4,13 @@
 
 <html>
     <head>
-        @views.html.includes.commonHTMLHead(title)
+        @views.html.includes.html_head(title)
 
         <!-- Our Own CSS -->
         <link rel="stylesheet" media="screen" href="@controllers.routes.AssetsManager.versioned("stylesheets/htmlErrorDev.css")">
     </head>
     <body>
-        @views.html.includes.jsLibraries()
+        @views.html.includes.body_header()
 
         <!-- Page Header -->
         <header id="page-header" class="d-flex flex-column border-bottom">
