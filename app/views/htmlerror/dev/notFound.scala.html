@@ -5,16 +5,18 @@
     @router match {
         case Some(routes) => {
             <h6 class="py-1 text-muted">These routes have been tried, in this order:</h6>
-            <table class="table table-striped">
-            @routes.documentation.zipWithIndex.map { r =>
-                <tr>
-                    <th scope="row">@(r._2 + 1)</th>
-                    <td>@r._1._1</td>
-                    <td>@r._1._2</td>
-                    <td>@r._1._3</td>
-                </tr>
-            }
-            </table>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                @routes.documentation.zipWithIndex.map { r =>
+                    <tr>
+                        <th scope="row">@(r._2 + 1)</th>
+                        <td>@r._1._1</td>
+                        <td>@r._1._2</td>
+                        <td>@r._1._3</td>
+                    </tr>
+                }
+                </table>
+            </div>
         }
         case None => {
             <h6 class="py-1 text-muted">No router defined.</h6>

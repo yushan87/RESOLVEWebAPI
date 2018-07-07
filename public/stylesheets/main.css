@@ -1,9 +1,3 @@
-/*
- * These are the CSS for the RESOLVEWebAPI
- * Created by: Yu-Shan Sun
- * Last Modified: 12/11/2017
- */
-
 /* General CSS */
 html {
     position: relative;
@@ -17,16 +11,31 @@ body {
 
 /* Header-Related CSS */
 #page-header {
-    min-height: 76px;
-    background-color: #522d80;
+    min-height: 70px;
+}
+
+#page-header .navbar {
+    min-height: inherit;
+    background-color: #3a4958 !important;
 }
 
 #page-header .nav-link {
-    color: #d4c99e;
+    font-size: 0.95rem;
+    color: #d4c99e !important;
 }
 
 #page-header .nav-link:hover {
-    color: #fff;
+    color: #337ab7 !important;
+}
+
+#page-header .navbar-brand:hover {
+    color: #337ab7 !important;
+}
+
+#site-title {
+    font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size: 1.75rem;
+    font-weight: 200 !important;
 }
 
 /* Main Content-Related CSS */
@@ -34,7 +43,7 @@ body {
     position: relative;
     top: 0;
     bottom: 60px;
-    height: calc(100vh - 136px);
+    height: calc(100vh - 130px);
 }
 
 /* Footer-Related CSS */

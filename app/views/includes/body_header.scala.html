@@ -1,20 +1,19 @@
-<!-- JavaScript Libraries -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+@views.html.includes.js_libraries()
 
 <!-- Page Header -->
-<header id="page-header" class="navbar navbar-expand navbar-dark flex-column flex-md-row">
-    <div class="navbar-brand">
-        <img src="@controllers.routes.AssetsManager.versioned("images/rsrg_logo.png")" width="50" height="50" alt="Clemson RSRG Logo">
-        <span class="hidden-sm-down">&nbsp; RESOLVEWebAPI</span>
-    </div>
-    <ul class="navbar-nav flex-row ml-md-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="@controllers.routes.HomeController.index()"><i class="fas fa-home fa-fw" aria-hidden="true"></i>&nbsp;Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#"><i class="fas fa-bug fa-fw" aria-hidden="true"></i>&nbsp;Test Suite</a>
-        </li>
-    </ul>
+<header id="page-header" class="d-flex flex-column">
+    <nav class="navbar navbar-expand navbar-dark flex-column flex-md-row" role="navigation">
+        <a class="navbar-brand" href="@controllers.routes.HomeController.index()">
+            <img src="@controllers.routes.AssetsManager.versioned("images/resolve_logo.png")" width="40" height="40" alt="Clemson RESOLVE Logo">
+            <span id="site-title" class="pl-1 text-center align-bottom">RESOLVEWebAPI</span>
+        </a>
+        <ul class="navbar-nav flex-row ml-md-auto align-items-center text-center">
+            <li class="nav-item">
+                <a class="nav-link" href="@controllers.routes.HomeController.index()"><i class="fas fa-home fa-fw d-none d-sm-inline-flex" aria-hidden="true"></i><span class="d-none d-sm-inline-flex">&nbsp; </span>Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fas fa-bug fa-fw d-none d-sm-inline-flex" aria-hidden="true"></i><span class="d-none d-sm-inline-flex">&nbsp; </span>Test Suite</a>
+            </li>
+        </ul>
+    </nav>
 </header>
