@@ -4,25 +4,25 @@
 
 <html>
     <head>
-        @views.html.includes.commonHTMLHead(title)
+        @views.html.includes.html_head(title)
 
         <!-- Our Own CSS -->
         <link rel="stylesheet" media="screen" href="@controllers.routes.AssetsManager.versioned("stylesheets/htmlErrorDev.css")">
     </head>
     <body>
-        @views.html.includes.jsLibraries()
+        @views.html.includes.js_libraries()
 
         <!-- Page Header -->
         <header id="page-header" class="d-flex flex-column border-bottom">
             <div id="page-header-top" class="d-inline p-1"></div>
-            <nav class="navbar navbar-expand navbar-light flex-column flex-md-row" style="background-color: #fdfdfd;" role="navigation">
+            <nav class="navbar navbar-expand navbar-light flex-column flex-md-row" role="navigation">
                 <div class="navbar-brand">
                     <span id="site-title" class="text-center align-bottom">@title</span>
                     <span class="pl-2 text-center text-muted align-bottom"> [ Error @codeNum ]</span>
                 </div>
-                <ul class="navbar-nav flex-row ml-md-auto">
+                <ul class="navbar-nav flex-row ml-md-auto align-items-center text-center">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" href="@controllers.routes.HomeController.index()"> Home</a>
+                        <a class="nav-link" href="@controllers.routes.HomeController.index()"><i class="fas fa-home fa-fw d-none d-sm-inline-flex" aria-hidden="true"></i><span class="d-none d-sm-inline-flex">&nbsp; </span>Home</a>
                     </li>
                 </ul>
             </nav>

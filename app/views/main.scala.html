@@ -4,42 +4,18 @@
 
 <html>
     <head>
-        @views.html.includes.commonHTMLHead(title)
+        @views.html.includes.html_head(title)
 
         <link rel="stylesheet" media="screen" href="@controllers.routes.AssetsManager.versioned("stylesheets/main.css")">
     </head>
-    <body class="bg-light">
-        @views.html.includes.jsLibraries()
+    <body>
+        @views.html.includes.body_header()
 
-        <!-- Page Header -->
-        <header id="page-header" class="navbar navbar-expand navbar-dark flex-column flex-md-row">
-            <div class="navbar-brand">
-                <img src="@controllers.routes.AssetsManager.versioned("images/rsrg_logo.png")" width="50" height="50" alt="Clemson RSRG Logo">
-                <span class="hidden-sm-down">&nbsp; RESOLVEWebAPI</span>
-            </div>
-            <ul class="navbar-nav flex-row ml-md-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="@controllers.routes.HomeController.index()"><i class="fas fa-home fa-fw" aria-hidden="true"></i>&nbsp;Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-bug fa-fw" aria-hidden="true"></i>&nbsp;Test Suite</a>
-                </li>
-            </ul>
-        </header>
+        <!-- Page Content -->
+        <main id="page-content" role="main">
+            @content
+        </main>
 
-        <!-- Container Block -->
-        <div class="container-fluid w-100 px-5">
-            <!-- Page Content -->
-            <div id="page-content" class="card py-0">
-                @content
-            </div>
-        </div>
-
-        <!-- Page Footer -->
-        <footer id="page-footer" class="footer w-100 pt-2">
-            <div id="page-footer-content" class="d-flex flex-column">
-                <span class="text-light text-center">This research is funded in part by NSF grants DUE-0633506, DMS-0701187, CCF-0811748, DUE-1022941, and CCF-1161916.</span>
-            </div>
-        </footer>
+        @views.html.includes.body_footer()
     </body>
 </html>
