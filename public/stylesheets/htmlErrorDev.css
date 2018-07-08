@@ -13,12 +13,17 @@ body {
     min-height: 80px;
 }
 
+#page-header .navbar {
+    background-color: #fdfdfd !important;
+}
+
 #page-header .nav-link {
-    color: #3d4155 !important;
+    font-size: 0.95rem;
+    color: #343a40 !important;
 }
 
 #page-header .nav-link:hover {
-    color: #6db6ca !important;
+    color: #337ab7 !important;
 }
 
 #page-header .navbar-brand {
@@ -26,11 +31,11 @@ body {
 }
 
 #page-header-top {
-    background-color: #f78c65 !important;
+    background-color: #f66733 !important;
 }
 
 #site-title {
-    font-family: "Helvetica Neue", serif;
+    font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
     font-size: 1.75rem;
     font-weight: 200 !important;
 }

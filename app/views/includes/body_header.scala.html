@@ -1,0 +1,22 @@
+@views.html.includes.js_libraries()
+
+<!-- Page Header -->
+<header id="page-header" class="d-flex flex-column">
+    <nav class="navbar navbar-expand navbar-dark flex-column flex-md-row" role="navigation">
+        <a class="navbar-brand" href="@controllers.routes.HomeController.index()">
+            <img src="@controllers.routes.AssetsManager.versioned("images/resolve_logo.png")" width="40" height="40" alt="Clemson RESOLVE Logo">
+            <span id="site-title" class="pl-1 text-center align-bottom">RESOLVEWebAPI</span>
+        </a>
+        <ul class="navbar-nav flex-row ml-md-auto align-items-center text-center">
+            <li class="nav-item">
+                <a class="nav-link" href="@controllers.routes.HomeController.index()"><i class="fas fa-home fa-fw d-none d-sm-inline-flex" aria-hidden="true"></i><span class="d-none d-sm-inline-flex">&nbsp; </span>Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@controllers.routes.APIDocController.docIndex()"><i class="fas fa-file-alt fa-fw d-none d-sm-inline-flex" aria-hidden="true"></i><span class="d-none d-sm-inline-flex">&nbsp; </span>API</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fas fa-bug fa-fw d-none d-sm-inline-flex" aria-hidden="true"></i><span class="d-none d-sm-inline-flex">&nbsp; </span>Test Suite</a>
+            </li>
+        </ul>
+    </nav>
+</header>
