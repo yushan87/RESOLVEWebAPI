@@ -8,22 +8,14 @@
 
         <link rel="stylesheet" media="screen" href="@controllers.routes.AssetsManager.versioned("stylesheets/main.css")">
     </head>
-    <body class="bg-light">
+    <body>
         @views.html.includes.body_header()
 
-        <!-- Container Block -->
-        <div class="container-fluid w-100 px-5">
-            <!-- Page Content -->
-            <div id="page-content" class="card py-0">
-                @content
-            </div>
-        </div>
+        <!-- Page Content -->
+        <main id="page-content" role="main">
+            @content
+        </main>
 
-        <!-- Page Footer -->
-        <footer id="page-footer" class="footer w-100 pt-2">
-            <div id="page-footer-content" class="d-flex flex-column">
-                <span class="text-light text-center">This research is funded in part by NSF grants DUE-0633506, DMS-0701187, CCF-0811748, DUE-1022941, and CCF-1161916.</span>
-            </div>
-        </footer>
+        @views.html.includes.body_footer()
     </body>
 </html>

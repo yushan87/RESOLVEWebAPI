@@ -7,6 +7,7 @@ html {
 body {
     /* Leaving space for footer */
     margin-bottom: 60px;
+    background-color: #fdfdfd !important;
 }
 
 /* Header-Related CSS */
@@ -42,8 +43,12 @@ body {
 #page-content {
     position: relative;
     top: 0;
-    bottom: 60px;
-    height: calc(100vh - 130px);
+    bottom: 80px;
+    min-height: calc(100vh - 150px);
+}
+
+#page-content a {
+    text-decoration: none;
 }
 
 /* Footer-Related CSS */
@@ -51,11 +56,17 @@ body {
     /* Sticky footer */
     position: absolute;
     bottom: 0;
-    height: 60px;
-    background-color: #3a4958;
-    opacity: 0.75;
+    height: 80px;
+    color: #fdfdfd !important;
+    background-color: #86898c !important;
 }
 
-#page-footer-content {
-    background-color: #3a4958;
+#page-footer .footer-link {
+    font-size: 1rem;
+    color: #343a40 !important;
+    text-decoration: none;
+}
+
+#page-footer .footer-link:hover {
+    color: #337ab7 !important;
 }
