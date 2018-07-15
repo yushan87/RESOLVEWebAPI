@@ -17,7 +17,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.apidoc;
+import views.html.api.apidoc;
 
 /**
  * <p>This singleton class serves as the controller for displaying
