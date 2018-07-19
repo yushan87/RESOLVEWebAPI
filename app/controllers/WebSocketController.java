@@ -71,6 +71,7 @@ public class WebSocketController extends Controller {
      *
      * @param actorSystem An actor system for keeping track of all user requests.
      * @param materializer A factory that makes the streams we create run.
+     * @param config The configuration manager.
      */
     @Inject
     public WebSocketController(ActorSystem actorSystem,

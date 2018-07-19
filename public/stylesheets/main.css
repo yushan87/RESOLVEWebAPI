@@ -51,6 +51,53 @@ body {
     text-decoration: none;
 }
 
+#page-sidebar {
+    position: relative;
+    top: 0;
+    bottom: 80px;
+    left: 0;
+    z-index: 1000;
+    padding: 20px;
+    overflow-x: hidden; /* No overflow on the x axis */
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+}
+
+#page-sidebar .nav-link {
+    color: #343a40 !important;
+}
+
+#page-sidebar .nav-link:hover {
+    color: #337ab7 !important;
+}
+
+#page-content-right {
+    position: relative;
+    top: 0;
+    bottom: 80px;
+    z-index: 1000;
+    padding: 20px;
+}
+
+/* Sidebar-Page-Related Media Query */
+@media (min-width: 768px) {
+    /* Set the max-width/height and draw a right border when screen size is md up */
+    #page-sidebar {
+        max-width: 270px;
+        height: calc(100vh - 150px);
+    }
+
+    #page-content-right {
+        border-left: 1px solid rgba(0, 0, 0, 0.1);
+    }
+}
+
+@media (max-width: 768px) {
+    /* Draw a bottom border when it is less than md */
+    #page-sidebar {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+}
+
 /* Footer-Related CSS */
 #page-footer {
     /* Sticky footer */

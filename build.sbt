@@ -20,6 +20,7 @@ javacOptions ++= Seq(
 // Managed Dependencies
 libraryDependencies ++= Seq(
   guice,
+  "com.atlassian.commonmark" % "commonmark"  % "0.11.0",
   "com.google.code.findbugs" % "jsr305" % "1.3.9",
   "com.typesafe.play" % "play-ahc-ws-standalone_2.12" % "1.1.9",
   "com.typesafe.play" % "play-iteratees_2.12" % "2.6.1",
