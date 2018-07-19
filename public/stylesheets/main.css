@@ -87,14 +87,14 @@ body {
     }
 
     #page-content-right {
-        border-left: 1px solid rgba(0,0,0,.1);
+        border-left: 1px solid rgba(0, 0, 0, 0.1);
     }
 }
 
 @media (max-width: 768px) {
     /* Draw a bottom border when it is less than md */
     #page-sidebar {
-        border-bottom: 1px solid rgba(0,0,0,.1);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
 }
 
