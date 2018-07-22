@@ -55,4 +55,4 @@ headerLicense := Some(HeaderLicense.Custom(
 javaFormattingSettingsFilename := "rsrg-format.xml"
 
 lazy val main = (project in file("."))
-  .enablePlugins(PlayJava)
+  .enablePlugins(PlayJava, AutomateHeaderPlugin)
