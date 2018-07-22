@@ -5,7 +5,7 @@ logLevel := Level.Warn
 resolvers += "Typesafe repository" at "https://repo.typesafe.com/typesafe/ivy-releases/"
 
 // SBT Plugin for Play Framwork 2
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.16")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.17")
 
 // SBT Plugin for Bytecode Enhancement
 addSbtPlugin("com.typesafe.sbt" % "sbt-play-enhancer" % "1.2.2")
