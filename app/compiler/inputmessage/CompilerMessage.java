@@ -27,6 +27,9 @@ public class CompilerMessage {
     /** <p>This contains the name of the file.</p> */
     public String name;
 
+    /** <p>This contains the name of the parent folder.</p> */
+    public String parent;
+
     /** <p>This contains the extension type of the file.</p> */
     public String type;
 
@@ -43,8 +46,8 @@ public class CompilerMessage {
      */
     @Override
     public String toString() {
-        return "CompilerMessage{" + "name='" + name + '\'' + ", type='" + type
-                + '\'' + ", project='" + project + '\'' + ", content='"
-                + content + '\'' + '}';
+        return "CompilerMessage{" + "name='" + name + '\'' + ", parent='"
+                + parent + '\'' + ", type='" + type + '\'' + ", project='"
+                + project + '\'' + ", content='" + content + '\'' + '}';
     }
 }

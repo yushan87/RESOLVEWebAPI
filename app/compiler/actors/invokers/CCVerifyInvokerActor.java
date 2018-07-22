@@ -41,7 +41,7 @@ public class CCVerifyInvokerActor extends AbstractCompilerActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public CCVerifyInvokerActor(ActorRef out, String job, String project,
+    private CCVerifyInvokerActor(ActorRef out, String job, String project,
             String workspacePath) {
         super(out, job, project, workspacePath);
     }
@@ -126,6 +126,13 @@ public class CCVerifyInvokerActor extends AbstractCompilerActor {
             CompilerMessage compilerMessage) {
         return null;
     }
+
+    /**
+     * <p>An helper method that notifies the user that we have successfully
+     * completed the compilation task.</p>
+     */
+    @Override
+    protected final void notifyCompileSuccess() {}
 
     /**
      * <p>An helper method that validates an input message from the user

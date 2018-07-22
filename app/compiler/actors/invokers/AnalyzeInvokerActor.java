@@ -16,13 +16,14 @@ import akka.actor.ActorRef;
 import akka.actor.PoisonPill;
 import akka.actor.Props;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import compiler.actors.AbstractCompilerActor;
 import compiler.inputmessage.CompilerMessage;
-import edu.clemson.cs.rsrg.init.file.ModuleType;
 import edu.clemson.cs.rsrg.init.file.ResolveFile;
+import edu.clemson.cs.rsrg.init.file.ResolveFileBasicInfo;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import org.antlr.v4.runtime.CharStreams;
 import play.libs.Json;
@@ -49,7 +50,7 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
      * @param project RESOLVE project folder to be used.
      * @param workspacePath Path to all the RESOLVE workspaces.
      */
-    public AnalyzeInvokerActor(ActorRef out, String job, String project,
+    private AnalyzeInvokerActor(ActorRef out, String job, String project,
             String workspacePath) {
         super(out, job, project, workspacePath);
     }
@@ -99,16 +100,19 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
 
                     // Convert the message into a file and
                     // add it to our user files map
-                    String completeFileName = compilerMessage.name + ".mt";
-                    myFilesMap.put(completeFileName,
+                    String completeFileName =
+                            compilerMessage.name
+                                    + "."
+                                    + getModuleType(compilerMessage.type)
+                                            .getExtension();
+                    myCompilingFilesMap.put(completeFileName,
                             buildInputResolveFile(compilerMessage));
 
                     // Setup items to be passed to the compiler
                     myCompilerArgs.add(completeFileName);
 
                     // Invoke the RESOLVE compiler
-                    invokeResolveCompiler(Collections
-                            .singletonList(compilerMessage.name));
+                    invokeResolveCompiler();
 
                     // Close the connection
                     self().tell(PoisonPill.getInstance(), ActorRef.noSender());
@@ -146,9 +150,29 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
     @Override
     protected final ResolveFile buildInputResolveFile(
             CompilerMessage compilerMessage) {
-        return new ResolveFile(compilerMessage.name, ModuleType.THEORY,
+        return new ResolveFile(new ResolveFileBasicInfo(compilerMessage.name,
+                compilerMessage.parent), getModuleType(compilerMessage.type),
                 CharStreams.fromString(decode(compilerMessage.content)),
                 Paths.get(formProjectWorkspacePath()), new ArrayList<>(), "");
+    }
+
+    /**
+     * <p>An helper method that notifies the user that we have successfully
+     * completed the compilation task.</p>
+     */
+    @Override
+    protected final void notifyCompileSuccess() {
+        ObjectNode result = Json.newObject();
+        result.put("status", "complete");
+        result.put("job", myJob);
+        result.put(
+                "result",
+                "Done analyzing files: "
+                        + Arrays.toString(myCompilingFilesMap.keySet()
+                                .toArray()));
+
+        // Send the message through the websocket
+        myWebSocketOut.tell(result, self());
     }
 
     /**
@@ -170,7 +194,12 @@ public class AnalyzeInvokerActor extends AbstractCompilerActor {
             invalidFields.add("name");
         }
 
-        if (compilerMessage.type == null || !compilerMessage.type.equals("t")) {
+        if (compilerMessage.parent == null) {
+            invalidFields.add("parent");
+        }
+
+        if (compilerMessage.type == null
+                || getModuleType(compilerMessage.type) == null) {
             invalidFields.add("type");
         }
 

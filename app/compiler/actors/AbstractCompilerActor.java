@@ -20,7 +20,9 @@ import compiler.impl.WebOutputListener;
 import compiler.impl.WebSocketStatusHandler;
 import compiler.inputmessage.CompilerMessage;
 import edu.clemson.cs.rsrg.init.ResolveCompiler;
+import edu.clemson.cs.rsrg.init.file.ModuleType;
 import edu.clemson.cs.rsrg.init.file.ResolveFile;
+import edu.clemson.cs.rsrg.init.file.ResolveFileBasicInfo;
 import edu.clemson.cs.rsrg.init.output.OutputListener;
 import edu.clemson.cs.rsrg.statushandling.StatusHandler;
 import java.io.File;
@@ -51,13 +53,13 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     private final Logger myAkkaLogger;
 
     /** <p>This indicates the name of the job to be executed.</p> */
-    private final String myJob;
+    protected final String myJob;
 
     /** <p>This indicates which {@code RESOLVE} project folder to use.</p> */
     protected final String myProject;
 
     /** <p>This is the outgoing end of the stream.</p> */
-    private final ActorRef myWebSocketOut;
+    protected final ActorRef myWebSocketOut;
 
     // -----------------------------------------------------------
     // Compiler Argument-Related
@@ -66,14 +68,17 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     /** <p>This contains the arguments to be sent to the {@code RESOLVE} compiler.</p> */
     protected final List<String> myCompilerArgs;
 
-    /** <p>This contains the user supplied {@link ResolveFile ResolveFiles}.</p> */
-    protected final Map<String, ResolveFile> myFilesMap;
+    /** <p>This contains the files we are compiling.</p> */
+    protected final Map<String, ResolveFile> myCompilingFilesMap;
 
     /** <p>This is an implementation of the {@link OutputListener} for the {@code RESOLVE} compiler.</p> */
     private OutputListener myOutputListener;
 
     /** <p>This is an implementation of the {@link StatusHandler} for the {@code RESOLVE} compiler.</p> */
     private WebSocketStatusHandler myStatusHandler;
+
+    /** <p>This contains the user supplied {@link ResolveFile ResolveFiles}.</p> */
+    protected final Map<ResolveFileBasicInfo, ResolveFile> myUserFilesMap;
 
     /** <p>This indicates the path to all of our {@code RESOLVE} workspaces.</p> */
     private final String myWorkspacePath;
@@ -94,9 +99,10 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     protected AbstractCompilerActor(ActorRef out, String job, String project,
             String workspacePath) {
         myAkkaLogger = org.slf4j.LoggerFactory.getLogger("akka");
-        myFilesMap = new LinkedHashMap<>();
+        myCompilingFilesMap = new LinkedHashMap<>();
         myJob = job;
         myProject = project;
+        myUserFilesMap = new LinkedHashMap<>();
         myWebSocketOut = out;
         myWorkspacePath = workspacePath;
 
@@ -213,32 +219,69 @@ public abstract class AbstractCompilerActor extends UntypedAbstractActor {
     }
 
     /**
-     * <p>An helper method that invoke the {@code RESOLVE} compiler.</p>
+     * <p>An helper method for obtaining the proper RESOLVE file type.</p>
      *
-     * @param fileNames Names of files we are invoking our compiler on.
+     * @param userInput A user supplied string.
+     *
+     * @return A RESOLVE extension type object if it is an extension we
+     * recognize or {@code null} if it is not.
      */
-    protected final void invokeResolveCompiler(List<String> fileNames) {
+    protected final ModuleType getModuleType(String userInput) {
+        ModuleType type;
+
+        // Obtain the proper module type.
+        switch (userInput) {
+        case "t":
+            type = ModuleType.THEORY;
+            break;
+        case "c":
+            type = ModuleType.CONCEPT;
+            break;
+        case "e":
+            type = ModuleType.ENHANCEMENT;
+            break;
+        case "r":
+        case "er":
+            type = ModuleType.REALIZATION;
+            break;
+        case "f":
+            type = ModuleType.FACILITY;
+            break;
+        case "p":
+            type = ModuleType.PROFILE;
+            break;
+        default:
+            type = null;
+        }
+
+        return type;
+    }
+
+    /**
+     * <p>An helper method that invoke the {@code RESOLVE} compiler.</p>
+     */
+    protected final void invokeResolveCompiler() {
         myStatusHandler = new WebSocketStatusHandler(self(), myWebSocketOut);
         myOutputListener = new WebOutputListener(myStatusHandler);
 
         // Invoke the compiler
         ResolveCompiler compiler =
                 new ResolveCompiler(myCompilerArgs.toArray(new String[0]));
-        compiler.invokeCompiler(myFilesMap, myStatusHandler, myOutputListener);
+        compiler.invokeCompiler(myCompilingFilesMap, myUserFilesMap,
+                myStatusHandler, myOutputListener);
 
         // Create a JSON Object that indicates we are done analyzing
         // the specified file if there are no error messages.
         if (!myStatusHandler.hasError()) {
-            ObjectNode result = Json.newObject();
-            result.put("status", "complete");
-            result.put("job", myJob);
-            result.put("result",
-                    "Done analyzing files: " + fileNames.toString());
-
-            // Send the message through the websocket
-            myWebSocketOut.tell(result, self());
+            notifyCompileSuccess();
         }
     }
+
+    /**
+     * <p>An helper method that notifies the user that we have successfully
+     * completed the compilation task.</p>
+     */
+    protected abstract void notifyCompileSuccess();
 
     /**
      * <p>An helper method that notifies the user that some compiler
