@@ -1,6 +1,6 @@
 /*
  * ---------------------------------
- * Copyright (c) 2017
+ * Copyright (c) 2019
  * RESOLVE Software Research Group
  * School of Computing
  * Clemson University
