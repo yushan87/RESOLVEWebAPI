@@ -22,12 +22,12 @@ libraryDependencies ++= Seq(
   guice,
   "com.atlassian.commonmark" % "commonmark"  % "0.11.0",
   "com.google.code.findbugs" % "jsr305" % "1.3.9",
-  "com.typesafe.play" % "play-ahc-ws-standalone_2.12" % "1.1.9",
+  "com.typesafe.play" % "play-ahc-ws-standalone_2.12" % "1.1.12",
   "com.typesafe.play" % "play-iteratees_2.12" % "2.6.1",
   "com.typesafe.play" % "play-iteratees-reactive-streams_2.12" % "2.6.1",
-  "com.typesafe.play" % "play-json_2.12" % "2.6.9",
-  "com.typesafe.play" % "play-ws-standalone-json_2.12" % "1.1.9",
-  "org.antlr" % "antlr4" % "4.7.1"
+  "com.typesafe.play" % "play-json_2.12" % "2.6.13",
+  "com.typesafe.play" % "play-ws-standalone-json_2.12" % "1.1.12",
+  "org.antlr" % "antlr4" % "4.7.2"
 )
 
 // Unmanaged Dependencies
@@ -41,7 +41,7 @@ headerMappings := headerMappings.value + (HeaderFileType.java -> HeaderCommentSt
 
 headerLicense := Some(HeaderLicense.Custom(
   """|---------------------------------
-     |Copyright (c) 2018
+     |Copyright (c) 2019
      |RESOLVE Software Research Group
      |School of Computing
      |Clemson University
