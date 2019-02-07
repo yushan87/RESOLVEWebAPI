@@ -9,7 +9,7 @@ branches:
 # Play Framework 2.x only works with Java SDK8
 language: scala
 scala:
-  - 2.12.6
+  - 2.12.8
 jdk:
   - oraclejdk8
 
