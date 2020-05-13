@@ -2,7 +2,7 @@ name := "RESOLVEWebAPI"
 
 version := "1.0"
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.13.2"
 
 // Scala compiler options
 scalacOptions ++= Seq(
