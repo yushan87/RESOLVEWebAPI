@@ -29,10 +29,10 @@ import play.mvc.Results;
 import scala.Some;
 
 /**
- * <p>This singleton class serves as the HTTP error handler.</p>
+ * This singleton class serves as the HTTP error handler.
  *
- * <p>For more information, see:
- * <a href="https://www.playframework.com/documentation/latest/JavaErrorHandling">Handling Errors</a></p>
+ * <p>For more information, see: <a
+ * href="https://www.playframework.com/documentation/latest/JavaErrorHandling">Handling Errors</a>
  *
  * @author Yu-Shan Sun
  * @version 1.0
@@ -40,116 +40,98 @@ import scala.Some;
 @Singleton
 public class HttpErrorHandler extends DefaultHttpErrorHandler {
 
-    // ===========================================================
-    // Member Fields
-    // ===========================================================
+  // ===========================================================
+  // Member Fields
+  // ===========================================================
 
-    /** <p>Contains all information related current deployment environment.</p> */
-    private final Environment myEnvironment;
+  /** Contains all information related current deployment environment. */
+  private final Environment myEnvironment;
 
-    /** <p>Contains all the routes available.</p> */
-    private final Provider<Router> myRoutes;
+  /** Contains all the routes available. */
+  private final Provider<Router> myRoutes;
 
-    // ===========================================================
-    // Constructors
-    // ===========================================================
+  // ===========================================================
+  // Constructors
+  // ===========================================================
 
-    /**
-     * {@inheritDoc}
-     */
-    @Inject
-    public HttpErrorHandler(Config config, Environment environment,
-            OptionalSourceMapper sourceMapper, Provider<Router> routes) {
-        super(config, environment, sourceMapper, routes);
-        myEnvironment = environment;
-        myRoutes = routes;
+  /** {@inheritDoc} */
+  @Inject
+  public HttpErrorHandler(
+      Config config,
+      Environment environment,
+      OptionalSourceMapper sourceMapper,
+      Provider<Router> routes) {
+    super(config, environment, sourceMapper, routes);
+    myEnvironment = environment;
+    myRoutes = routes;
+  }
+
+  // ===========================================================
+  // Public Methods
+  // ===========================================================
+
+  /** {@inheritDoc} */
+  @Override
+  protected final CompletionStage<Result> onBadRequest(RequestHeader request, String message) {
+    return CompletableFuture.completedFuture(
+        Results.badRequest(
+            views.html.htmlerror.prod.badRequest.render(request.method(), request.uri(), message)));
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  protected final CompletionStage<Result> onForbidden(RequestHeader request, String message) {
+    return CompletableFuture.completedFuture(
+        Results.forbidden(
+            views.html.htmlerror.prod.unauthorized.render(request.method(), request.uri())));
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  protected final CompletionStage<Result> onNotFound(RequestHeader request, String message) {
+    if (myEnvironment.isProd()) {
+      return CompletableFuture.completedFuture(
+          Results.notFound(
+              views.html.htmlerror.prod.notFound.render(request.method(), request.uri())));
+    } else {
+      return CompletableFuture.completedFuture(
+          Results.notFound(
+              views.html.htmlerror.dev.notFound.render(
+                  request.method(), request.uri(), Some.apply(myRoutes.get()))));
     }
+  }
 
-    // ===========================================================
-    // Public Methods
-    // ===========================================================
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected final CompletionStage<Result> onBadRequest(RequestHeader request,
-            String message) {
-        return CompletableFuture.completedFuture(Results
-                .badRequest(views.html.htmlerror.prod.badRequest.render(
-                        request.method(), request.uri(), message)));
+  /** {@inheritDoc} */
+  @Override
+  protected final CompletionStage<Result> onOtherClientError(
+      RequestHeader request, int statusCode, String message) {
+    if (statusCode == 401) {
+      return CompletableFuture.completedFuture(
+          Results.status(
+              statusCode,
+              views.html.htmlerror.prod.unauthorized.render(request.method(), request.uri())));
+    } else {
+      return CompletableFuture.completedFuture(
+          Results.status(
+              statusCode,
+              views.html.htmlerror.prod.otherClientError.render(
+                  "Other Client Error", statusCode, request.method(), request.uri(), message)));
     }
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected final CompletionStage<Result> onForbidden(RequestHeader request,
-            String message) {
-        return CompletableFuture.completedFuture(Results
-                .forbidden(views.html.htmlerror.prod.unauthorized.render(
-                        request.method(), request.uri())));
-    }
+  /** {@inheritDoc} */
+  @Override
+  protected final CompletionStage<Result> onDevServerError(
+      RequestHeader request, UsefulException exception) {
+    return CompletableFuture.completedFuture(
+        Results.internalServerError(views.html.htmlerror.dev.serverError.render(exception)));
+  }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected final CompletionStage<Result> onNotFound(RequestHeader request,
-            String message) {
-        if (myEnvironment.isProd()) {
-            return CompletableFuture.completedFuture(Results
-                    .notFound(views.html.htmlerror.prod.notFound.render(
-                            request.method(), request.uri())));
-        }
-        else {
-            return CompletableFuture.completedFuture(Results
-                    .notFound(views.html.htmlerror.dev.notFound.render(
-                            request.method(), request.uri(),
-                            Some.apply(myRoutes.get()))));
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected final CompletionStage<Result> onOtherClientError(
-            RequestHeader request, int statusCode, String message) {
-        if (statusCode == 401) {
-            return CompletableFuture.completedFuture(Results.status(
-                    statusCode,
-                    views.html.htmlerror.prod.unauthorized.render(
-                            request.method(), request.uri())));
-        }
-        else {
-            return CompletableFuture.completedFuture(Results.status(statusCode,
-                    views.html.htmlerror.prod.otherClientError.render(
-                            "Other Client Error", statusCode, request.method(),
-                            request.uri(), message)));
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected final CompletionStage<Result> onDevServerError(
-            RequestHeader request, UsefulException exception) {
-        return CompletableFuture.completedFuture(Results
-                .internalServerError(views.html.htmlerror.dev.serverError
-                        .render(exception)));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected final CompletionStage<Result> onProdServerError(
-            RequestHeader request, UsefulException exception) {
-        return CompletableFuture.completedFuture(Results
-                .internalServerError(views.html.htmlerror.prod.serverError
-                        .render(exception)));
-    }
-
+  /** {@inheritDoc} */
+  @Override
+  protected final CompletionStage<Result> onProdServerError(
+      RequestHeader request, UsefulException exception) {
+    return CompletableFuture.completedFuture(
+        Results.internalServerError(views.html.htmlerror.prod.serverError.render(exception)));
+  }
 }

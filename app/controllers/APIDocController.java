@@ -20,8 +20,8 @@ import play.mvc.Result;
 import views.html.api.apidoc;
 
 /**
- * <p>This singleton class serves as the controller for displaying
- * the documentation for the various APIs.</p>
+ * This singleton class serves as the controller for displaying the documentation for the various
+ * APIs.
  *
  * @author Yu-Shan Sun
  * @version 1.0
@@ -29,45 +29,42 @@ import views.html.api.apidoc;
 @Singleton
 public class APIDocController extends Controller {
 
-    // ===========================================================
-    // Member Fields
-    // ===========================================================
+  // ===========================================================
+  // Member Fields
+  // ===========================================================
 
-    /** <p>The configuration manager</p> */
-    private final Config myConfiguration;
+  /** The configuration manager */
+  private final Config myConfiguration;
 
-    // ===========================================================
-    // Constructors
-    // ===========================================================
+  // ===========================================================
+  // Constructors
+  // ===========================================================
 
-    /**
-     * <p>This creates an object for displaying the documentation
-     * for the various APIs.</p>
-     *
-     * @param config The configuration manager.
-     */
-    @Inject
-    public APIDocController(Config config) {
-        myConfiguration = config;
-    }
+  /**
+   * This creates an object for displaying the documentation for the various APIs.
+   *
+   * @param config The configuration manager.
+   */
+  @Inject
+  public APIDocController(Config config) {
+    myConfiguration = config;
+  }
 
-    // ===========================================================
-    // Public Methods
-    // ===========================================================
+  // ===========================================================
+  // Public Methods
+  // ===========================================================
 
-    /**
-     * <p>This method creates an object that renders the index page
-     * for the API documentation.</p>
-     *
-     * @return An {@link Result} object from rendering the index page
-     * for the API documentation.
-     */
-    public final Result docIndex() {
-        return ok(apidoc.render());
-    }
+  /**
+   * This method creates an object that renders the index page for the API documentation.
+   *
+   * @return An {@link Result} object from rendering the index page for the API documentation.
+   */
+  public final Result docIndex() {
+    return ok(apidoc.render());
+  }
 
-    // ===========================================================
-    // Private Methods
-    // ===========================================================
+  // ===========================================================
+  // Private Methods
+  // ===========================================================
 
 }
