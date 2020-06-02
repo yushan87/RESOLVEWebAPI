@@ -51,5 +51,7 @@ headerLicense := Some(HeaderLicense.Custom(
      |file 'LICENSE.txt', which is part of this source code package.""".stripMargin
 ))
 
+headerEmptyLine := false
+
 lazy val main = (project in file("."))
   .enablePlugins(PlayJava, AutomateHeaderPlugin)

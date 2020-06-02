@@ -11,7 +11,7 @@ addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.8.1")
 addSbtPlugin("com.typesafe.sbt" % "sbt-play-enhancer" % "1.2.2")
 
 // SBT Plugin for (License) Headers
-addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.0.0")
+addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.6.0")
 
 // SBT Plugin for Java Formatter
 addSbtPlugin("com.lightbend.sbt" % "sbt-java-formatter" % "0.5.1")
