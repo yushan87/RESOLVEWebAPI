@@ -12,7 +12,7 @@ language: scala
 scala:
   - 2.13.2
 jdk:
-  - oraclejdk8
+  - openjdk8
 
 # Build Stages Order
 stages:
