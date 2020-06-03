@@ -20,14 +20,12 @@ javacOptions ++= Seq(
 // Managed Dependencies
 libraryDependencies ++= Seq(
   guice,
-  "com.atlassian.commonmark" % "commonmark"  % "0.11.0",
+  "com.atlassian.commonmark" % "commonmark"  % "0.15.1",
   "com.google.code.findbugs" % "jsr305" % "1.3.9",
-  "com.typesafe.play" % "play-ahc-ws-standalone_2.12" % "2.0.1",
-  "com.typesafe.play" % "play-iteratees_2.12" % "2.6.1",
-  "com.typesafe.play" % "play-iteratees-reactive-streams_2.12" % "2.6.1",
-  "com.typesafe.play" % "play-json_2.12" % "2.7.1",
-  "com.typesafe.play" % "play-ws-standalone-json_2.12" % "2.0.1",
-  "org.antlr" % "antlr4" % "4.7.2"
+  "com.typesafe.play" % "play-ahc-ws-standalone_2.13" % "2.1.2",
+  "com.typesafe.play" % "play-json_2.13" % "2.9.0",
+  "com.typesafe.play" % "play-ws-standalone-json_2.13" % "2.1.2",
+  "org.antlr" % "antlr4" % "4.8-1"
 )
 
 // Unmanaged Dependencies
