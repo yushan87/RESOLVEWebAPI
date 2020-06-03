@@ -1,6 +1,6 @@
 /*
  * ---------------------------------
- * Copyright (c) 2019
+ * Copyright (c) 2020
  * RESOLVE Software Research Group
  * School of Computing
  * Clemson University
@@ -9,7 +9,6 @@
  * This file is subject to the terms and conditions defined in
  * file 'LICENSE.txt', which is part of this source code package.
  */
-
 package compiler.actors;
 
 import akka.actor.ActorRef;
@@ -31,294 +30,271 @@ import org.slf4j.Logger;
 import play.libs.Json;
 
 /**
- * <p>This is the abstract base class for all the {@code Actors}
- * that handle the {@code RESOLVE} compiler invocation or any error handlers.</p>
+ * This is the abstract base class for all the {@code Actors} that handle the {@code RESOLVE}
+ * compiler invocation or any error handlers.
  *
  * @author Yu-Shan Sun
  * @version 1.0
  */
 public abstract class AbstractCompilerActor extends UntypedAbstractActor {
 
-    // ===========================================================
-    // Member Fields
-    // ===========================================================
+  // ===========================================================
+  // Member Fields
+  // ===========================================================
 
-    // -----------------------------------------------------------
-    // Compiler Actor-Related
-    // -----------------------------------------------------------
+  // -----------------------------------------------------------
+  // Compiler Actor-Related
+  // -----------------------------------------------------------
 
-    /** <p>Logger for Akka related items</p> */
-    private final Logger myAkkaLogger;
+  /** Logger for Akka related items */
+  private final Logger myAkkaLogger;
 
-    /** <p>This indicates the name of the job to be executed.</p> */
-    private final String myJob;
+  /** This indicates the name of the job to be executed. */
+  private final String myJob;
 
-    /** <p>This indicates which {@code RESOLVE} project folder to use.</p> */
-    protected final String myProject;
+  /** This indicates which {@code RESOLVE} project folder to use. */
+  protected final String myProject;
 
-    /** <p>This is the outgoing end of the stream.</p> */
-    private final ActorRef myWebSocketOut;
+  /** This is the outgoing end of the stream. */
+  private final ActorRef myWebSocketOut;
 
-    // -----------------------------------------------------------
-    // Compiler Argument-Related
-    // -----------------------------------------------------------
+  // -----------------------------------------------------------
+  // Compiler Argument-Related
+  // -----------------------------------------------------------
 
-    /** <p>This contains the arguments to be sent to the {@code RESOLVE} compiler.</p> */
-    protected final List<String> myCompilerArgs;
+  /** This contains the arguments to be sent to the {@code RESOLVE} compiler. */
+  protected final List<String> myCompilerArgs;
 
-    /** <p>This contains the user supplied {@link ResolveFile ResolveFiles}.</p> */
-    protected final Map<String, ResolveFile> myFilesMap;
+  /** This contains the user supplied {@link ResolveFile ResolveFiles}. */
+  protected final Map<String, ResolveFile> myFilesMap;
 
-    /** <p>This is an implementation of the {@link OutputListener} for the {@code RESOLVE} compiler.</p> */
-    private OutputListener myOutputListener;
+  /** This is an implementation of the {@link OutputListener} for the {@code RESOLVE} compiler. */
+  private OutputListener myOutputListener;
 
-    /** <p>This is an implementation of the {@link StatusHandler} for the {@code RESOLVE} compiler.</p> */
-    private WebSocketStatusHandler myStatusHandler;
+  /** This is an implementation of the {@link StatusHandler} for the {@code RESOLVE} compiler. */
+  private WebSocketStatusHandler myStatusHandler;
 
-    /** <p>This indicates the path to all of our {@code RESOLVE} workspaces.</p> */
-    private final String myWorkspacePath;
+  /** This indicates the path to all of our {@code RESOLVE} workspaces. */
+  private final String myWorkspacePath;
 
-    // ===========================================================
-    // Constructors
-    // ===========================================================
+  // ===========================================================
+  // Constructors
+  // ===========================================================
 
-    /**
-     * <p>An helper constructor that stores all common objects for
-     * classes that inherits from {@link AbstractCompilerActor}.</p>
-     *
-     * @param out Outgoing end of the stream.
-     * @param job Name of the job to be executed.
-     * @param project RESOLVE project folder to be used.
-     * @param workspacePath Path to all the RESOLVE workspaces.
-     */
-    protected AbstractCompilerActor(ActorRef out, String job, String project,
-            String workspacePath) {
-        myAkkaLogger = org.slf4j.LoggerFactory.getLogger("akka");
-        myFilesMap = new LinkedHashMap<>();
-        myJob = job;
-        myProject = project;
-        myWebSocketOut = out;
-        myWorkspacePath = workspacePath;
+  /**
+   * An helper constructor that stores all common objects for classes that inherits from {@link
+   * AbstractCompilerActor}.
+   *
+   * @param out Outgoing end of the stream.
+   * @param job Name of the job to be executed.
+   * @param project RESOLVE project folder to be used.
+   * @param workspacePath Path to all the RESOLVE workspaces.
+   */
+  protected AbstractCompilerActor(ActorRef out, String job, String project, String workspacePath) {
+    myAkkaLogger = org.slf4j.LoggerFactory.getLogger("akka");
+    myFilesMap = new LinkedHashMap<>();
+    myJob = job;
+    myProject = project;
+    myWebSocketOut = out;
+    myWorkspacePath = workspacePath;
 
-        // Populate the common compiler arguments
-        myCompilerArgs = new ArrayList<>();
-        myCompilerArgs.add("-workspaceDir");
-        myCompilerArgs.add(formProjectWorkspacePath());
-        myCompilerArgs.add("-noFileOutput");
+    // Populate the common compiler arguments
+    myCompilerArgs = new ArrayList<>();
+    myCompilerArgs.add("-workspaceDir");
+    myCompilerArgs.add(formProjectWorkspacePath());
+    myCompilerArgs.add("-noFileOutput");
+  }
+
+  // ===========================================================
+  // Public Methods
+  // ===========================================================
+
+  /** This method overrides overrides the default {@code postStop} method implementation. */
+  @Override
+  public final void postStop() {
+    // If we haven't stopped logging in our status handler,
+    // do it now!
+    if (myStatusHandler != null && !myStatusHandler.hasStopped()) {
+      myStatusHandler.stopLogging();
     }
 
-    // ===========================================================
-    // Public Methods
-    // ===========================================================
+    // Set these to null
+    myStatusHandler = null;
+    myOutputListener = null;
+  }
 
-    /**
-     * <p>This method overrides overrides the default {@code postStop}
-     * method implementation.</p>
-     */
-    @Override
-    public final void postStop() {
-        // If we haven't stopped logging in our status handler,
-        // do it now!
-        if (myStatusHandler != null && !myStatusHandler.hasStopped()) {
-            myStatusHandler.stopLogging();
-        }
+  /**
+   * This method overrides overrides the default {@code unhandled} method implementation.
+   *
+   * @param message Message to be displayed.
+   */
+  @Override
+  public final void unhandled(Object message) {
+    // Create the error JSON Object
+    ObjectNode result = Json.newObject();
+    result.put("status", "error");
+    result.put("msg", "Error while parsing request as a JSON Object!");
 
-        // Set these to null
-        myStatusHandler = null;
-        myOutputListener = null;
+    // Send the message through the websocket
+    myWebSocketOut.tell(result, self());
+
+    // Close the connection
+    self().tell(PoisonPill.getInstance(), self());
+  }
+
+  // ===========================================================
+  // Protected Methods
+  // ===========================================================
+
+  /**
+   * An helper method that builds the input {@link ResolveFile} from a {@link CompilerMessage}.
+   *
+   * @param compilerMessage An input message.
+   * @return A {@link ResolveFile} representing the input message.
+   */
+  protected abstract ResolveFile buildInputResolveFile(CompilerMessage compilerMessage);
+
+  /**
+   * An helper method that helps us decode the input message that should have been encoded before
+   * sending it through the stream.
+   *
+   * @param rawContent A content string that came from an input message.
+   * @return The decoded string.
+   */
+  protected final String decode(String rawContent) {
+    String decoded = null;
+    try {
+      // Replace all the %20 with spaces
+      decoded = URLDecoder.decode(rawContent.replaceAll("%20", " "), "UTF-8");
+    } catch (UnsupportedEncodingException uee) {
+      // Log this exception and send error message to user.
+      myAkkaLogger.error("Decoding Exception: ", uee);
+
+      // Create the error JSON Object
+      ObjectNode result = Json.newObject();
+      result.put("status", "error");
+      result.put("msg", "Cannot parse the content. Please contact the administrators for support!");
+
+      // Send the message through the websocket
+      myWebSocketOut.tell(result, self());
+
+      // Close the connection
+      self().tell(PoisonPill.getInstance(), ActorRef.noSender());
     }
 
-    /**
-     * <p>This method overrides overrides the default {@code unhandled}
-     * method implementation.</p>
-     *
-     * @param message Message to be displayed.
-     */
-    @Override
-    public final void unhandled(Object message) {
-        // Create the error JSON Object
-        ObjectNode result = Json.newObject();
-        result.put("status", "error");
-        result.put("msg", "Error while parsing request as a JSON Object!");
+    return decoded;
+  }
 
-        // Send the message through the websocket
-        myWebSocketOut.tell(result, self());
+  /**
+   * An helper method for forming the specified project's workspace path.
+   *
+   * @return The project workspace path as a string.
+   */
+  protected final String formProjectWorkspacePath() {
+    return myWorkspacePath
+        + File.separator
+        + myProject
+        + File.separator
+        + "RESOLVE"
+        + File.separator
+        + "Main"
+        + File.separator;
+  }
 
-        // Close the connection
-        self().tell(PoisonPill.getInstance(), self());
+  /**
+   * An helper method that invoke the {@code RESOLVE} compiler.
+   *
+   * @param fileNames Names of files we are invoking our compiler on.
+   */
+  protected final void invokeResolveCompiler(List<String> fileNames) {
+    myStatusHandler = new WebSocketStatusHandler(self(), myWebSocketOut);
+    myOutputListener = new WebOutputListener(myStatusHandler);
+
+    // Invoke the compiler
+    ResolveCompiler compiler = new ResolveCompiler(myCompilerArgs.toArray(new String[0]));
+    compiler.invokeCompiler(myFilesMap, myStatusHandler, myOutputListener);
+
+    // Create a JSON Object that indicates we are done analyzing
+    // the specified file if there are no error messages.
+    if (!myStatusHandler.hasError()) {
+      ObjectNode result = Json.newObject();
+      result.put("status", "complete");
+      result.put("job", myJob);
+      result.put("result", "Done analyzing files: " + fileNames.toString());
+
+      // Send the message through the websocket
+      myWebSocketOut.tell(result, self());
+    }
+  }
+
+  /**
+   * An helper method that notifies the user that some compiler exception occurred.
+   *
+   * @param e The {@link Exception} found while invoking the {@code RESOLVE} compiler.
+   */
+  protected final void notifyCompilerException(Exception e) {
+    // Log this exception.
+    myAkkaLogger.error("Compiler Exception: ", e);
+
+    // Create the error JSON Object
+    ObjectNode result = Json.newObject();
+    result.put("status", "error");
+    result.put("msg", "Unknown compiler exception. Please contact the administrators for support!");
+
+    // Send the message through the websocket
+    myWebSocketOut.tell(result, self());
+
+    // Close the connection
+    self().tell(PoisonPill.getInstance(), ActorRef.noSender());
+  }
+
+  /** An helper method that notifies the user that we are launching the compiler. */
+  protected final void notifyLaunchingCompilerJob() {
+    // Create a JSON Object that indicates we are launching
+    // the specified compiler job.
+    ObjectNode info = Json.newObject();
+    info.put("status", "info");
+    info.put("msg", "Launching compiler job: " + myJob);
+
+    // Send the message through the websocket
+    myWebSocketOut.tell(info, self());
+  }
+
+  /**
+   * An helper method that notifies the user that there are erroneous or missing input fields.
+   *
+   * @param errorFields A list of fields that are erroneous.
+   */
+  protected final void notifyMissingInputFields(List<String> errorFields) {
+    // Construct a string using the error fields
+    StringBuilder sb = new StringBuilder();
+    Iterator<String> it = errorFields.iterator();
+    while (it.hasNext()) {
+      sb.append(it.next());
+
+      if (it.hasNext()) {
+        sb.append(", ");
+      }
     }
 
-    // ===========================================================
-    // Protected Methods
-    // ===========================================================
+    // Create the error JSON Object
+    ObjectNode result = Json.newObject();
+    result.put("status", "error");
+    result.put("msg", "The fields: <" + sb.toString() + "> are either undefined or incorrect!");
 
-    /**
-     * <p>An helper method that builds the input {@link ResolveFile} from
-     * a {@link CompilerMessage}.</p>
-     *
-     * @param compilerMessage An input message.
-     *
-     * @return A {@link ResolveFile} representing the input message.
-     */
-    protected abstract ResolveFile buildInputResolveFile(
-            CompilerMessage compilerMessage);
+    // Send the message through the websocket
+    myWebSocketOut.tell(result, self());
 
-    /**
-     * <p>An helper method that helps us decode the input message
-     * that should have been encoded before sending it through the
-     * stream.</p>
-     *
-     * @param rawContent A content string that came from
-     *                   an input message.
-     *
-     * @return The decoded string.
-     */
-    protected final String decode(String rawContent) {
-        String decoded = null;
-        try {
-            // Replace all the %20 with spaces
-            decoded =
-                    URLDecoder.decode(rawContent.replaceAll("%20", " "),
-                            "UTF-8");
-        }
-        catch (UnsupportedEncodingException uee) {
-            // Log this exception and send error message to user.
-            myAkkaLogger.error("Decoding Exception: ", uee);
+    // Close the connection
+    self().tell(PoisonPill.getInstance(), ActorRef.noSender());
+  }
 
-            // Create the error JSON Object
-            ObjectNode result = Json.newObject();
-            result.put("status", "error");
-            result.put("msg",
-                    "Cannot parse the content. Please contact the administrators for support!");
-
-            // Send the message through the websocket
-            myWebSocketOut.tell(result, self());
-
-            // Close the connection
-            self().tell(PoisonPill.getInstance(), ActorRef.noSender());
-        }
-
-        return decoded;
-    }
-
-    /**
-     * <p>An helper method for forming the specified project's
-     * workspace path.</p>
-     *
-     * @return The project workspace path as a string.
-     */
-    protected final String formProjectWorkspacePath() {
-        return myWorkspacePath + File.separator + myProject + File.separator
-                + "RESOLVE" + File.separator + "Main" + File.separator;
-    }
-
-    /**
-     * <p>An helper method that invoke the {@code RESOLVE} compiler.</p>
-     *
-     * @param fileNames Names of files we are invoking our compiler on.
-     */
-    protected final void invokeResolveCompiler(List<String> fileNames) {
-        myStatusHandler = new WebSocketStatusHandler(self(), myWebSocketOut);
-        myOutputListener = new WebOutputListener(myStatusHandler);
-
-        // Invoke the compiler
-        ResolveCompiler compiler =
-                new ResolveCompiler(myCompilerArgs.toArray(new String[0]));
-        compiler.invokeCompiler(myFilesMap, myStatusHandler, myOutputListener);
-
-        // Create a JSON Object that indicates we are done analyzing
-        // the specified file if there are no error messages.
-        if (!myStatusHandler.hasError()) {
-            ObjectNode result = Json.newObject();
-            result.put("status", "complete");
-            result.put("job", myJob);
-            result.put("result",
-                    "Done analyzing files: " + fileNames.toString());
-
-            // Send the message through the websocket
-            myWebSocketOut.tell(result, self());
-        }
-    }
-
-    /**
-     * <p>An helper method that notifies the user that some compiler
-     * exception occurred.</p>
-     *
-     * @param e The {@link Exception} found while invoking
-     *          the {@code RESOLVE} compiler.
-     */
-    protected final void notifyCompilerException(Exception e) {
-        // Log this exception.
-        myAkkaLogger.error("Compiler Exception: ", e);
-
-        // Create the error JSON Object
-        ObjectNode result = Json.newObject();
-        result.put("status", "error");
-        result.put("msg",
-                "Unknown compiler exception. Please contact the administrators for support!");
-
-        // Send the message through the websocket
-        myWebSocketOut.tell(result, self());
-
-        // Close the connection
-        self().tell(PoisonPill.getInstance(), ActorRef.noSender());
-    }
-
-    /**
-     * <p>An helper method that notifies the user that we are
-     * launching the compiler.</p>
-     */
-    protected final void notifyLaunchingCompilerJob() {
-        // Create a JSON Object that indicates we are launching
-        // the specified compiler job.
-        ObjectNode info = Json.newObject();
-        info.put("status", "info");
-        info.put("msg", "Launching compiler job: " + myJob);
-
-        // Send the message through the websocket
-        myWebSocketOut.tell(info, self());
-    }
-
-    /**
-     * <p>An helper method that notifies the user that there are
-     * erroneous or missing input fields.</p>
-     *
-     * @param errorFields A list of fields that are erroneous.
-     */
-    protected final void notifyMissingInputFields(List<String> errorFields) {
-        // Construct a string using the error fields
-        StringBuilder sb = new StringBuilder();
-        Iterator<String> it = errorFields.iterator();
-        while (it.hasNext()) {
-            sb.append(it.next());
-
-            if (it.hasNext()) {
-                sb.append(", ");
-            }
-        }
-
-        // Create the error JSON Object
-        ObjectNode result = Json.newObject();
-        result.put("status", "error");
-        result.put("msg", "The fields: <" + sb.toString()
-                + "> are either undefined or incorrect!");
-
-        // Send the message through the websocket
-        myWebSocketOut.tell(result, self());
-
-        // Close the connection
-        self().tell(PoisonPill.getInstance(), ActorRef.noSender());
-    }
-
-    /**
-     * <p>An helper method that validates an input message from the user
-     * and adds any invalid fields to the return list.</p>
-     *
-     * @param compilerMessage An input message to be validated.
-     *
-     * @return A list of invalid fields
-     */
-    protected abstract List<String> validateInputMessage(
-            CompilerMessage compilerMessage);
-
+  /**
+   * An helper method that validates an input message from the user and adds any invalid fields to
+   * the return list.
+   *
+   * @param compilerMessage An input message to be validated.
+   * @return A list of invalid fields
+   */
+  protected abstract List<String> validateInputMessage(CompilerMessage compilerMessage);
 }

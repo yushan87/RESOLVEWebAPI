@@ -1,7 +1,8 @@
 #
 # Continuous integration settings for Travis CI
 #
-dist: trusty
+dist: xenial
+os: linux
 branches:
   only:
     - master
@@ -9,9 +10,9 @@ branches:
 # Play Framework 2.x only works with Java SDK8
 language: scala
 scala:
-  - 2.12.8
+  - 2.13.2
 jdk:
-  - oraclejdk8
+  - openjdk8
 
 # Build Stages Order
 stages:

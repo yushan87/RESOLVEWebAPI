@@ -28,66 +28,56 @@ import static play.mvc.Http.Status.OK;
 import static play.test.Helpers.route;
 
 /**
- * <p>This {@code JUnit} Test is designed to test all routes
- * provided by the {@code RESOLVE WebAPI}.</p>
+ * This {@code JUnit} Test is designed to test all routes provided by the {@code RESOLVE WebAPI}.
  *
  * @author Yu-Shan Sun
  * @version 1.0
  */
 public class RouterTest {
 
-    // ===========================================================
-    // Member Fields
-    // ===========================================================
+  // ===========================================================
+  // Member Fields
+  // ===========================================================
 
-    /** <p>A fake instantiation of this API app.</p> */
-    private Application myApplication;
+  /** A fake instantiation of this API app. */
+  private Application myApplication;
 
-    // ===========================================================
-    // Public Methods
-    // ===========================================================
+  // ===========================================================
+  // Public Methods
+  // ===========================================================
 
-    /**
-     * <p>Setup for each route test.</p>
-     */
-    @Before
-    public final void setup() {
-        myApplication =
-                new GuiceApplicationBuilder().configure("webapi.workingdir",
-                        new File(".").getAbsolutePath()).build();
-        Helpers.start(myApplication);
-    }
+  /** Setup for each route test. */
+  @Before
+  public final void setup() {
+    myApplication =
+        new GuiceApplicationBuilder()
+            .configure("webapi.workingdir", new File(".").getAbsolutePath())
+            .build();
+    Helpers.start(myApplication);
+  }
 
-    /**
-     * <p>Tear down code for each route test.</p>
-     */
-    @After
-    public final void tearDown() {
-        Helpers.stop(myApplication);
-        myApplication = null;
-    }
+  /** Tear down code for each route test. */
+  @After
+  public final void tearDown() {
+    Helpers.stop(myApplication);
+    myApplication = null;
+  }
 
-    /**
-     * <p>A simple test to ensure we get a 404.</p>
-     */
-    @Test
-    public final void testBadRoute() {
-        RequestBuilder request =
-                Helpers.fakeRequest().method("GET").uri("/xx/Kiwi");
+  /** A simple test to ensure we get a 404. */
+  @Test
+  public final void testBadRoute() {
+    RequestBuilder request = Helpers.fakeRequest().method("GET").uri("/xx/Kiwi");
 
-        Result result = route(myApplication, request);
-        assertEquals(NOT_FOUND, result.status());
-    }
+    Result result = route(myApplication, request);
+    assertEquals(NOT_FOUND, result.status());
+  }
 
-    /**
-     * <p>Check to see if we can retrieve the main index page.</p>
-     */
-    @Test
-    public final void testIndexRoute() {
-        RequestBuilder request = Helpers.fakeRequest().method("GET").uri("/");
+  /** Check to see if we can retrieve the main index page. */
+  @Test
+  public final void testIndexRoute() {
+    RequestBuilder request = Helpers.fakeRequest().method("GET").uri("/");
 
-        Result result = route(myApplication, request);
-        assertEquals(OK, result.status());
-    }
-
+    Result result = route(myApplication, request);
+    assertEquals(OK, result.status());
+  }
 }
