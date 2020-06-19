@@ -1,0 +1,21 @@
+// _footer.scss
+// In this file we define the settings for the footer.
+@import "../utils/_variables";
+
+/* Footer-Related CSS */
+#page-footer {
+  height: $page-footer-height;
+  color: $page-footer-color;
+  background-color: $page-footer-bg-color;
+
+  // Footer Links
+  .footer-link {
+    font-size: 1rem;
+    color: $page-footer-navlink-color;
+    text-decoration: none;
+  }
+
+  .footer-link:hover {
+    color: $page-footer-navlink-hover-color;
+  }
+}
