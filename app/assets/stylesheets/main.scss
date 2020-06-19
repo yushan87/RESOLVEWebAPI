@@ -29,53 +29,8 @@ body {
   }
 }
 
-#page-sidebar {
-  position: relative;
-  top: 0;
-  bottom: $page-footer-height;
-  left: 0;
-  z-index: 1000;
-  padding: 20px;
-  overflow-x: hidden; /* No overflow on the x axis */
-  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-
-  // Navigation links
-  .nav-link {
-    color: $page-content-navlink-color;
-
-    &:hover {
-      color: $page-content-navlink-hover-color;
-    }
-  }
-}
-
-#page-content-right {
-  position: relative;
-  top: 0;
-  bottom: $page-footer-height;
-  z-index: 1000;
-  padding: 20px;
-}
-
-/* Sidebar-Page-Related Media Query */
-@media (min-width: 768px) {
-  /* Set the max-width/height and draw a right border when screen size is md up */
-  #page-sidebar {
-    max-width: 270px;
-    height: calc(100vh - #{$page-header-min-height + $page-footer-height});
-  }
-
-  #page-content-right {
-    border-left: 1px solid rgba(0, 0, 0, 0.1);
-  }
-}
-
-@media (max-width: 768px) {
-  /* Draw a bottom border when it is less than md */
-  #page-sidebar {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  }
-}
+/* Content-w-Sidebar-Related CSS */
+@import "pages/_with_sidebar";
 
 /* Footer-Related CSS */
 @import "layout/_footer";
