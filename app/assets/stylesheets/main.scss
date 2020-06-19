@@ -21,6 +21,7 @@ body {
 /* Main Content-Related CSS */
 #page-content {
   min-height: calc(100vh - #{$page-header-min-height + $page-footer-height});
+  color: $page-content-text-color-dark;
 
   // Links
   a {
@@ -37,20 +38,21 @@ body {
   padding: 20px;
   overflow-x: hidden; /* No overflow on the x axis */
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-}
 
-#page-sidebar .nav-link {
-  color: #343a40 !important;
-}
+  // Navigation links
+  .nav-link {
+    color: $page-content-navlink-color;
 
-#page-sidebar .nav-link:hover {
-  color: #337ab7 !important;
+    &:hover {
+      color: $page-content-navlink-hover-color;
+    }
+  }
 }
 
 #page-content-right {
   position: relative;
   top: 0;
-  bottom: 80px;
+  bottom: $page-footer-height;
   z-index: 1000;
   padding: 20px;
 }
