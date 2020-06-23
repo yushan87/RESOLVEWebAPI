@@ -4,12 +4,15 @@
     "browser": true,
     "jquery": true
   },
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
   "extends": "eslint:recommended",
   "rules": {
     // Possible Errors
     "no-extra-parens": "error",
     "no-unsafe-negation": "error",
-	
+
     // Best Practices
     "array-callback-return": "error",
     "consistent-return": "error",
@@ -30,8 +33,8 @@
         "ArrowFunctionExpression": true,
         "CallExpression": true,
         "VariableDeclarator": true
-        }
       }
+    }
     ],
     "no-multi-str": "error",
     "no-new-func": "off",
@@ -127,8 +130,8 @@
     "sort-vars": "error",
     "space-before-blocks": "error",
     "space-before-function-paren": ["error", {
-        "anonymous": "always",
-        "named": "never"
+      "anonymous": "always",
+      "named": "never"
     }],
     "space-in-parens": "error",
     "space-infix-ops": "error",

@@ -7,18 +7,17 @@
         @views.html.includes.html_head(title)
 
         <!-- Our Own CSS -->
-        <link rel="stylesheet" media="screen" href="@controllers.routes.AssetsManager.versioned("stylesheets/htmlErrorDev.css")">
+        <link rel="stylesheet" media="screen" href="@controllers.routes.AssetsManager.versioned("stylesheets/pages/htmlErrorDev.css")">
     </head>
     <body>
         @views.html.includes.js_libraries()
 
         <!-- Page Header -->
         <header id="page-header" class="d-flex flex-column border-bottom">
-            <div id="page-header-top" class="d-inline p-1"></div>
             <nav class="navbar navbar-expand navbar-light flex-column flex-md-row" role="navigation">
                 <div class="navbar-brand">
                     <span id="site-title" class="text-center align-bottom">@title</span>
-                    <span class="pl-2 text-center text-muted align-bottom"> [ Error @codeNum ]</span>
+                    <span class="pl-2 text-center text-white-50 align-bottom"> [ Error @codeNum ]</span>
                 </div>
                 <ul class="navbar-nav flex-row ml-md-auto align-items-center text-center">
                     <li class="nav-item">

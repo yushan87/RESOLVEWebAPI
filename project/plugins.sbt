@@ -12,3 +12,6 @@ addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.6.0")
 
 // SBT Plugin for Java Formatter
 addSbtPlugin("com.lightbend.sbt" % "sbt-java-formatter" % "0.5.1")
+
+// SBT Plugin for SASS
+addSbtPlugin("org.irundaia.sbt" % "sbt-sassify" % "1.4.11")

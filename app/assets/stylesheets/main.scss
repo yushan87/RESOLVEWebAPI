@@ -1,0 +1,36 @@
+// main.scss
+// This file is the base component that includes the basic CSS styles for
+// html, body, page-header and page-footer. All other SCSS/SASS files should
+// extend this file to include their own styles for the various components
+// used in their respective pages.
+@import "utils/_variables";
+
+/* General CSS */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    font-family: $body-font;
+}
+
+/* Header-Related CSS */
+@import "layout/_header";
+
+/* Main Content-Related CSS */
+#page-content {
+    min-height: calc(100vh - #{$page-header-min-height + $page-footer-height});
+    color: $page-content-text-color-dark;
+
+    // Links
+    a {
+        text-decoration: none;
+    }
+}
+
+/* Content-w-Sidebar-Related CSS */
+@import "layout/_with_sidebar";
+
+/* Footer-Related CSS */
+@import "layout/_footer";
