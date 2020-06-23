@@ -1,0 +1,14 @@
+// errorMain.scss
+// This file is the base component that includes the basic CSS styles for
+// html and body sections for all error pages.
+@import "../utils/variables";
+
+/* General CSS */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  background-color: $page-content-bg-color-light;
+}

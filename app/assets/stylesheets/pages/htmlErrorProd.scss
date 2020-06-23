@@ -1,0 +1,9 @@
+// htmlErrorProd.scss
+// This file extends _errorMain.scss to generate all the CSS required to render
+// the error pages in production mode.
+@import "../base/_errorMain.scss";
+
+/* Main Content-Related CSS */
+#page-content {
+  min-height: 100vh;
+}

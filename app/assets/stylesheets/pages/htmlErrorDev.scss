@@ -1,0 +1,45 @@
+// htmlErrorDev.scss
+// This file extends _errorMain.scss to generate all the CSS required to render
+// the error pages in development mode.
+@import "../base/_errorMain.scss";
+@import "../utils/variables";
+
+/* Header-Related CSS */
+#page-header {
+  position: sticky;
+  top: 0;
+  z-index: 1071;
+  min-height: $page-header-min-height;
+  background-color: $page-header-bg-color;
+
+  // Navbar Link
+  .nav-link {
+    font-size: 1rem;
+    color: $page-header-navlink-color;
+  }
+
+  .nav-link:hover {
+    color: $page-header-navlink-hover-color;
+  }
+
+  // Navbar Brand
+  .navbar-brand {
+    color: $page-header-navbrand-color;
+  }
+}
+
+#site-title {
+  font-family: $page-header-site-title-font;
+  font-size: 1.75rem;
+  font-weight: 200 !important;
+}
+
+/* Main Content-Related CSS */
+#page-content {
+  min-height: calc(100vh - #{$page-header-min-height});
+
+  // Links
+  a {
+    text-decoration: none;
+  }
+}
