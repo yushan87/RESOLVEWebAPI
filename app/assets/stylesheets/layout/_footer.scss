@@ -4,18 +4,18 @@
 
 /* Footer-Related CSS */
 #page-footer {
-  height: $page-footer-height;
-  color: $page-footer-color;
-  background-color: $page-footer-bg-color;
+    height: $page-footer-height;
+    color: $page-footer-color;
+    background-color: $page-footer-bg-color;
 
-  // Footer Links
-  .footer-link {
-    font-size: 1rem;
-    color: $page-footer-navlink-color;
-    text-decoration: none;
-  }
+    // Footer Links
+    .footer-link {
+        font-size: 1rem;
+        color: $page-footer-navlink-color;
+        text-decoration: none;
+    }
 
-  .footer-link:hover {
-    color: $page-footer-navlink-hover-color;
-  }
+    .footer-link:hover {
+        color: $page-footer-navlink-hover-color;
+    }
 }

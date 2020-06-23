@@ -6,40 +6,40 @@
 
 /* Header-Related CSS */
 #page-header {
-  position: sticky;
-  top: 0;
-  z-index: 1071;
-  min-height: $page-header-min-height;
-  background-color: $page-header-bg-color;
+    position: sticky;
+    top: 0;
+    z-index: 1071;
+    min-height: $page-header-min-height;
+    background-color: $page-header-bg-color;
 
-  // Navbar Link
-  .nav-link {
-    font-size: 1rem;
-    color: $page-header-navlink-color;
-  }
+    // Navbar Link
+    .nav-link {
+        font-size: 1rem;
+        color: $page-header-navlink-color;
+    }
 
-  .nav-link:hover {
-    color: $page-header-navlink-hover-color;
-  }
+    .nav-link:hover {
+        color: $page-header-navlink-hover-color;
+    }
 
-  // Navbar Brand
-  .navbar-brand {
-    color: $page-header-navbrand-color;
-  }
+    // Navbar Brand
+    .navbar-brand {
+        color: $page-header-navbrand-color;
+    }
 }
 
 #site-title {
-  font-family: $page-header-site-title-font;
-  font-size: 1.75rem;
-  font-weight: 200 !important;
+    font-family: $page-header-site-title-font;
+    font-size: 1.75rem;
+    font-weight: 200 !important;
 }
 
 /* Main Content-Related CSS */
 #page-content {
-  min-height: calc(100vh - #{$page-header-min-height});
+    min-height: calc(100vh - #{$page-header-min-height});
 
-  // Links
-  a {
-    text-decoration: none;
-  }
+    // Links
+    a {
+        text-decoration: none;
+    }
 }
