@@ -15,12 +15,11 @@
         <!-- Page Content -->
         <main id="page-content" class="d-flex flex-column justify-content-center" role="main">
             <div class="d-flex justify-content-center mb-3 align-items-center">
-                <h1 class="m-0 display-4 text-center">@title</h1>
-                <h4 class="pl-3 m-0 text-center text-muted"> [ Error @codeNum ]</h4>
+                <h1 class="m-0 display-4 text-center">[ Error @codeNum ] @title</h1>
             </div>
             @content
             <div class="d-flex mt-4 justify-content-center align-items-center">
-                <a class="btn btn-outline-primary" href="@controllers.routes.HomeController.index()" role="button"><i class="fas fa-home fa-fw" aria-hidden="true"></i><span class="d-inline-flex">&nbsp; </span>Home</a>
+                <a class="btn btn-primary btn-lg" href="@controllers.routes.HomeController.index()" role="button"><i class="fas fa-home fa-fw" aria-hidden="true"></i><span class="d-inline-flex">&nbsp; </span>Home</a>
             </div>
         </main>
     </body>
